@@ -1209,3 +1209,70 @@ html.is-embed .demo-section{display:none!important}
   transform:scale(28);
   animation:crossClose .34s cubic-bezier(.4,.02,.3,1) forwards;
 }
+
+/* ==========================================================================
+   Memory wall - demonstration profiles
+   ========================================================================== */
+.wall-note{
+  display:grid;grid-template-columns:auto 1fr;gap:var(--s-3);align-items:start;
+  padding:var(--s-4);border-radius:var(--radius);margin-bottom:var(--s-5);
+  border:1px dashed rgba(232,192,125,.7);background:rgba(232,192,125,.1);
+}
+.wall-note svg{width:19px;height:19px;color:var(--gold-ink);margin-top:.1rem}
+.wall-note b{display:block;margin-bottom:.25rem}
+.wall-note p{color:var(--muted);font-size:.9rem}
+
+.wall-tools{display:flex;flex-wrap:wrap;gap:var(--s-2);align-items:center;
+  justify-content:space-between;margin-bottom:var(--s-4)}
+.wall-chips{display:flex;flex-wrap:wrap;gap:.45rem}
+.wall-chip{
+  min-height:42px;padding:.45rem 1rem;border-radius:100px;cursor:pointer;font-size:.9rem;font-weight:600;
+  background:var(--surface);border:1px solid var(--line-strong);color:var(--muted);
+  transition:background .25s ease,border-color .25s ease,color .25s ease;
+}
+.wall-chip:hover{border-color:var(--gold-deep);color:var(--text)}
+.wall-chip[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:#0A0703}
+.wall-search{position:relative;display:flex;align-items:center;min-width:250px;flex:1;max-width:340px}
+.wall-search svg{position:absolute;left:.85rem;width:16px;height:16px;color:var(--dim);pointer-events:none}
+.wall-search input{
+  width:100%;min-height:46px;padding:.6rem 1rem .6rem 2.4rem;font-size:.92rem;
+  background:var(--surface);border:1px solid var(--line-strong);border-radius:100px;color:var(--text);
+}
+.wall-search input:focus{outline:none;border-color:var(--gold-deep);box-shadow:0 0 0 3px rgba(232,192,125,.18)}
+
+.wall-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(212px,1fr));gap:var(--s-3)}
+.mem{display:grid;gap:.5rem}
+.mem-portrait{
+  position:relative;aspect-ratio:3/4;border-radius:140px 140px 14px 14px;overflow:hidden;
+  display:grid;place-items:center;
+  background:linear-gradient(170deg,var(--surface-2),var(--surface) 62%);
+  border:1px solid var(--line-strong);
+}
+.mem-mono{
+  font-family:var(--display);font-size:clamp(2.6rem,7vw,3.6rem);font-weight:500;
+  color:var(--blue);opacity:.5;letter-spacing:.02em;user-select:none;
+}
+.mem-candle{
+  position:absolute;left:50%;bottom:.7rem;translate:-50% 0;
+  display:inline-flex;align-items:center;gap:.35rem;cursor:pointer;
+  padding:.24rem .62rem;border-radius:100px;font-size:.76rem;font-weight:700;
+  background:rgba(11,24,52,.72);border:1px solid rgba(232,192,125,.5);color:#F3E6CE;
+  font-variant-numeric:tabular-nums;backdrop-filter:blur(6px);
+  transition:background .25s ease,transform .25s var(--ease);
+}
+.mem-candle:hover{background:rgba(232,192,125,.28);transform:translate(-50%,-2px)}
+.mem-candle.is-lit{background:var(--gold);border-color:var(--gold);color:#0A0703}
+.mem-candle svg{width:12px;height:12px}
+.mem-name{font-family:var(--display);font-size:1.14rem;line-height:1.25}
+.mem-years{font-size:.8rem;color:var(--gold-ink);font-weight:700;font-variant-numeric:tabular-nums}
+.mem-desc{font-size:.84rem;color:var(--muted);line-height:1.45}
+
+.mem-add{
+  aspect-ratio:3/4;border-radius:140px 140px 14px 14px;
+  display:grid;place-items:center;align-content:center;gap:.5rem;text-align:center;padding:1rem;
+  border:1px dashed var(--line-strong);background:transparent;color:var(--muted);cursor:default;
+}
+.mem-add svg{width:26px;height:26px;color:var(--gold-ink);opacity:.75}
+.mem-add b{font-family:var(--display);font-weight:500;font-size:1.02rem;color:var(--text)}
+.mem-add span{font-size:.78rem}
+.wall-empty{padding:var(--s-5) 0;color:var(--muted)}

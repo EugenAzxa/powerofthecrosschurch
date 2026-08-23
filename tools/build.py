@@ -46,6 +46,7 @@ I = {
 "yt"   :'<path d="M22.2 7.4a2.7 2.7 0 00-1.9-1.9C18.6 5 12 5 12 5s-6.6 0-8.3.5A2.7 2.7 0 001.8 7.4 28 28 0 001.3 12a28 28 0 00.5 4.6 2.7 2.7 0 001.9 1.9C5.4 19 12 19 12 19s6.6 0 8.3-.5a2.7 2.7 0 001.9-1.9 28 28 0 00.5-4.6 28 28 0 00-.5-4.6z" fill="currentColor"/><path d="M9.9 15.2l5.5-3.2-5.5-3.2v6.4z" fill="#05080F"/>',
 "fb"   :'<path d="M22 12a10 10 0 10-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.4v7A10 10 0 0022 12z" fill="currentColor"/>',
 "clock":'<circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.7" fill="none"/><path d="M12 7v5.2l3.4 2" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round"/>',
+"candle":'<path d="M12 2.6c1.6 1.7 2.4 3 2.4 4.1a2.4 2.4 0 1 1-4.8 0c0-1.1.8-2.4 2.4-4.1z" fill="currentColor"/><rect x="9.2" y="10" width="5.6" height="10.4" rx="1.4" stroke="currentColor" stroke-width="1.6" fill="none"/>',
 "shield":'<path d="M12 3l7.5 3v5.6c0 4.3-3 8.2-7.5 9.4-4.5-1.2-7.5-5.1-7.5-9.4V6L12 3z" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linejoin="round"/><path d="M9 12l2.2 2.2L15.4 10" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/>',
 "search":'<circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M16.5 16.5L21 21" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/>',
 "globe":'<circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.7" fill="none"/><path d="M3 12h18M12 3a15 15 0 010 18 15 15 0 010-18z" stroke="currentColor" stroke-width="1.7" fill="none"/>',
@@ -941,14 +942,30 @@ def p_memory():
   </div>
   <div class="sy-grid" data-reveal-stagger><article class="sy-card"><span class="icard-icon">{svg("heart","",20)}</span><h3 data-i18n="sy.f1.h"></h3><p data-i18n="sy.f1.d"></p></article><article class="sy-card"><span class="icard-icon">{svg("play","",20)}</span><h3 data-i18n="sy.f2.h"></h3><p data-i18n="sy.f2.d"></p></article><article class="sy-card"><span class="icard-icon">{svg("globe","",20)}</span><h3 data-i18n="sy.f3.h"></h3><p data-i18n="sy.f3.d"></p></article><article class="sy-card"><span class="icard-icon">{svg("check","",20)}</span><h3 data-i18n="sy.f4.h"></h3><p data-i18n="sy.f4.d"></p></article></div>
 
-  <div class="sy-ex" data-reveal>
-    <div>
-      <h3 data-i18n="sy.ex.h"></h3>
-      <p data-i18n="sy.ex.p"></p>
-    </div>
-    <a class="btn btn-ghost" href="https://arhangelgavrilo.vercel.app" target="_blank" rel="noopener">
-      <span data-i18n="sy.ex.cta"></span>{svg("ext","",18)}</a>
+  <div class="wall-note" data-reveal>{svg("shield","",19)}
+    <div><b data-i18n="wall.demo.h"></b><p data-i18n="wall.demo.p"></p></div>
   </div>
+
+  <div class="sy-head" data-reveal style="margin-top:var(--s-6)">
+    <h2 style="font-size:clamp(1.6rem,1.2rem + 1.6vw,2.4rem)" data-i18n="wall.h"></h2>
+    <p data-i18n="wall.p"></p>
+  </div>
+
+  <div class="wall-tools" data-reveal>
+    <div class="wall-chips" id="wallChips">
+      <button class="wall-chip" type="button" data-filter="all" aria-pressed="true" data-i18n="wall.f.all"></button>
+      <button class="wall-chip" type="button" data-filter="founders" aria-pressed="false" data-i18n="wall.f.founders"></button>
+      <button class="wall-chip" type="button" data-filter="recent" aria-pressed="false" data-i18n="wall.f.recent"></button>
+    </div>
+    <div class="wall-search">{svg("search","",16)}
+      <input type="search" id="wallSearch" autocomplete="off" data-i18n-attr="placeholder:wall.search|aria-label:wall.search">
+    </div>
+  </div>
+
+  <div class="wall-grid" id="wallGrid" data-reveal><article class="mem" data-tag="founders"><div class="mem-portrait"><span class="mem-mono">М</span><button class="mem-candle" type="button" data-candle="1" data-i18n-attr="aria-label:wall.candle">{svg("candle","",12)}<span class="mem-count"></span></button></div><span class="mem-name" data-i18n="wall.p1.n"></span><span class="mem-years" data-i18n="wall.p1.y"></span><span class="mem-desc" data-i18n="wall.p1.d"></span></article><article class="mem" data-tag="founders"><div class="mem-portrait"><span class="mem-mono">П</span><button class="mem-candle" type="button" data-candle="2" data-i18n-attr="aria-label:wall.candle">{svg("candle","",12)}<span class="mem-count"></span></button></div><span class="mem-name" data-i18n="wall.p2.n"></span><span class="mem-years" data-i18n="wall.p2.y"></span><span class="mem-desc" data-i18n="wall.p2.d"></span></article><article class="mem" data-tag="recent"><div class="mem-portrait"><span class="mem-mono">А</span><button class="mem-candle" type="button" data-candle="3" data-i18n-attr="aria-label:wall.candle">{svg("candle","",12)}<span class="mem-count"></span></button></div><span class="mem-name" data-i18n="wall.p3.n"></span><span class="mem-years" data-i18n="wall.p3.y"></span><span class="mem-desc" data-i18n="wall.p3.d"></span></article><article class="mem" data-tag=""><div class="mem-portrait"><span class="mem-mono">И</span><button class="mem-candle" type="button" data-candle="4" data-i18n-attr="aria-label:wall.candle">{svg("candle","",12)}<span class="mem-count"></span></button></div><span class="mem-name" data-i18n="wall.p4.n"></span><span class="mem-years" data-i18n="wall.p4.y"></span><span class="mem-desc" data-i18n="wall.p4.d"></span></article><article class="mem" data-tag="recent"><div class="mem-portrait"><span class="mem-mono">О</span><button class="mem-candle" type="button" data-candle="5" data-i18n-attr="aria-label:wall.candle">{svg("candle","",12)}<span class="mem-count"></span></button></div><span class="mem-name" data-i18n="wall.p5.n"></span><span class="mem-years" data-i18n="wall.p5.y"></span><span class="mem-desc" data-i18n="wall.p5.d"></span></article><article class="mem" data-tag="founders"><div class="mem-portrait"><span class="mem-mono">Н</span><button class="mem-candle" type="button" data-candle="6" data-i18n-attr="aria-label:wall.candle">{svg("candle","",12)}<span class="mem-count"></span></button></div><span class="mem-name" data-i18n="wall.p6.n"></span><span class="mem-years" data-i18n="wall.p6.y"></span><span class="mem-desc" data-i18n="wall.p6.d"></span></article><div class="mem"><div class="mem-add">{svg("plus","",26)}
+      <b data-i18n="wall.add.h"></b><span data-i18n="wall.add.p"></span></div></div>
+  </div>
+  <p class="wall-empty" id="wallEmpty" hidden data-i18n="wall.none"></p>
 
   <div class="sy-foot" data-reveal>
     <a class="btn btn-primary" href="https://saylavy.world" target="_blank" rel="noopener">
@@ -956,7 +973,7 @@ def p_memory():
     <p class="sy-note">{svg("shield","",15)}<span data-i18n="sy.demo"></span></p>
   </div>
 </div></section>
-'''+cta_band()+footer()
+'''+cta_band()+footer(['wall.js'])
 
 def p_sermons():
     return head("nav.sermons","serm.lead","sermons.html")+header("sermons.html")+\

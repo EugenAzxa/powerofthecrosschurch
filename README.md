@@ -245,13 +245,23 @@ cleared on close so audio stops.
 
 The Legacy page carries a segment for [Saylavy](https://saylavy.world): what it
 does for a parish (memory pages, interactive learning, the parish's own address,
-and the pastor approving every word), and a link to a live example - the Serbian
-Orthodox parish of St Archangel Gabriel.
+and the pastor approving every word), and a link to saylavy.world.
 
-Note the copy is explicit that demonstration pages are marked as demonstrations
-and that real names appear only with the family's agreement. **No fictional
-deceased parishioners were invented for this church.** If a demo memory wall is
-wanted here, the names on it are the church's call, not ours.
+It ends with a **wall of memory** showing what a memory page looks like: six
+profiles with a name, years, a line about a life, and a candle anyone can light.
+Filters, search, and an "add a page" tile.
+
+**The six people are fictional**, and a banner above them says so before anyone
+reads a single name - the same pattern Saylavy uses on its own demonstrations.
+Candle counts live in `localStorage` and nowhere else.
+
+They are shown as **typographic monograms rather than portraits**. Inventing
+photographs of invented deceased people would be a step too far, and monograms
+are what Saylavy already uses where a face should not be depicted. Swap in real
+portraits by adding an `<img>` inside `.mem-portrait`.
+
+Data lives in `PEOPLE` in `tools/build.py` paired with `wall.p*` keys in
+`js/i18n.js`; behaviour is `js/wall.js`.
 
 ## Legacy page
 
