@@ -95,12 +95,30 @@ Timings live at the bottom of `css/style.css`. The sequence is roughly: draw
 
 ## Design
 
-- Deep midnight base (`#05080F`) with the sanctuary's blue neon cross as the accent
-  (`#5AA9FF`), and a warm gold for calls to action (`#E8C07D`).
+The site runs **two themes at once**. Pages are light and open; the moments that
+should feel cinematic are dark.
+
+- **Light (default)** - page `#F6F8FC`, white cards, ink `#0D1626`, blue `#1256B8`.
+  Photographs render at full brightness.
+- **Dark** - applied by putting `dark-zone` on a section. Used by the loader,
+  the home hero, every inner page hero, the scripture bands, the closing CTA and
+  the footer.
+
+`dark-zone` redefines the *same* custom property names (`--text`, `--surface`,
+`--line`, `--blue`, `--on-blue`...), so every component works unchanged in either
+context - there is no second set of component styles. To flip any section, add or
+remove the one class.
+
+The header is the exception, since it moves between the two: it carries dark
+tokens while it floats over a hero, and swaps to a light glass bar once scrolled.
+
+Other notes:
+
 - Display type is Cormorant Garamond, body type is Inter - both have full Cyrillic.
-- Every text/background pair used on the site meets WCAG AA (4.5:1 or better).
+- Every text/background pair on every page meets WCAG AA, verified by measuring
+  the rendered colours in a browser rather than by reading the tokens.
 - Motion respects `prefers-reduced-motion`.
-- Tokens live at the top of `css/style.css` as CSS custom properties.
+- Tokens live at the top of `css/style.css`.
 
 ## Local preview
 

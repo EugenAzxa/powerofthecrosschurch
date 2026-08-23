@@ -56,7 +56,7 @@ NAV = [("about.html","nav.about"),("beliefs.html","nav.beliefs"),
 
 BRAND_MARK = ('<svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">'
  '<defs><linearGradient id="bm" x1="0" y1="0" x2="1" y2="1">'
- '<stop offset="0" stop-color="#8CC8FF"/><stop offset="1" stop-color="#3E8FE8"/>'
+ '<stop offset="0" stop-color="var(--mark-1)"/><stop offset="1" stop-color="var(--mark-2)"/>'
  '</linearGradient></defs>'
  '<path d="M13 2h6v9h9v6h-9v13h-6V17H4v-6h9V2z" fill="url(#bm)"/></svg>')
 
@@ -74,7 +74,7 @@ def loader():
 
     The mask rect is painted in the page background colour with the cross
     punched out of it, so scaling the cross up wipes the veil away."""
-    return ('<div class="loader" id="loader" aria-hidden="true">\n'
+    return ('<div class="loader dark-zone" id="loader" aria-hidden="true">\n'
       '  <svg class="loader-veil" viewBox="0 0 120 120" preserveAspectRatio="xMidYMid slice">\n'
       '    <defs><mask id="loaderMask">\n'
       '      <rect width="120" height="120" fill="#fff"/>\n'
@@ -178,7 +178,7 @@ def header(page):
 
 def cta_band():
     return f'''<section class="section"><div class="wrap">
-  <div class="cta" data-reveal>
+  <div class="cta dark-zone" data-reveal>
     <div class="wrap-narrow">
       <h2 data-i18n="cta.h">Мы будем рады видеть вас в это воскресенье</h2>
       <p data-i18n="cta.p"></p>
@@ -199,7 +199,7 @@ def footer():
         [("ministries.html","nav.ministries"),("camp.html","nav.camp"),
          ("media.html","nav.media")])
     return f'''</main>
-<footer class="footer">
+<footer class="footer dark-zone">
   <div class="wrap">
     <div class="footer-grid">
       <div class="footer-about">
@@ -250,7 +250,7 @@ def lightbox():
 '''
 
 def page_hero(crumb_key, eyebrow_key, h_key, lead_key):
-    return f'''<section class="page-hero"><div class="wrap">
+    return f'''<section class="page-hero dark-zone"><div class="wrap">
   <nav class="crumb" aria-label="Breadcrumb" data-reveal>
     <a href="index.html" data-i18n="nav.home">Главная</a>{svg("chev","",12)}
     <span data-i18n="{crumb_key}"></span>
@@ -317,7 +317,7 @@ def p_index():
         stats+=f'''<div class="stat"><div class="stat-n" data-i18n="home.stat{n}.n"></div>
         <div class="stat-l" data-i18n="home.stat{n}.l"></div></div>'''
     return head("nav.home","foot.about","index.html")+header("index.html")+f'''
-<section class="hero">
+<section class="hero dark-zone">
   <div class="hero-media">
     <img src="assets/img/hero-worship-1600.webp"
          srcset="assets/img/hero-worship-760.webp 760w, assets/img/hero-worship-1100.webp 1100w, assets/img/hero-worship-1600.webp 1600w"
@@ -358,7 +358,7 @@ def p_index():
   <div class="stats" style="margin-top:4.5rem" data-reveal-stagger>{stats}</div>
 </div></section>
 
-<section class="verse">
+<section class="verse dark-zone">
   <div class="wrap-narrow">
     <svg class="verse-cross" viewBox="0 0 32 32" aria-hidden="true" style="color:var(--blue-br)">
       <path d="M13 2h6v9h9v6h-9v13h-6V17H4v-6h9V2z" fill="currentColor"/></svg>
@@ -439,7 +439,7 @@ def p_about():
   </div>
 </div></section>
 
-<section class="verse">
+<section class="verse dark-zone">
   <div class="wrap-narrow">
     <svg class="verse-cross" viewBox="0 0 32 32" aria-hidden="true" style="color:var(--blue-br)">
       <path d="M13 2h6v9h9v6h-9v13h-6V17H4v-6h9V2z" fill="currentColor"/></svg>
@@ -597,7 +597,7 @@ def p_camp():
 </div></section>
 
 <section class="section"><div class="wrap">
-  <div class="cta" data-reveal><div class="wrap-narrow">
+  <div class="cta dark-zone" data-reveal><div class="wrap-narrow">
     <h2 data-i18n="camp.cta.h"></h2>
     <p data-i18n="camp.cta.p"></p>
     <div class="cta-btns">
@@ -772,7 +772,7 @@ def p_give():
 </div></section>
 
 <section class="section-sm"><div class="wrap">
-  <div class="cta" data-reveal><div class="wrap-narrow">
+  <div class="cta dark-zone" data-reveal><div class="wrap-narrow">
     <h2 data-i18n="give.note.h"></h2>
     <p data-i18n="give.note.p"></p>
     <div class="cta-btns">
