@@ -122,6 +122,60 @@ Other notes:
 - Motion respects `prefers-reduced-motion`.
 - Tokens live at the top of `css/style.css`.
 
+## Mobile demo and QR code
+
+The home page ends with a live preview of the site running in a phone frame,
+beside a code you can scan to open it on a real device.
+
+The preview is a real `<iframe>` of the site itself, not a picture, loaded with
+`?embed=1`. That flag is read before first paint and puts `is-embed` on the root
+element, which hides the loader and the demo section itself so there is never a
+demo inside the demo. It only loads once scrolled near, and reloads in whichever
+language the visitor is reading.
+
+The code is generated at runtime by `js/qr.js` from `location.href`, so it always
+points at wherever the site is actually served from - localhost, GitHub Pages or a
+custom domain - with nothing to regenerate when the address changes. It can be
+printed and put up in the hall.
+
+`js/qr.js` is a small from-scratch encoder (byte mode, ECC level M, versions
+1-10). It was verified by rendering codes for URLs of different lengths and
+decoding them back with the macOS Vision barcode reader, including a decode of
+the QR as actually rendered on the page.
+
+## Sermon archive
+
+`sermons.html` is the church's full sermon archive, searchable by title and
+preacher and filterable by year and preacher. Selecting one opens the recording
+in a modal; services with more than one message get numbered part buttons.
+
+The data lives in **`assets/data/sermons.json`**, scraped from the church's own
+archive on the old site. Each entry is:
+
+```json
+{"d":"2026-07-26",
+ "i":[{"t":"Во Что Вы Вкладываете Свою Жизнь?","p":"Валерий Наривончик"}],
+ "v":["_AJbAgLiihk"]}
+```
+
+`d` is the date, `i` the messages preached that service (title and preacher),
+`v` the YouTube ids. Entries with no recording are left out, so nothing on the
+page is unplayable.
+
+**The page and its nav entry only exist when `assets/data/sermons.json` is
+present** (`SERMONS_READY` in `tools/build.py`), so the site never links to an
+empty archive. Add the data file and rebuild and the page, the nav entry, the
+footer link and the home teaser all appear.
+
+To add a new sermon, append an object to `sermons` and bump `count`. Nothing
+needs rebuilding - `js/sermons.js` reads the file at runtime, and the year and
+preacher filters are derived from the data, so a new preacher appears in the
+filter automatically. If the file is missing or fails to load, the page shows
+its empty state rather than breaking.
+
+Videos are embedded through `youtube-nocookie.com`, and the iframe `src` is
+cleared on close so audio stops.
+
 ## Legacy page
 
 `memory.html` carries the "faith preserved in memory" idea: what the congregation

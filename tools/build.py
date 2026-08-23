@@ -43,18 +43,26 @@ I = {
 "yt"   :'<path d="M22.2 7.4a2.7 2.7 0 00-1.9-1.9C18.6 5 12 5 12 5s-6.6 0-8.3.5A2.7 2.7 0 001.8 7.4 28 28 0 001.3 12a28 28 0 00.5 4.6 2.7 2.7 0 001.9 1.9C5.4 19 12 19 12 19s6.6 0 8.3-.5a2.7 2.7 0 001.9-1.9 28 28 0 00.5-4.6 28 28 0 00-.5-4.6z" fill="currentColor"/><path d="M9.9 15.2l5.5-3.2-5.5-3.2v6.4z" fill="#05080F"/>',
 "fb"   :'<path d="M22 12a10 10 0 10-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.4v7A10 10 0 0022 12z" fill="currentColor"/>',
 "clock":'<circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.7" fill="none"/><path d="M12 7v5.2l3.4 2" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round"/>',
+"search":'<circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M16.5 16.5L21 21" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/>',
 "globe":'<circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.7" fill="none"/><path d="M3 12h18M12 3a15 15 0 010 18 15 15 0 010-18z" stroke="currentColor" stroke-width="1.7" fill="none"/>',
 }
 def svg(name, cls="", size=24):
     return ('<svg class="%s" viewBox="0 0 24 24" width="%d" height="%d" '
             'aria-hidden="true" focusable="false">%s</svg>'%(cls,size,size,I[name]))
 
+# The sermon archive needs assets/data/sermons.json. Until that file exists the
+# page and its nav entry are left out, so the site never links to an empty
+# archive. Flip this by simply adding the data file.
+import os as _os
+SERMONS_READY = _os.path.exists(_os.path.join(ROOT,"assets","data","sermons.json"))
+
 # ------------------------------------------------------------------ nav data
 # Gallery stays out of the top bar to keep it to six items; it is reachable
 # from Media, from Legacy, from the drawer and from the footer.
 NAV = [("about.html","nav.about"),("beliefs.html","nav.beliefs"),
-       ("ministries.html","nav.ministries"),("memory.html","nav.memory"),
-       ("media.html","nav.media"),("visit.html","nav.visit")]
+       ("ministries.html","nav.ministries")] \
+    + ([("sermons.html","nav.sermons")] if SERMONS_READY else []) \
+    + [("memory.html","nav.memory"),("visit.html","nav.visit")]
 
 BRAND_MARK = ('<svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">'
  '<defs><linearGradient id="bm" x1="0" y1="0" x2="1" y2="1">'
@@ -141,7 +149,9 @@ def head(title_key, desc_key, page):
 /* set language before first paint to avoid a flash of the wrong copy */
 (function(){{try{{var q=new URLSearchParams(location.search).get('lang');
 var s=q||localStorage.getItem('pocc-lang')||'ru';
-document.documentElement.lang=(s==='en'?'en':'ru');}}catch(e){{}}}})();
+document.documentElement.lang=(s==='en'?'en':'ru');
+if(new URLSearchParams(location.search).has('embed'))
+  document.documentElement.classList.add('is-embed');}}catch(e){{}}}})();
 </script>
 </head>
 <body class="{body_cls}" data-title-key="{title_key}" data-desc-key="{desc_key}">
@@ -152,7 +162,7 @@ def header(page):
     links="".join('<a href="%s" data-i18n="%s">%s</a>'%(h,k,k) for h,k in NAV)
     drawer_links="".join(
         '<a href="%s"><span data-i18n="%s">%s</span>%s</a>'%(h,k,k,svg("chev","",17))
-        for h,k in NAV+[("camp.html","nav.camp"),("gallery.html","nav.gallery"),("give.html","nav.give")])
+        for h,k in NAV+[("camp.html","nav.camp"),("media.html","nav.media"),("gallery.html","nav.gallery"),("give.html","nav.give")])
     return f'''<header class="header">
   <div class="header-inner">
     {brand()}
@@ -194,13 +204,14 @@ def cta_band():
 </div></section>
 '''
 
-def footer():
+def footer(extra_js=()):
     sect="".join('<a href="%s" data-i18n="%s">%s</a>'%(h,k,k) for h,k in
         [("about.html","nav.about"),("beliefs.html","nav.beliefs"),
          ("memory.html","nav.memory"),("gallery.html","nav.gallery"),("give.html","nav.give")])
     serv="".join('<a href="%s" data-i18n="%s">%s</a>'%(h,k,k) for h,k in
-        [("ministries.html","nav.ministries"),("camp.html","nav.camp"),
-         ("media.html","nav.media")])
+        [("ministries.html","nav.ministries"),("camp.html","nav.camp")]
+        + ([("sermons.html","nav.sermons")] if SERMONS_READY else [])
+        + [("media.html","nav.media")])
     return f'''</main>
 <footer class="footer dark-zone">
   <div class="wrap">
@@ -238,11 +249,13 @@ def footer():
 </footer>
 <script src="js/config.js"></script>
 <script src="js/cloth.js"></script>
+<script src="js/qr.js"></script>
 <script src="js/i18n.js"></script>
 <script src="js/main.js"></script>
+__EXTRA__
 </body>
 </html>
-'''
+'''.replace("__EXTRA__", "".join('<script src="js/%s"></script>\n' % j for j in extra_js).rstrip("\n"))
 
 def lightbox():
     return f'''<div class="lb" aria-hidden="true" role="dialog" aria-modal="true">
@@ -397,7 +410,20 @@ def p_index():
   </div>
 </div></section>
 
-<section class="section-sm"><div class="wrap">
+''' + (f"""<section class="section"><div class="wrap">
+  <div class="split is-reverse">
+    <div class="split-media" data-reveal>
+      <img src="assets/img/g-service-1100.webp" width="1100" height="825" loading="lazy" decoding="async" alt="">
+    </div>
+    <div class="split-body" data-reveal>
+      <p class="eyebrow" data-i18n="home.serm.eyebrow"></p>
+      <h2 data-i18n="home.serm.h"></h2>
+      <p class="lead" data-i18n="home.serm.p"></p>
+      <a class="link-arrow" href="sermons.html"><span data-i18n="home.serm.link"></span>{svg("arrow","",16)}</a>
+    </div>
+  </div>
+</div></section>
+""" if SERMONS_READY else '') + f'''<section class="section-sm"><div class="wrap">
   <div class="split">
     <div class="split-body" data-reveal>
       <p class="eyebrow" data-i18n="home.mem.eyebrow"></p>
@@ -433,6 +459,31 @@ def p_index():
     </div>
     <div class="split-media" data-reveal>
       <img src="assets/img/g-praise-1100.webp" width="1100" height="825" loading="lazy" decoding="async" alt="">
+    </div>
+  </div>
+</div></section>
+
+<section class="section demo-section"><div class="wrap">
+  <div class="section-head" data-reveal>
+    <p class="eyebrow" data-i18n="demo.eyebrow"></p>
+    <h2 data-i18n="demo.h"></h2>
+  </div>
+  <div class="demo-grid">
+    <div data-reveal>
+      <div class="phone">
+        <div class="phone-screen">
+          <iframe id="demoFrame" title="" loading="lazy" tabindex="-1" scrolling="no"></iframe>
+        </div>
+      </div>
+      <p class="phone-note" data-i18n="demo.live"></p>
+    </div>
+    <div class="demo-body" data-reveal>
+      <p class="lead" data-i18n="demo.p"></p>
+      <div class="qr-card">
+        <div id="qrBox"></div>
+        <span class="qr-scan" data-i18n="demo.scan"></span>
+      </div>
+      <p class="pane-note">{svg("check","",15)}<span data-i18n="demo.hint"></span></p>
     </div>
   </div>
 </div></section>
@@ -872,6 +923,54 @@ def p_memory():
 </div></section>
 '''+cta_band()+footer()
 
+def p_sermons():
+    return head("nav.sermons","serm.lead","sermons.html")+header("sermons.html")+\
+      page_hero("serm.crumb","serm.eyebrow","serm.h","serm.lead")+f'''
+<section class="section-sm"><div class="wrap">
+  <div class="stats" style="margin-bottom:3rem" data-reveal-stagger>
+    <div class="stat"><div class="stat-n" id="statTotal">-</div>
+      <div class="stat-l" data-i18n="serm.stat1"></div></div>
+    <div class="stat"><div class="stat-n" id="statPreachers">-</div>
+      <div class="stat-l" data-i18n="serm.stat2"></div></div>
+    <div class="stat"><div class="stat-n" id="statYears">-</div>
+      <div class="stat-l" data-i18n="serm.stat3"></div></div>
+  </div>
+
+  <div class="serm-tools" data-reveal>
+    <div class="serm-field">
+      {svg("search","",17)}
+      <input class="serm-input" id="sermSearch" type="search" autocomplete="off"
+             data-i18n-attr="placeholder:serm.search|aria-label:serm.search">
+    </div>
+    <select class="serm-select" id="sermYear" data-i18n-attr="aria-label:serm.year.all"></select>
+    <select class="serm-select" id="sermPreacher" data-i18n-attr="aria-label:serm.preacher.all"></select>
+  </div>
+
+  <p class="serm-count"><span data-i18n="serm.found"></span> <b id="sermCount">0</b></p>
+  <div class="serm-list" id="sermList"></div>
+  <div class="serm-empty" id="sermEmpty" hidden>
+    <p data-i18n="serm.none"></p>
+    <button class="btn btn-ghost btn-sm" id="sermReset" style="margin-top:1rem"
+            data-i18n="serm.reset"></button>
+  </div>
+  <div class="serm-more"><button class="btn btn-ghost" id="sermMore" hidden
+      data-i18n="serm.more"></button></div>
+</div></section>
+
+<div class="vid" id="vid" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="vid-inner">
+    <div class="vid-head">
+      <div><h3 id="vidTitle"></h3><p id="vidMeta"></p></div>
+      <button class="vid-close" id="vidClose" type="button"
+              data-i18n-attr="aria-label:serm.close">{svg("close","",19)}</button>
+    </div>
+    <div class="vid-frame"><iframe id="vidFrame" src="" title="" allowfullscreen
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture"></iframe></div>
+    <div class="vid-parts" id="vidParts"></div>
+  </div>
+</div>
+'''+cta_band()+footer(['sermons.js'])
+
 # ====================================================================== MAIN
 PAGES = {
  "index.html":p_index, "about.html":p_about, "beliefs.html":p_beliefs,
@@ -879,6 +978,7 @@ PAGES = {
  "gallery.html":p_gallery, "memory.html":p_memory, "visit.html":p_visit, "give.html":p_give,
 }
 if __name__=="__main__":
+    if SERMONS_READY: PAGES["sermons.html"]=p_sermons
     for name,fn in PAGES.items():
         html=fn()
         with open(os.path.join(ROOT,name),"w",encoding="utf-8") as f:

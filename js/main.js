@@ -453,6 +453,50 @@ function initCloth(){
   else window.addEventListener('load',go);
 }
 
+/* ---------------- mobile demo ----------------
+   A live preview of the site in a phone frame, beside a code that points at
+   wherever this site is actually served from - so it works on localhost, on
+   GitHub Pages and on a custom domain with nothing to regenerate. */
+function initDemo(){
+  var box=document.getElementById('qrBox');
+  var frame=document.getElementById('demoFrame');
+  if(!box&&!frame) return;
+
+  var url=location.origin+location.pathname.replace(/index\.html$/,'');
+
+  if(box&&window.makeQR){
+    try{ box.innerHTML=window.makeQR(url,{dark:'#0D1626',light:'#FFFFFF',quiet:3}); }
+    catch(e){
+      /* rather than an empty white card, fall back to the plain address */
+      box.innerHTML='';
+      var a=document.createElement('a');
+      a.href=url; a.textContent=url; a.className='link-arrow';
+      box.appendChild(a);
+    }
+  }
+
+  /* load the preview only when it comes into view, and mark it embedded so
+     it does not show its own loader or a demo inside the demo */
+  if(frame){
+    var src=url+(url.indexOf('?')<0?'?':'&')+'embed=1&lang='+
+            (document.documentElement.lang==='en'?'en':'ru');
+    var load=function(){ if(!frame.src) frame.src=src; };
+    if('IntersectionObserver' in window){
+      var io=new IntersectionObserver(function(es){
+        es.forEach(function(en){ if(en.isIntersecting){ load(); io.disconnect(); } });
+      },{rootMargin:'240px'});
+      io.observe(frame);
+    } else load();
+
+    /* keep the preview in whatever language the visitor is reading */
+    document.addEventListener('langchange',function(){
+      if(!frame.src) return;
+      frame.src=url+(url.indexOf('?')<0?'?':'&')+'embed=1&lang='+
+                (document.documentElement.lang==='en'?'en':'ru');
+    });
+  }
+}
+
 /* ---------------- year ---------------- */
 function initYear(){
   document.querySelectorAll('[data-year]').forEach(function(el){
@@ -473,6 +517,7 @@ function boot(){
   initLightbox();
   initGiving();
   initCloth();
+  initDemo();
   initYear();
 }
 if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',boot);
