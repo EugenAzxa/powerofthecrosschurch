@@ -11,6 +11,9 @@ import os, re, textwrap
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# Canonical address of the site. Used for <link rel=canonical>, the Open Graph
+# tags and sitemap.xml. The church already owns pocc.ca; when the new site moves
+# onto it, change this one line, rerun the build, and add a CNAME file.
 SITE  = "https://eugenazxa.github.io/powerofthecrosschurch/"
 PHONE = "416-858-9317"
 PHONE_HREF = "+14168589317"

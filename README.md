@@ -227,6 +227,28 @@ python3 -m http.server 8000
 # then open http://localhost:8000
 ```
 
+## Domain
+
+The church already owns **pocc.ca** - registered in 2011, active, DNS at
+HostPapa - and it currently serves the old Joomla site. That is the right
+address for this site to end up on; there is no need for a new domain.
+
+Until then the site is configured for its GitHub Pages address. To move it:
+
+```sh
+sh tools/set-domain.sh https://pocc.ca/
+```
+
+That rewrites the canonical and Open Graph addresses, `sitemap.xml` and
+`robots.txt`, rebuilds the pages, and writes the `CNAME` file GitHub Pages needs.
+It then prints the DNS records to set. The QR code and the mobile preview need no
+change at all - both read `location.href` at runtime, so they follow the site
+wherever it is served from.
+
+**Note that this is a cutover, not an addition.** Pointing pocc.ca at GitHub
+Pages replaces the live site the congregation currently uses, so it wants the
+church's agreement and a moment when someone can check the result.
+
 ## Deployment
 
 GitHub Pages serves the `main` branch from the repository root. Pushing to `main`
