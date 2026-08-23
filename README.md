@@ -85,6 +85,10 @@ by CSS keyframes, so there is no animation library. Three things keep it safe:
   `style.css` is still in flight and can never flash unstyled.
 - `prefers-reduced-motion: reduce` skips the loader entirely.
 
+The full sequence plays once per browser session, tracked in `sessionStorage`
+under `pocc-seen`. **To replay it, add `?intro` to the URL** - for example
+`index.html?intro` - or open the site in a new tab.
+
 Timings live at the bottom of `css/style.css`. The sequence is roughly: draw
 0.18-1.35s, bloom 1.26s, mask opens 1.62-2.86s.
 

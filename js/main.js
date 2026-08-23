@@ -207,9 +207,11 @@ function initLoader(){
 
   if(reduced){ el.classList.add('is-skip'); return; }
 
+  /* ?intro forces the full sequence - useful for demoing and previewing */
+  var force=/[?&]intro\b/.test(location.search);
   var seen;
   try{ seen=sessionStorage.getItem('pocc-seen'); }catch(e){ seen=null; }
-  var quick=!!seen;
+  var quick=!!seen&&!force;
   if(quick) el.classList.add('is-quick');
   try{ sessionStorage.setItem('pocc-seen','1'); }catch(e){}
 
