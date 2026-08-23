@@ -207,24 +207,47 @@ function initLoader(){
 
   if(reduced){ el.classList.add('is-skip'); return; }
 
-  /* ?intro forces the full sequence - useful for demoing and previewing */
+  /* The full sequence belongs to the front door: it plays whenever someone
+     arrives at a page directly, including a reload. Only a move between pages
+     inside the site gets the short wipe, because the cross has just closed
+     over the previous page and reopening it long-form would drag.
+     Gating on "seen once per session" meant a reload showed nothing, which
+     reads as broken. */
+  var arrived=true;
+  try{
+    arrived = sessionStorage.getItem('pocc-wipe')!=='1';
+    sessionStorage.removeItem('pocc-wipe');
+  }catch(e){}
   var force=/[?&]intro\b/.test(location.search);
-  var seen;
-  try{ seen=sessionStorage.getItem('pocc-seen'); }catch(e){ seen=null; }
-  var quick=!!seen&&!force;
+  var quick=!arrived&&!force;
   if(quick) el.classList.add('is-quick');
-  try{ sessionStorage.setItem('pocc-seen','1'); }catch(e){}
 
   root.classList.add('is-loading');
-  var clear=function(){
-    root.classList.remove('is-loading');
-    el.classList.add('is-done');
-  };
-  var ms=quick?760:2880;
-  var timer=setTimeout(clear,ms);
-  /* if the tab is restored from bfcache mid-animation, do not strand the veil */
+
+  /* Start the sequence now. A forced reflow flushes the starting styles so the
+     animation runs from its first keyframe; requestAnimationFrame was not
+     dependable here, and CSS delays alone are measured from the document
+     timeline, which can already be past the end of the sequence at first paint. */
+  void el.offsetWidth;
+  el.classList.add('is-playing');
+
+  /* CSS owns the sequence. JavaScript only unlocks scrolling and, once the
+     veil's own animation has ended, takes the element out of the layout.
+     Hiding it on a JS timer meant any timing drift cut the animation off
+     mid-draw, which is exactly what "the animation does not play" looked
+     like. Now the sequence always finishes, because nothing can end it early. */
+  var unlock=function(){ root.classList.remove('is-loading'); };
+  var done=function(){ unlock(); el.classList.add('is-done'); };
+
+  el.addEventListener('animationend',function(e){
+    if(e.animationName==='loaderGone') done();
+  });
+
+  setTimeout(unlock, quick?900:2400);      /* let the page move again */
+  var backstop=setTimeout(done, quick?3000:6000);  /* only if animationend never fires */
+
   window.addEventListener('pageshow',function(e){
-    if(e.persisted){ clearTimeout(timer); clear(); }
+    if(e.persisted){ clearTimeout(backstop); done(); }
   });
 }
 
@@ -249,6 +272,7 @@ function initWipe(){
     if(href.split('#')[0].split('/').pop()===here) return;
 
     e.preventDefault();
+    try{ sessionStorage.setItem('pocc-wipe','1'); }catch(err){}
     el.classList.remove('is-done','is-quick');
     el.classList.add('is-exit');
     document.documentElement.classList.add('is-loading');

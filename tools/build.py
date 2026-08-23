@@ -358,6 +358,12 @@ def p_index():
     <h2 data-i18n="film.h"></h2>
     <p data-i18n="film.p"></p>
     <p class="film-by"><strong data-i18n="film.pastor"></strong><span data-i18n="film.role"></span></p>
+    <div class="cta-btns" style="justify-content:flex-start;margin-top:1.4rem">
+      <a class="btn btn-primary" href="call.html">
+        {svg("hands","",18)}<span data-i18n="home.call.link"></span></a>
+      <a class="btn btn-ghost" href="tel:{PHONE_HREF}">
+        {svg("phone","",18)}<span data-i18n="call.callnow"></span></a>
+    </div>
   </div>
   <div class="film-stage" id="filmStage" data-video="v3GWHgBy_DM" data-reveal>
     <img src="assets/img/invite-1280.webp"
