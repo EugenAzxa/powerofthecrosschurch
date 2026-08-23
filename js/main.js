@@ -220,7 +220,7 @@ function initLoader(){
     root.classList.remove('is-loading');
     el.classList.add('is-done');
   };
-  var ms=quick?760:2980;
+  var ms=quick?760:3160;
   var timer=setTimeout(clear,ms);
   /* if the tab is restored from bfcache mid-animation, do not strand the veil */
   window.addEventListener('pageshow',function(e){
@@ -256,6 +256,52 @@ function initWipe(){
   });
 }
 
+/* ---------------- giving ----------------
+   Driven entirely by js/config.js. The card panel stays hidden until at
+   least one payment link is filled in, so the page can never ship a Give
+   button that leads nowhere. Each amount carries its own URL, which keeps
+   this provider-agnostic - Stripe, PayPal, Donorbox and tithe.ly all differ
+   in how they express an amount, and none of them have to here. */
+function initGiving(){
+  var cfg=window.POCC_CONFIG||{};
+
+  /* e-Transfer address, when the church has published one */
+  var addr=document.getElementById('etrAddr');
+  if(addr&&cfg.etransferEmail){
+    var a=document.createElement('a');
+    a.href='mailto:'+cfg.etransferEmail;
+    a.textContent=cfg.etransferEmail;
+    addr.textContent='';
+    addr.appendChild(a);
+  }
+
+  var pane=document.getElementById('cardPane');
+  var wrap=document.getElementById('amounts');
+  var btn=document.getElementById('giveBtn');
+  if(!pane||!wrap||!btn) return;
+
+  var links=cfg.payLinks||{};
+  var any=Object.keys(links).some(function(k){ return !!links[k]; });
+  if(!any) return;                 /* stays hidden */
+  pane.hidden=false;
+
+  var chips=[].slice.call(wrap.querySelectorAll('.amount'));
+  chips.forEach(function(c){
+    var url=links[c.getAttribute('data-amount')]||links.other||'';
+    if(!url){ c.remove(); return; }
+    c.setAttribute('data-url',url);
+    c.addEventListener('click',function(){ select(c); });
+  });
+  chips=[].slice.call(wrap.querySelectorAll('.amount'));
+
+  function select(chip){
+    chips.forEach(function(c){ c.setAttribute('aria-pressed',c===chip?'true':'false'); });
+    btn.setAttribute('href',chip.getAttribute('data-url'));
+  }
+  var def=wrap.querySelector('[data-amount="50"]')||chips[0];
+  if(def) select(def);
+}
+
 /* ---------------- year ---------------- */
 function initYear(){
   document.querySelectorAll('[data-year]').forEach(function(el){
@@ -274,6 +320,7 @@ function boot(){
   initReveal();
   initBeliefs();
   initLightbox();
+  initGiving();
   initYear();
 }
 if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',boot);

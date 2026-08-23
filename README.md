@@ -70,8 +70,9 @@ Images are served as WebP at two widths (`-560` / `-1100` for gallery,
 
 ## Loading screen
 
-On the first view of a session a luminous cross draws itself over a black veil,
-blooms, and then opens as a mask - the page is revealed *through* the cross shape
+On the first view of a session two hands reach in from either side and draw
+themselves in luminous line, a cross draws in the gap their fingertips leave, and
+the cross then blooms and opens as a mask - the page is revealed *through* the cross shape
 as it expands past the edges of the screen. Later views in the same session, and
 navigation between pages, use a short wipe in the same language: the cross closes
 over the page you are leaving and opens again on the page you land on.
@@ -121,10 +122,36 @@ publishes the site; there is no build step on the server.
 - YouTube: https://www.youtube.com/channel/UCHgwxXYXpZgW1Gz1Y6uOVHQ
 - Facebook: https://www.facebook.com/powerofthecrossofficial
 
+## Giving
+
+The Give page offers two methods side by side: card payment and INTERAC
+e-Transfer. Both are driven by **`js/config.js`** - edit that one file and reload,
+no build step:
+
+```js
+window.POCC_CONFIG = {
+  payLinks: { "25":"", "50":"", "100":"", "250":"", "other":"" },
+  etransferEmail: ""
+};
+```
+
+- **Card giving** is provider-agnostic. Create one payment link per amount with
+  whatever processor the church uses - Stripe Payment Links, PayPal, Donorbox,
+  tithe.ly, CanadaHelps - and paste the URLs in. Amounts differ in how each
+  processor expresses them, so each chip simply carries its own link and none of
+  that has to be encoded here.
+- **While every link is empty the card panel does not render at all**, and the
+  page shows e-Transfer only. The site can never go live with a Give button that
+  leads nowhere.
+- `etransferEmail` fills the e-Transfer address. Left empty, the page asks people
+  to phone the church for it instead.
+
 ## Open item
 
-The **e-Transfer email address** for donations is not in this repo. On the old site
-it was obfuscated against scrapers and could not be read. `give.html` currently
-directs people to phone the church for it. Once you have the address, set
-`give.email.k` / `give.protect` in `js/i18n.js`, or add the address directly to the
-Give page.
+Two values are still needed from the church, both set in `js/config.js`:
+
+1. **The INTERAC e-Transfer address.** On the old site it was obfuscated against
+   scrapers and could not be read. Until it is set, the Give page asks people to
+   phone for it.
+2. **Payment links**, if the church wants card giving. This needs an account with
+   a payment processor - the page is built and waiting for the URLs.

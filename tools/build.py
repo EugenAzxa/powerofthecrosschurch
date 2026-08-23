@@ -84,13 +84,25 @@ def loader():
       '  </svg>\n'
       '  <span class="loader-halo"></span>\n'
       '  <div class="loader-mark">\n'
-      '    <svg class="loader-draw" viewBox="0 0 120 120">\n'
-      '      <path class="fill" d="%s"/>\n'
-      '      <path class="stroke" d="%s" pathLength="1"/>\n'
+      '    <svg class="loader-draw" viewBox="0 0 240 116">\n'
+      '      <g class="hand hand-l">\n'
+      '        <path class="hp" d="M0 17.5 C7 15.6 14 14 20.5 13 C27 12 33 11.4 38.5 11.6 C44 11.8 48.6 12.5 52.4 13.5 C57 14.7 61 16.1 63.6 17.3 C65.6 18.2 65.8 20.2 63.8 21 C62 21.7 59 21.5 55.6 20.9 C52 20.2 48.4 19.6 46 19.6 C49.2 21 52.6 23 54.6 25 C56.3 26.7 55.7 28.7 53.2 29.1 C50 29.6 45.2 28.7 41.2 27.3 C43.6 29.1 45.6 31.3 46.5 33.3 C47.2 34.9 46.2 36.5 43.8 36.4 C40.7 36.3 36.4 34.9 32.8 33.1 C34.4 34.9 35.5 36.8 35.4 38.5 C35.3 40.4 33.5 41.5 31 41 C27.6 40.3 23.4 37.8 19.8 35.3 C16 32.7 11 30.3 6.8 29 C4.2 28.2 2 27.8 0 27.6" pathLength="1"/>\n'
+      '        <path class="det" d="M38.5 11.6 C39.2 14.1 39.8 16.5 40.2 19.1"/>\n'
+      '        <path class="det" d="M46 19.6 C44.6 21.8 43 24.2 41.2 27.3"/>\n'
+      '        <path class="det" d="M41.2 27.3 C39 29.1 36 31.3 32.8 33.1"/>\n'
+      '      </g>\n'
+      '      <g class="hand hand-r">\n'
+      '        <path class="hp" d="M0 17.5 C7 15.6 14 14 20.5 13 C27 12 33 11.4 38.5 11.6 C44 11.8 48.6 12.5 52.4 13.5 C57 14.7 61 16.1 63.6 17.3 C65.6 18.2 65.8 20.2 63.8 21 C62 21.7 59 21.5 55.6 20.9 C52 20.2 48.4 19.6 46 19.6 C49.2 21 52.6 23 54.6 25 C56.3 26.7 55.7 28.7 53.2 29.1 C50 29.6 45.2 28.7 41.2 27.3 C43.6 29.1 45.6 31.3 46.5 33.3 C47.2 34.9 46.2 36.5 43.8 36.4 C40.7 36.3 36.4 34.9 32.8 33.1 C34.4 34.9 35.5 36.8 35.4 38.5 C35.3 40.4 33.5 41.5 31 41 C27.6 40.3 23.4 37.8 19.8 35.3 C16 32.7 11 30.3 6.8 29 C4.2 28.2 2 27.8 0 27.6" pathLength="1"/>\n'
+      '        <path class="det" d="M38.5 11.6 C39.2 14.1 39.8 16.5 40.2 19.1"/>\n'
+      '        <path class="det" d="M46 19.6 C44.6 21.8 43 24.2 41.2 27.3"/>\n'
+      '        <path class="det" d="M41.2 27.3 C39 29.1 36 31.3 32.8 33.1"/>\n'
+      '      </g>\n'
+      '      <path class="xfill" d="M116 40 h8 v13 h11 v8 h-11 v25 h-8 v-25 h-11 v-8 h11 z"/>\n'
+      '      <path class="xline" d="M116 40 h8 v13 h11 v8 h-11 v25 h-8 v-25 h-11 v-8 h11 z" pathLength="1"/>\n'
       '    </svg>\n'
       '    <p class="loader-word" data-i18n="brand.name">Сила Креста</p>\n'
       '  </div>\n'
-      '</div>\n') % (CROSS_PATH, CROSS_PATH, CROSS_PATH)
+      '</div>\n') % (CROSS_PATH,)
 
 
 def head(title_key, desc_key, page):
@@ -221,6 +233,7 @@ def footer():
     </div>
   </div>
 </footer>
+<script src="js/config.js"></script>
 <script src="js/i18n.js"></script>
 <script src="js/main.js"></script>
 </body>
@@ -695,32 +708,70 @@ def p_visit():
 '''+footer()
 
 def p_give():
-    steps="".join(f'''<div class="step"><span class="step-n"></span>
-      <div><h3 style="font-size:1.15rem" data-i18n="give.s{n}.h"></h3>
-      <p data-i18n="give.s{n}.p"></p></div></div>''' for n in range(1,5))
+    steps="".join('''<div class="step"><span class="step-n"></span>
+      <div><h3 style="font-size:1.08rem" data-i18n="give.s%d.h"></h3>
+      <p data-i18n="give.s%d.p"></p></div></div>''' % (n,n) for n in range(1,5))
+
+    uses="".join('''<article class="icard">
+        <span class="icard-icon">%s</span>
+        <h3 style="font-size:1.15rem" data-i18n="give.use%d.h"></h3>
+        <p data-i18n="give.use%d.d"></p>
+      </article>''' % (svg(ic,"",22),n,n)
+      for n,ic in ((1,"hands"),(2,"users"),(3,"heart"),(4,"book")))
+
+    # Card panel ships hidden. js/config.js decides whether it appears, so the
+    # page can never go live with a Give button that leads nowhere.
+    chips="".join(
+      '<button class="amount" type="button" aria-pressed="false" data-amount="%s">$%s</button>' % (a,a)
+      for a in ("25","50","100","250"))
+    chips+='<button class="amount is-other" type="button" aria-pressed="false" data-amount="other" data-i18n="give.card.other"></button>'
+
+    card='''<div class="pane is-lead" id="cardPane" hidden data-reveal>
+        <span class="pane-tag" data-i18n="give.card.tag"></span>
+        <span class="pane-icon">%s</span>
+        <h2 data-i18n="give.card.h"></h2>
+        <p data-i18n="give.card.p"></p>
+        <span class="amount-label" data-i18n="give.card.pick"></span>
+        <div class="amounts" id="amounts">%s</div>
+        <a class="btn btn-primary" id="giveBtn" href="#" target="_blank" rel="noopener">
+          %s<span data-i18n="give.card.btn"></span></a>
+        <p class="pane-note">%s<span data-i18n="give.card.safe"></span></p>
+      </div>''' % (svg("heart","",22), chips, svg("heart","",18), svg("check","",15))
+
+    etr='''<div class="pane" data-reveal>
+        <span class="pane-icon">%s</span>
+        <h2 data-i18n="give.etr.h"></h2>
+        <p data-i18n="give.etr.p"></p>
+        <div class="etr-box">
+          <span class="etr-addr" id="etrAddr">
+            <a href="tel:%s">%s</a>
+            <small data-i18n="give.protect"></small>
+          </span>
+          <span class="pill" data-i18n="give.etr.free"></span>
+        </div>
+        <div class="steps" style="margin-top:.5rem">%s</div>
+      </div>''' % (svg("mail","",22), PHONE_HREF, PHONE, steps)
+
     return head("nav.give","give.lead","give.html")+header("give.html")+\
       page_hero("give.crumb","give.eyebrow","give.h","give.lead")+f'''
 <section class="section-sm"><div class="wrap">
-  <div class="split">
-    <div class="split-body" data-reveal>
-      <span class="icard-icon" style="margin-bottom:1.2rem">{svg("heart","",22)}</span>
-      <h2 data-i18n="give.how.h"></h2>
-      <p class="lead" data-i18n="give.how.p"></p>
-      <div class="info" style="margin-top:2rem">
-        <div class="info-row">
-          <span class="info-k" data-i18n="give.email.k"></span>
-          <span class="info-v"><a href="tel:{PHONE_HREF}">{PHONE}</a>
-            <small data-i18n="give.protect"></small></span>
-        </div>
-      </div>
-    </div>
-    <div class="split-body" data-reveal>
-      <div class="steps">{steps}</div>
-    </div>
+  <div class="section-head" data-reveal>
+    <h2 data-i18n="give.methods.h"></h2>
+    <p class="lead" data-i18n="give.methods.p"></p>
   </div>
+  <div class="give-grid">{card}{etr}</div>
 </div></section>
 
 <section class="section"><div class="wrap">
+  <div class="section-head" data-reveal>
+    <p class="eyebrow" data-i18n="give.eyebrow"></p>
+    <h2 data-i18n="give.use.h"></h2>
+    <p class="lead" data-i18n="give.use.p"></p>
+  </div>
+  <div class="grid grid-4" data-reveal-stagger>{uses}</div>
+</div></section>
+
+<section class="section-sm"><div class="wrap">
   <div class="cta" data-reveal><div class="wrap-narrow">
     <h2 data-i18n="give.note.h"></h2>
     <p data-i18n="give.note.p"></p>
