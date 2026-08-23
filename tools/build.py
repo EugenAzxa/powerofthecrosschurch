@@ -46,6 +46,7 @@ I = {
 "yt"   :'<path d="M22.2 7.4a2.7 2.7 0 00-1.9-1.9C18.6 5 12 5 12 5s-6.6 0-8.3.5A2.7 2.7 0 001.8 7.4 28 28 0 001.3 12a28 28 0 00.5 4.6 2.7 2.7 0 001.9 1.9C5.4 19 12 19 12 19s6.6 0 8.3-.5a2.7 2.7 0 001.9-1.9 28 28 0 00.5-4.6 28 28 0 00-.5-4.6z" fill="currentColor"/><path d="M9.9 15.2l5.5-3.2-5.5-3.2v6.4z" fill="#05080F"/>',
 "fb"   :'<path d="M22 12a10 10 0 10-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.4v7A10 10 0 0022 12z" fill="currentColor"/>',
 "clock":'<circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.7" fill="none"/><path d="M12 7v5.2l3.4 2" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round"/>',
+"shield":'<path d="M12 3l7.5 3v5.6c0 4.3-3 8.2-7.5 9.4-4.5-1.2-7.5-5.1-7.5-9.4V6L12 3z" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linejoin="round"/><path d="M9 12l2.2 2.2L15.4 10" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/>',
 "search":'<circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M16.5 16.5L21 21" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/>',
 "globe":'<circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.7" fill="none"/><path d="M3 12h18M12 3a15 15 0 010 18 15 15 0 010-18z" stroke="currentColor" stroke-width="1.7" fill="none"/>',
 }
@@ -62,10 +63,11 @@ SERMONS_READY = _os.path.exists(_os.path.join(ROOT,"assets","data","sermons.json
 # ------------------------------------------------------------------ nav data
 # Gallery stays out of the top bar to keep it to six items; it is reachable
 # from Media, from Legacy, from the drawer and from the footer.
-NAV = [("about.html","nav.about"),("beliefs.html","nav.beliefs"),
-       ("ministries.html","nav.ministries")] \
+# Six is what fits without wrapping. "Во что мы верим" is long and is already
+# linked prominently from About and the footer, so it comes out of the top bar.
+NAV = [("about.html","nav.about"),("ministries.html","nav.ministries")] \
     + ([("sermons.html","nav.sermons")] if SERMONS_READY else []) \
-    + [("memory.html","nav.memory"),("visit.html","nav.visit")]
+    + [("memory.html","nav.memory"),("call.html","nav.call"),("visit.html","nav.visit")]
 
 BRAND_MARK = ('<svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">'
  '<defs><linearGradient id="bm" x1="0" y1="0" x2="1" y2="1">'
@@ -153,7 +155,7 @@ def header(page):
     links="".join('<a href="%s" data-i18n="%s">%s</a>'%(h,k,k) for h,k in NAV)
     drawer_links="".join(
         '<a href="%s"><span data-i18n="%s">%s</span>%s</a>'%(h,k,k,svg("chev","",17))
-        for h,k in NAV+[("camp.html","nav.camp"),("media.html","nav.media"),("gallery.html","nav.gallery"),("give.html","nav.give")])
+        for h,k in NAV+[("beliefs.html","nav.beliefs"),("camp.html","nav.camp"),("media.html","nav.media"),("gallery.html","nav.gallery"),("give.html","nav.give")])
     return f'''<header class="header">
   <div class="header-inner">
     {brand()}
@@ -443,6 +445,20 @@ def p_index():
     </div>
     <div class="split-media" data-reveal>
       <img src="assets/img/g-baptism-day-1100.webp" width="1100" height="825" loading="lazy" decoding="async" alt="">
+    </div>
+  </div>
+</div></section>
+
+<section class="section-sm"><div class="wrap">
+  <div class="split is-reverse">
+    <div class="split-media" data-reveal>
+      <img src="assets/img/c-prayer-900.webp" width="900" height="600" loading="lazy" decoding="async" alt="">
+    </div>
+    <div class="split-body" data-reveal>
+      <p class="eyebrow" data-i18n="home.call.eyebrow"></p>
+      <h2 data-i18n="home.call.h"></h2>
+      <p class="lead" data-i18n="home.call.p"></p>
+      <a class="link-arrow" href="call.html"><span data-i18n="home.call.link"></span>{svg("arrow","",16)}</a>
     </div>
   </div>
 </div></section>
@@ -909,13 +925,29 @@ def p_memory():
   </div>
 </div></section>
 
-<section class="section-sm"><div class="wrap">
-  <div class="pane" style="max-width:760px;margin-inline:auto;text-align:center;justify-items:center" data-reveal>
-    <span class="pane-icon">{svg("globe","",22)}</span>
-    <h2 style="font-size:clamp(1.4rem,1.1rem + 1.1vw,1.9rem)" data-i18n="mem.partner.h"></h2>
-    <p data-i18n="mem.partner.p"></p>
-    <a class="btn btn-ghost" href="https://saylavy.world" target="_blank" rel="noopener">
-      <span data-i18n="mem.partner.cta"></span>{svg("ext","",18)}</a>
+<section class="sy"><div class="wrap">
+  <span class="sy-kept">{svg("shield","",16)}
+    <span data-i18n="sy.kept"></span><b>Saylavy</b></span>
+  <div class="sy-head" data-reveal>
+    <p class="eyebrow" data-i18n="sy.eyebrow"></p>
+    <h2 data-i18n="sy.h"></h2>
+    <p class="lead" data-i18n="sy.p"></p>
+  </div>
+  <div class="sy-grid" data-reveal-stagger><article class="sy-card"><span class="icard-icon">{svg("heart","",20)}</span><h3 data-i18n="sy.f1.h"></h3><p data-i18n="sy.f1.d"></p></article><article class="sy-card"><span class="icard-icon">{svg("play","",20)}</span><h3 data-i18n="sy.f2.h"></h3><p data-i18n="sy.f2.d"></p></article><article class="sy-card"><span class="icard-icon">{svg("globe","",20)}</span><h3 data-i18n="sy.f3.h"></h3><p data-i18n="sy.f3.d"></p></article><article class="sy-card"><span class="icard-icon">{svg("check","",20)}</span><h3 data-i18n="sy.f4.h"></h3><p data-i18n="sy.f4.d"></p></article></div>
+
+  <div class="sy-ex" data-reveal>
+    <div>
+      <h3 data-i18n="sy.ex.h"></h3>
+      <p data-i18n="sy.ex.p"></p>
+    </div>
+    <a class="btn btn-ghost" href="https://arhangelgavrilo.vercel.app" target="_blank" rel="noopener">
+      <span data-i18n="sy.ex.cta"></span>{svg("ext","",18)}</a>
+  </div>
+
+  <div class="sy-foot" data-reveal>
+    <a class="btn btn-primary" href="https://saylavy.world" target="_blank" rel="noopener">
+      <span data-i18n="sy.cta"></span>{svg("ext","",18)}</a>
+    <p class="sy-note">{svg("shield","",15)}<span data-i18n="sy.demo"></span></p>
   </div>
 </div></section>
 '''+cta_band()+footer()
@@ -968,11 +1000,101 @@ def p_sermons():
 </div>
 '''+cta_band()+footer(['sermons.js'])
 
+def p_call():
+    lens="".join(
+      '<button class="opt-btn" type="button" data-len="%s" aria-pressed="%s">'
+      '<strong data-i18n="call.len%s"></strong><span data-i18n="call.len%sd"></span></button>'
+      % (v,'true' if v=='30' else 'false',v,v) for v in ("15","30","60"))
+    whens="".join(
+      '<button class="opt-btn" type="button" data-when="%s" aria-pressed="%s">'
+      '<strong data-i18n="call.when.%s"></strong><span data-i18n="call.when.%sd"></span></button>'
+      % (k,'true' if k=='evening' else 'false',k,k) for k in ("morning","day","evening"))
+    gifts=('<button class="gift is-none" type="button" data-gift="0" aria-pressed="true" '
+           'data-i18n="call.gift.none"></button>')
+    gifts+="".join('<button class="gift" type="button" data-gift="%s" aria-pressed="false">$%s</button>'%(a,a)
+                   for a in ("10","20","50","100"))
+
+    return head("nav.call","call.lead","call.html")+header("call.html")+\
+      page_hero("call.crumb","call.eyebrow","call.h","call.lead")+f'''
+<section class="section-sm"><div class="wrap">
+
+  <div class="free-note" data-reveal>
+    <span class="icard-icon">{svg("hands","",20)}</span>
+    <div>
+      <h3 data-i18n="call.free"></h3>
+      <p data-i18n="call.free.p"></p>
+    </div>
+  </div>
+
+  <form class="steps-form" id="callForm" novalidate data-reveal>
+    <div class="step-block">
+      <span class="step-lbl"><span data-i18n="call.step1"></span></span>
+      <div class="opts" id="callLen">{lens}</div>
+    </div>
+
+    <div class="step-block">
+      <span class="step-lbl"><span data-i18n="call.step2"></span></span>
+      <div class="opts" id="callWhen">{whens}</div>
+    </div>
+
+    <div class="step-block">
+      <span class="step-lbl"><span data-i18n="call.step3"></span></span>
+      <div class="two">
+        <div class="field" id="fName">
+          <label for="cName" data-i18n="call.name"></label>
+          <input id="cName" name="name" type="text" autocomplete="name"
+                 data-i18n-attr="placeholder:call.name.ph">
+          <span class="field-err" data-i18n="call.req.name"></span>
+        </div>
+        <div class="field" id="fPhone">
+          <label for="cPhone" data-i18n="call.phone"></label>
+          <input id="cPhone" name="phone" type="tel" autocomplete="tel"
+                 data-i18n-attr="placeholder:call.phone.ph">
+          <span class="field-err" data-i18n="call.req.phone"></span>
+        </div>
+      </div>
+      <div class="field" style="margin-top:.9rem">
+        <label for="cTopic" data-i18n="call.topic"></label>
+        <textarea id="cTopic" name="topic" data-i18n-attr="placeholder:call.topic.ph"></textarea>
+      </div>
+    </div>
+
+    <div class="step-block">
+      <span class="step-lbl">
+        <span data-i18n="call.step4"></span>
+        <span class="opt" data-i18n="call.step4.opt"></span>
+      </span>
+      <p class="muted" style="font-size:.92rem" data-i18n="call.gift.p"></p>
+      <div class="gift-row" id="callGift">{gifts}</div>
+    </div>
+
+    <div class="form-actions">
+      <button class="btn btn-primary" type="submit">
+        {svg("mail","",18)}<span data-i18n="call.send"></span></button>
+      <a class="btn btn-ghost" href="tel:{PHONE_HREF}">
+        {svg("phone","",18)}<span data-i18n="call.callnow"></span></a>
+    </div>
+  </form>
+
+  <div class="sent" id="callSent">
+    <span class="icard-icon">{svg("check","",20)}</span>
+    <div>
+      <h3 data-i18n="call.sent.h"></h3>
+      <p data-i18n="call.sent.p"></p>
+    </div>
+  </div>
+
+  <p class="pane-note" style="margin-top:var(--s-4)">{svg("check","",15)}
+    <span data-i18n="call.note"></span></p>
+
+</div></section>
+'''+cta_band()+footer(['call.js'])
+
 # ====================================================================== MAIN
 PAGES = {
  "index.html":p_index, "about.html":p_about, "beliefs.html":p_beliefs,
  "ministries.html":p_ministries, "camp.html":p_camp, "media.html":p_media,
- "gallery.html":p_gallery, "memory.html":p_memory, "visit.html":p_visit, "give.html":p_give,
+ "gallery.html":p_gallery, "memory.html":p_memory, "visit.html":p_visit, "call.html":p_call, "give.html":p_give,
 }
 if __name__=="__main__":
     if SERMONS_READY: PAGES["sermons.html"]=p_sermons

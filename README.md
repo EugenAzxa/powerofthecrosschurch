@@ -22,6 +22,7 @@ Christian church in Toronto. Static site, no build step required to deploy.
 | Gallery | `gallery.html` | 20 photos with lightbox |
 | Visit | `visit.html` | Address, phone, schedule, map, first-visit guide |
 | Give | `give.html` | INTERAC e-Transfer instructions |
+| Talk | `call.html` | Request a conversation with the pastor |
 | App demo | `app.html` | Phone app: schedule, sermons, check-in, giving |
 
 All page text comes from the church's own content on pocc.ca. Photographs are the
@@ -124,6 +125,23 @@ Other notes:
 - Motion respects `prefers-reduced-motion`.
 - Tokens live at the top of `css/style.css`.
 
+## Talk with the pastor
+
+`call.html` lets someone ask for a phone conversation: how long, when suits them,
+their name and number, and what they would like to talk about.
+
+**The call is free, and the page says so twice.** A gift toward the pastor's time
+is offered, but it defaults to *no gift*, it is labelled optional, and the copy
+states plainly that it makes no difference to whether he speaks with you. No
+payment is taken on this page. That framing is deliberate: pastoral time is not
+a product, and the page should never read as a fee.
+
+There is no back end, so `js/call.js` composes the request and hands it to the
+visitor's own mail app - nothing is sent without them seeing it, and nothing is
+stored. Set `CHURCH_EMAIL` at the top of `js/call.js` once the church publishes
+an address; until then the page copies the request to the clipboard and points
+to the phone number.
+
 ## App demo
 
 `app.html` is a working phone app, not a picture of one. Five tabs, built to be
@@ -222,6 +240,18 @@ its empty state rather than breaking.
 
 Videos are embedded through `youtube-nocookie.com`, and the iframe `src` is
 cleared on close so audio stops.
+
+## Saylavy segment
+
+The Legacy page carries a segment for [Saylavy](https://saylavy.world): what it
+does for a parish (memory pages, interactive learning, the parish's own address,
+and the pastor approving every word), and a link to a live example - the Serbian
+Orthodox parish of St Archangel Gabriel.
+
+Note the copy is explicit that demonstration pages are marked as demonstrations
+and that real names appear only with the family's agreement. **No fictional
+deceased parishioners were invented for this church.** If a demo memory wall is
+wanted here, the names on it are the church's call, not ours.
 
 ## Legacy page
 
