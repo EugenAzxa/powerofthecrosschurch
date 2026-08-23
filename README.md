@@ -16,6 +16,7 @@ Christian church in Toronto. Static site, no build step required to deploy.
 | What We Believe | `beliefs.html` | All 17 articles of faith with scripture references |
 | Ministries | `ministries.html` | Six ministries plus Sunday School |
 | Camp | `camp.html` | Druzhba children's camp, program and packing list |
+| Legacy | `memory.html` | What the church preserves, its archive, interactive learning |
 | Media | `media.html` | Live stream, YouTube, Facebook, gallery links |
 | Gallery | `gallery.html` | 20 photos with lightbox |
 | Visit | `visit.html` | Address, phone, schedule, map, first-visit guide |
@@ -95,22 +96,23 @@ Timings live at the bottom of `css/style.css`. The sequence is roughly: draw
 
 ## Design
 
-The site runs **two themes at once**. Pages are light and open; the moments that
-should feel cinematic are dark.
+The site is light and open. Only three things stay dark: the loader, the home
+hero, and the footer. Everything else - inner page heroes, scripture bands, the
+closing CTA - is light, and the dark that remains is a deep blue night
+(`#0B1834`) rather than black.
 
 - **Light (default)** - page `#F6F8FC`, white cards, ink `#0D1626`, blue `#1256B8`.
   Photographs render at full brightness.
-- **Dark** - applied by putting `dark-zone` on a section. Used by the loader,
-  the home hero, every inner page hero, the scripture bands, the closing CTA and
-  the footer.
+- **Dark** - applied by putting `dark-zone` on a section.
 
 `dark-zone` redefines the *same* custom property names (`--text`, `--surface`,
 `--line`, `--blue`, `--on-blue`...), so every component works unchanged in either
 context - there is no second set of component styles. To flip any section, add or
 remove the one class.
 
-The header is the exception, since it moves between the two: it carries dark
-tokens while it floats over a hero, and swaps to a light glass bar once scrolled.
+The header is light by default. A page that declares `has-dark-hero` on `<body>`
+(only the home page) gets a header with dark tokens until it sticks, at which
+point it becomes a light glass bar.
 
 Other notes:
 
@@ -119,6 +121,18 @@ Other notes:
   the rendered colours in a browser rather than by reading the tokens.
 - Motion respects `prefers-reduced-motion`.
 - Tokens live at the top of `css/style.css`.
+
+## Legacy page
+
+`memory.html` carries the "faith preserved in memory" idea: what the congregation
+keeps (sermons, testimonies, its record since 2012, and knowledge of the faith),
+the archive itself, and an interactive learning page prepared with
+[Saylavy](https://saylavy.world) - Bible stories and verses spoken aloud, reachable
+from a QR code in the hall, with every word approved by the church's pastor.
+
+Note the framing: this describes what the church offers its own people. It is
+deliberately not written as a sales pitch, and carries no pricing or
+subscription language.
 
 ## Local preview
 

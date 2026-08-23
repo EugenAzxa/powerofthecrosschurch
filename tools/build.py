@@ -50,9 +50,11 @@ def svg(name, cls="", size=24):
             'aria-hidden="true" focusable="false">%s</svg>'%(cls,size,size,I[name]))
 
 # ------------------------------------------------------------------ nav data
+# Gallery stays out of the top bar to keep it to six items; it is reachable
+# from Media, from Legacy, from the drawer and from the footer.
 NAV = [("about.html","nav.about"),("beliefs.html","nav.beliefs"),
-       ("ministries.html","nav.ministries"),("media.html","nav.media"),
-       ("gallery.html","nav.gallery"),("visit.html","nav.visit")]
+       ("ministries.html","nav.ministries"),("memory.html","nav.memory"),
+       ("media.html","nav.media"),("visit.html","nav.visit")]
 
 BRAND_MARK = ('<svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">'
  '<defs><linearGradient id="bm" x1="0" y1="0" x2="1" y2="1">'
@@ -106,6 +108,7 @@ def loader():
 
 
 def head(title_key, desc_key, page):
+    body_cls = "has-dark-hero" if page=="index.html" else ""
     return f'''<!doctype html>
 <html lang="ru">
 <head>
@@ -141,7 +144,7 @@ var s=q||localStorage.getItem('pocc-lang')||'ru';
 document.documentElement.lang=(s==='en'?'en':'ru');}}catch(e){{}}}})();
 </script>
 </head>
-<body data-title-key="{title_key}" data-desc-key="{desc_key}">
+<body class="{body_cls}" data-title-key="{title_key}" data-desc-key="{desc_key}">
 {loader()}<a class="skip" href="#main" data-i18n="a11y.skip">Перейти к содержанию</a>
 '''
 
@@ -149,7 +152,7 @@ def header(page):
     links="".join('<a href="%s" data-i18n="%s">%s</a>'%(h,k,k) for h,k in NAV)
     drawer_links="".join(
         '<a href="%s"><span data-i18n="%s">%s</span>%s</a>'%(h,k,k,svg("chev","",17))
-        for h,k in NAV+[("camp.html","nav.camp"),("give.html","nav.give")])
+        for h,k in NAV+[("camp.html","nav.camp"),("gallery.html","nav.gallery"),("give.html","nav.give")])
     return f'''<header class="header">
   <div class="header-inner">
     {brand()}
@@ -178,7 +181,7 @@ def header(page):
 
 def cta_band():
     return f'''<section class="section"><div class="wrap">
-  <div class="cta dark-zone" data-reveal>
+  <div class="cta" data-reveal>
     <div class="wrap-narrow">
       <h2 data-i18n="cta.h">Мы будем рады видеть вас в это воскресенье</h2>
       <p data-i18n="cta.p"></p>
@@ -194,7 +197,7 @@ def cta_band():
 def footer():
     sect="".join('<a href="%s" data-i18n="%s">%s</a>'%(h,k,k) for h,k in
         [("about.html","nav.about"),("beliefs.html","nav.beliefs"),
-         ("gallery.html","nav.gallery"),("give.html","nav.give")])
+         ("memory.html","nav.memory"),("gallery.html","nav.gallery"),("give.html","nav.give")])
     serv="".join('<a href="%s" data-i18n="%s">%s</a>'%(h,k,k) for h,k in
         [("ministries.html","nav.ministries"),("camp.html","nav.camp"),
          ("media.html","nav.media")])
@@ -250,7 +253,7 @@ def lightbox():
 '''
 
 def page_hero(crumb_key, eyebrow_key, h_key, lead_key):
-    return f'''<section class="page-hero dark-zone"><div class="wrap">
+    return f'''<section class="page-hero"><div class="wrap">
   <nav class="crumb" aria-label="Breadcrumb" data-reveal>
     <a href="index.html" data-i18n="nav.home">Главная</a>{svg("chev","",12)}
     <span data-i18n="{crumb_key}"></span>
@@ -358,7 +361,7 @@ def p_index():
   <div class="stats" style="margin-top:4.5rem" data-reveal-stagger>{stats}</div>
 </div></section>
 
-<section class="verse dark-zone">
+<section class="verse">
   <div class="wrap-narrow">
     <svg class="verse-cross" viewBox="0 0 32 32" aria-hidden="true" style="color:var(--blue-br)">
       <path d="M13 2h6v9h9v6h-9v13h-6V17H4v-6h9V2z" fill="currentColor"/></svg>
@@ -389,6 +392,20 @@ def p_index():
       <h2 data-i18n="home.camp.h"></h2>
       <p class="lead" data-i18n="home.camp.p"></p>
       <a class="link-arrow" href="camp.html"><span data-i18n="home.camp.link"></span>{svg("arrow","",16)}</a>
+    </div>
+  </div>
+</div></section>
+
+<section class="section-sm"><div class="wrap">
+  <div class="split">
+    <div class="split-body" data-reveal>
+      <p class="eyebrow" data-i18n="home.mem.eyebrow"></p>
+      <h2 data-i18n="home.mem.h"></h2>
+      <p class="lead" data-i18n="home.mem.p"></p>
+      <a class="link-arrow" href="memory.html"><span data-i18n="home.mem.link"></span>{svg("arrow","",16)}</a>
+    </div>
+    <div class="split-media" data-reveal>
+      <img src="assets/img/g-baptism-day-1100.webp" width="1100" height="825" loading="lazy" decoding="async" alt="">
     </div>
   </div>
 </div></section>
@@ -439,7 +456,7 @@ def p_about():
   </div>
 </div></section>
 
-<section class="verse dark-zone">
+<section class="verse">
   <div class="wrap-narrow">
     <svg class="verse-cross" viewBox="0 0 32 32" aria-hidden="true" style="color:var(--blue-br)">
       <path d="M13 2h6v9h9v6h-9v13h-6V17H4v-6h9V2z" fill="currentColor"/></svg>
@@ -597,7 +614,7 @@ def p_camp():
 </div></section>
 
 <section class="section"><div class="wrap">
-  <div class="cta dark-zone" data-reveal><div class="wrap-narrow">
+  <div class="cta" data-reveal><div class="wrap-narrow">
     <h2 data-i18n="camp.cta.h"></h2>
     <p data-i18n="camp.cta.p"></p>
     <div class="cta-btns">
@@ -772,7 +789,7 @@ def p_give():
 </div></section>
 
 <section class="section-sm"><div class="wrap">
-  <div class="cta dark-zone" data-reveal><div class="wrap-narrow">
+  <div class="cta" data-reveal><div class="wrap-narrow">
     <h2 data-i18n="give.note.h"></h2>
     <p data-i18n="give.note.p"></p>
     <div class="cta-btns">
@@ -783,11 +800,82 @@ def p_give():
 </div></section>
 '''+footer()
 
+def p_memory():
+    cards="".join('''<article class="icard">
+        <span class="icard-icon">%s</span>
+        <h3 style="font-size:1.18rem" data-i18n="mem.c%d.h"></h3>
+        <p data-i18n="mem.c%d.d"></p>
+      </article>''' % (svg(ic,"",22),n,n)
+      for n,ic in ((1,"play"),(2,"users"),(3,"book"),(4,"hands")))
+
+    checks="".join('<li>%s<span data-i18n="mem.l%d"></span></li>' % (svg("check","",19),n)
+                   for n in range(1,7))
+
+    return head("nav.memory","mem.lead","memory.html")+header("memory.html")+\
+      page_hero("mem.crumb","mem.eyebrow","mem.h","mem.lead")+f'''
+<section class="section-sm"><div class="wrap">
+  <div class="section-head" data-reveal>
+    <h2 data-i18n="mem.what.h"></h2>
+    <p class="lead" data-i18n="mem.what.p"></p>
+  </div>
+  <div class="grid grid-4" data-reveal-stagger>{cards}</div>
+</div></section>
+
+<section class="section"><div class="wrap">
+  <div class="split">
+    <div class="split-media" data-reveal>
+      <img src="assets/img/g-baptism-1100.webp" width="1100" height="825" loading="lazy" decoding="async" alt="">
+    </div>
+    <div class="split-body" data-reveal>
+      <p class="eyebrow" data-i18n="mem.arch.eyebrow"></p>
+      <h2 data-i18n="mem.arch.h"></h2>
+      <p class="lead" data-i18n="mem.arch.p1"></p>
+      <p class="muted" style="margin-top:1rem" data-i18n="mem.arch.p2"></p>
+      <a class="link-arrow" href="gallery.html"><span data-i18n="mem.arch.link"></span>{svg("arrow","",16)}</a>
+    </div>
+  </div>
+</div></section>
+
+<section class="verse">
+  <div class="wrap-narrow">
+    <svg class="verse-cross" viewBox="0 0 32 32" aria-hidden="true" style="color:var(--blue)">
+      <path d="M13 2h6v9h9v6h-9v13h-6V17H4v-6h9V2z" fill="currentColor"/></svg>
+    <blockquote data-i18n="hero.verse"></blockquote>
+    <cite data-i18n="hero.verse.ref"></cite>
+  </div>
+</section>
+
+<section class="section"><div class="wrap">
+  <div class="split is-reverse">
+    <div class="split-media" data-reveal>
+      <img src="assets/img/g-children-1100.webp" width="1100" height="825" loading="lazy" decoding="async" alt="">
+    </div>
+    <div class="split-body" data-reveal>
+      <p class="eyebrow" data-i18n="mem.learn.eyebrow"></p>
+      <h2 data-i18n="mem.learn.h"></h2>
+      <p class="lead" data-i18n="mem.learn.p1"></p>
+      <p class="muted" style="margin-top:1rem" data-i18n="mem.learn.p2"></p>
+      <ul class="checks" style="margin-top:1.5rem">{checks}</ul>
+    </div>
+  </div>
+</div></section>
+
+<section class="section-sm"><div class="wrap">
+  <div class="pane" style="max-width:760px;margin-inline:auto;text-align:center;justify-items:center" data-reveal>
+    <span class="pane-icon">{svg("globe","",22)}</span>
+    <h2 style="font-size:clamp(1.4rem,1.1rem + 1.1vw,1.9rem)" data-i18n="mem.partner.h"></h2>
+    <p data-i18n="mem.partner.p"></p>
+    <a class="btn btn-ghost" href="https://saylavy.world" target="_blank" rel="noopener">
+      <span data-i18n="mem.partner.cta"></span>{svg("ext","",18)}</a>
+  </div>
+</div></section>
+'''+cta_band()+footer()
+
 # ====================================================================== MAIN
 PAGES = {
  "index.html":p_index, "about.html":p_about, "beliefs.html":p_beliefs,
  "ministries.html":p_ministries, "camp.html":p_camp, "media.html":p_media,
- "gallery.html":p_gallery, "visit.html":p_visit, "give.html":p_give,
+ "gallery.html":p_gallery, "memory.html":p_memory, "visit.html":p_visit, "give.html":p_give,
 }
 if __name__=="__main__":
     for name,fn in PAGES.items():

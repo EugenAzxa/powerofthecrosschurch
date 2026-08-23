@@ -70,10 +70,10 @@
 
 /* the cinematic half of the site */
 .dark-zone{
-  --ink:#05080F;
-  --ink-2:#080D1A;
-  --surface:#0C1424;
-  --surface-2:#111B2E;
+  --ink:#0B1834;
+  --ink-2:#0F1F40;
+  --surface:#14264A;
+  --surface-2:#1A2F57;
   --line:rgba(140,200,255,.13);
   --line-strong:rgba(140,200,255,.24);
   --media-scrim:rgba(12,20,36,.92);
@@ -207,9 +207,10 @@ p{text-wrap:pretty}
   transition:background .4s ease,border-color .4s ease,backdrop-filter .4s ease;
   border-bottom:1px solid transparent;
 }
-/* At the top the header floats over a dark hero and carries dark tokens.
-   Once stuck it sits over light content and flips to a light glass bar. */
-.header{
+/* The header is light by default, which is right for every page whose hero
+   is light. Only a page that declares a dark hero flips it, and only until
+   it sticks. */
+body.has-dark-hero .header:not(.is-stuck){
   --text:#F2F5FA;--muted:#C6D2E2;--dim:#9AA9BF;
   --blue:#8CC8FF;--blue-br:#BFE0FF;
   --line:rgba(140,200,255,.16);--line-strong:rgba(140,200,255,.3);
@@ -217,6 +218,7 @@ p{text-wrap:pretty}
   --on-blue:#04101F;
   color:var(--text);
 }
+.header{color:var(--text)}
 .header.is-stuck{
   --text:#0D1626;--muted:#48586F;--dim:#5E6D85;
   --blue:#1256B8;--blue-br:#0E47A0;
@@ -444,7 +446,7 @@ p{text-wrap:pretty}
 }
 .verse::before{
   content:'';position:absolute;inset:0;z-index:-1;
-  background:radial-gradient(680px 300px at 50% 50%,rgba(30,79,163,.24),transparent 72%);
+  background:radial-gradient(680px 320px at 50% 50%,var(--blue-wash),transparent 72%),var(--ink-2);
 }
 .verse-cross{width:34px;height:34px;margin:0 auto var(--s-4);opacity:.85;filter:drop-shadow(0 0 16px rgba(90,169,255,.7))}
 .verse blockquote{
@@ -578,7 +580,7 @@ p{text-wrap:pretty}
 /* ---------- CTA band ---------- */
 .cta{position:relative;overflow:hidden;isolation:isolate;text-align:center;padding-block:var(--s-8);border-radius:var(--radius-lg);border:1px solid var(--line)}
 .cta::before{content:'';position:absolute;inset:0;z-index:-1;
-  background:radial-gradient(600px 320px at 50% 0%,rgba(30,79,163,.36),transparent 70%),var(--surface)}
+  background:radial-gradient(600px 320px at 50% 0%,var(--blue-wash),transparent 70%),var(--surface)}
 .cta h2{max-width:18ch;margin-inline:auto}
 .cta p{margin:var(--s-3) auto 0;max-width:52ch;color:var(--muted)}
 .cta-btns{display:flex;flex-wrap:wrap;gap:var(--s-2);justify-content:center;margin-top:var(--s-5)}
