@@ -255,7 +255,14 @@ Filters, search, and an "add a page" tile.
 reads a single name - the same pattern Saylavy uses on its own demonstrations.
 Candle counts live in `localStorage` and nowhere else.
 
-They are shown as **typographic monograms rather than portraits**. Inventing
+Each card has an **optional portrait slot**: drop `p1.webp`-`p6.webp` into
+`assets/memory/` and they appear. A missing file removes its own `<img>`, so the
+monogram shows through and the wall never renders broken. See
+`assets/memory/README.md`, which also carries the two warnings worth heeding
+before adding any portrait - watermarks, and using a real person's face beside
+an invented name.
+
+Without portraits they are shown as **typographic monograms**. Inventing
 photographs of invented deceased people would be a step too far, and monograms
 are what Saylavy already uses where a face should not be depicted. Swap in real
 portraits by adding an `<img>` inside `.mem-portrait`.
