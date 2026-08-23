@@ -134,6 +134,38 @@ Note the framing: this describes what the church offers its own people. It is
 deliberately not written as a sales pitch, and carries no pricing or
 subscription language.
 
+## Cloth scripture banner
+
+The scripture bands hang as fabric that ripples in the wind, and brushing them
+with the cursor sends a wave across the cloth. `js/cloth.js`, mounted from
+`initCloth()` in `js/main.js`.
+
+This is a from-scratch vanilla WebGL implementation, inspired by
+[canvasui.dev](https://canvasui.dev/docs/components/cloth) but deliberately not
+using it, for two reasons:
+
+1. That component renders **live DOM** through the experimental `html-in-canvas`
+   API, which needs Chrome with `chrome://flags/#canvas-draw-element` enabled or
+   a registered origin trial. Safari, Firefox and every iPhone show nothing.
+   Most of this congregation would never see the effect.
+2. It ships for React, Vue, Solid, Preact and Svelte. This site is static HTML
+   with no build step.
+
+Instead the verse is painted onto a 2D canvas - panel, cross, text and reference,
+read from the live DOM so it always matches the current language and styles - and
+that canvas is used as the texture. Same look, works in every browser, no
+dependency.
+
+Displacement, normals, lighting and the cursor ripple are computed in the vertex
+and fragment shaders. The banner is pinned along its top edge. Options are passed
+where the cloth is constructed in `initCloth()`: `wind`, `speed`, `amplitude`,
+`brush`, `light`, `sheen`.
+
+It degrades quietly. No WebGL, no `Cloth` class, or `prefers-reduced-motion:
+reduce` and the original markup is simply left visible and untouched - the source
+verse always stays in the DOM for screen readers. Animation only runs while the
+band is on screen.
+
 ## Local preview
 
 ```bash

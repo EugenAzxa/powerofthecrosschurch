@@ -237,6 +237,7 @@ def footer():
   </div>
 </footer>
 <script src="js/config.js"></script>
+<script src="js/cloth.js"></script>
 <script src="js/i18n.js"></script>
 <script src="js/main.js"></script>
 </body>
@@ -362,7 +363,7 @@ def p_index():
 </div></section>
 
 <section class="verse">
-  <div class="wrap-narrow">
+  <div class="wrap-narrow verse-src">
     <svg class="verse-cross" viewBox="0 0 32 32" aria-hidden="true" style="color:var(--blue-br)">
       <path d="M13 2h6v9h9v6h-9v13h-6V17H4v-6h9V2z" fill="currentColor"/></svg>
     <blockquote data-i18n="hero.verse"></blockquote>
@@ -457,7 +458,7 @@ def p_about():
 </div></section>
 
 <section class="verse">
-  <div class="wrap-narrow">
+  <div class="wrap-narrow verse-src">
     <svg class="verse-cross" viewBox="0 0 32 32" aria-hidden="true" style="color:var(--blue-br)">
       <path d="M13 2h6v9h9v6h-9v13h-6V17H4v-6h9V2z" fill="currentColor"/></svg>
     <blockquote data-i18n="hero.verse"></blockquote>
@@ -837,7 +838,7 @@ def p_memory():
 </div></section>
 
 <section class="verse">
-  <div class="wrap-narrow">
+  <div class="wrap-narrow verse-src">
     <svg class="verse-cross" viewBox="0 0 32 32" aria-hidden="true" style="color:var(--blue)">
       <path d="M13 2h6v9h9v6h-9v13h-6V17H4v-6h9V2z" fill="currentColor"/></svg>
     <blockquote data-i18n="hero.verse"></blockquote>

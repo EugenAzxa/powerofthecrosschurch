@@ -302,6 +302,143 @@ function initGiving(){
   if(def) select(def);
 }
 
+/* ---------------- cloth scripture banner ----------------
+   Paints the verse onto a 2D canvas and hands it to the WebGL cloth, so the
+   fabric works in every browser instead of only in Chrome behind a flag.
+   If anything is missing - WebGL, the Cloth class, reduced motion - the
+   original markup is simply left alone. */
+function initCloth(){
+  if(!window.Cloth) return;
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var bands=document.querySelectorAll('.verse');
+  if(!bands.length) return;
+
+  function painter(band){
+    var src=band.querySelector('.verse-src');
+    var quote=band.querySelector('blockquote');
+    var cite=band.querySelector('cite');
+    var mark=band.querySelector('.verse-cross');
+    if(!quote) return null;
+
+    return function(ctx,W,H){
+      var hb=band.getBoundingClientRect();
+
+      /* The fabric needs a surface, or the lighting has nothing to shade and
+         the effect reads as warping text rather than cloth. So paint a banner
+         panel first and lay the verse over it. */
+      var inset=Math.min(W*0.07,96), top=Math.min(H*0.10,44);
+      var bw=W-inset*2, bh=H-top*2, rad=Math.min(22,bw/2,bh/2);
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(inset+rad,top);
+      ctx.arcTo(inset+bw,top,inset+bw,top+bh,rad);
+      ctx.arcTo(inset+bw,top+bh,inset,top+bh,rad);
+      ctx.arcTo(inset,top+bh,inset,top,rad);
+      ctx.arcTo(inset,top,inset+bw,top,rad);
+      ctx.closePath();
+      var g=ctx.createLinearGradient(0,top,0,top+bh);
+      g.addColorStop(0,'rgba(255,255,255,0.92)');
+      g.addColorStop(0.55,'rgba(248,251,255,0.88)');
+      g.addColorStop(1,'rgba(236,243,252,0.86)');
+      ctx.fillStyle=g;
+      ctx.fill();
+      ctx.restore();
+
+      var qs=getComputedStyle(quote), cs=cite?getComputedStyle(cite):null;
+      var qr=quote.getBoundingClientRect();
+
+      ctx.textAlign='center';
+      ctx.textBaseline='alphabetic';
+
+      /* the cross, drawn to match the inline SVG it replaces */
+      if(mark){
+        var mr=mark.getBoundingClientRect();
+        var mx=mr.left-hb.left+mr.width/2, my=mr.top-hb.top, u=mr.width/32;
+        ctx.save();
+        ctx.translate(mx-16*u,my);
+        ctx.scale(u,u);
+        ctx.fillStyle=getComputedStyle(mark).color||'#1256B8';
+        ctx.beginPath();
+        ctx.moveTo(13,2);ctx.lineTo(19,2);ctx.lineTo(19,11);ctx.lineTo(28,11);
+        ctx.lineTo(28,17);ctx.lineTo(19,17);ctx.lineTo(19,30);ctx.lineTo(13,30);
+        ctx.lineTo(13,17);ctx.lineTo(4,17);ctx.lineTo(4,11);ctx.lineTo(13,11);
+        ctx.closePath();ctx.fill();
+        ctx.restore();
+      }
+
+      /* the verse, re-wrapped at the same width and font as the DOM */
+      var fSize=parseFloat(qs.fontSize), lh=parseFloat(qs.lineHeight)||fSize*1.32;
+      ctx.font=qs.fontStyle+' '+qs.fontWeight+' '+fSize+'px '+qs.fontFamily;
+      ctx.fillStyle=qs.color;
+      var maxW=qr.width;
+      var words=(quote.textContent||'').trim().split(/\s+/);
+      var lines=[],line='';
+      for(var i=0;i<words.length;i++){
+        var test=line?line+' '+words[i]:words[i];
+        if(ctx.measureText(test).width>maxW&&line){ lines.push(line); line=words[i]; }
+        else line=test;
+      }
+      if(line) lines.push(line);
+      var cx=qr.left-hb.left+qr.width/2;
+      var y=qr.top-hb.top+(lh+fSize)/2-lh*0.08;
+      for(var j=0;j<lines.length;j++){ ctx.fillText(lines[j],cx,y+j*lh); }
+
+      /* the reference */
+      if(cite&&cs){
+        var cr=cite.getBoundingClientRect();
+        var cSize=parseFloat(cs.fontSize);
+        ctx.font=cs.fontWeight+' '+cSize+'px '+cs.fontFamily;
+        ctx.fillStyle=cs.color;
+        var txt=(cite.textContent||'').trim();
+        var track=parseFloat(cs.letterSpacing)||0;
+        var cxx=cr.left-hb.left+cr.width/2;
+        var cyy=cr.top-hb.top+cSize;
+        if(track){
+          var total=0,k;
+          for(k=0;k<txt.length;k++) total+=ctx.measureText(txt[k]).width+track;
+          total-=track;
+          var px=cxx-total/2;
+          ctx.textAlign='left';
+          for(k=0;k<txt.length;k++){
+            ctx.fillText(txt[k],px,cyy);
+            px+=ctx.measureText(txt[k]).width+track;
+          }
+          ctx.textAlign='center';
+        } else {
+          ctx.fillText(txt,cxx,cyy);
+        }
+      }
+    };
+  }
+
+  function mount(band){
+    var draw=painter(band);
+    if(!draw) return;
+    var cloth;
+    try{ cloth=new Cloth(band,{wind:1.15,speed:0.5,amplitude:0.085,brush:0.7,light:0.62,sheen:0.2}); }
+    catch(e){ return; }            /* no WebGL: leave the plain markup alone */
+    cloth.paint(draw);
+    band.classList.add('has-cloth');
+
+    /* only animate while the band is actually on screen */
+    if('IntersectionObserver' in window){
+      new IntersectionObserver(function(es){
+        es.forEach(function(en){ en.isIntersecting?cloth.start():cloth.stop(); });
+      },{threshold:.05}).observe(band);
+    } else cloth.start();
+
+    /* the fabric is a picture of the text, so repaint when the text changes */
+    document.addEventListener('langchange',function(){
+      setTimeout(function(){ cloth.paint(draw); },30);
+    });
+  }
+
+  var go=function(){ bands.forEach(mount); };
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(go);
+  else window.addEventListener('load',go);
+}
+
 /* ---------------- year ---------------- */
 function initYear(){
   document.querySelectorAll('[data-year]').forEach(function(el){
@@ -321,6 +458,7 @@ function boot(){
   initBeliefs();
   initLightbox();
   initGiving();
+  initCloth();
   initYear();
 }
 if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',boot);
