@@ -13,6 +13,11 @@ function t(k){
   return d[k]!==undefined?d[k]:k;
 }
 
+/* "Сергей Зеленцов, Валерий Наривончик" is two preachers */
+function names(item){
+  return item&&item.p ? item.p.split(', ').filter(Boolean) : [];
+}
+
 function ready(){
   var list=document.getElementById('sermList');
   if(!list) return;
@@ -44,7 +49,7 @@ function ready(){
   function setStats(data){
     var pres={},years={};
     all.forEach(function(s){
-      (s.i||[]).forEach(function(x){ if(x.p) pres[x.p]=1; });
+      (s.i||[]).forEach(function(x){ names(x).forEach(function(n){ pres[n]=1; }); });
       if(s.d) years[s.d.slice(0,4)]=1;
     });
     var st=document.getElementById('statTotal'),
@@ -59,7 +64,7 @@ function ready(){
     var years={},pres={};
     all.forEach(function(s){
       if(s.d) years[s.d.slice(0,4)]=1;
-      (s.i||[]).forEach(function(x){ if(x.p) pres[x.p]=(pres[x.p]||0)+1; });
+      (s.i||[]).forEach(function(x){ names(x).forEach(function(n){ pres[n]=(pres[n]||0)+1; }); });
     });
     fillYears(Object.keys(years).sort(function(a,b){return b-a;}));
     /* preachers ordered by how often they preach, so the regulars sit on top */
@@ -88,7 +93,7 @@ function ready(){
     var q=norm(elSearch.value.trim()), y=elYear.value, p=elPreacher.value;
     filtered=all.filter(function(s){
       if(y&&s.d.slice(0,4)!==y) return false;
-      if(p&&!(s.i||[]).some(function(x){ return x.p===p; })) return false;
+      if(p&&!(s.i||[]).some(function(x){ return names(x).indexOf(p)>-1; })) return false;
       if(q){
         var hay=norm((s.i||[]).map(function(x){ return x.t+' '+x.p; }).join(' ')+' '+s.d);
         if(hay.indexOf(q)<0) return false;
@@ -199,7 +204,7 @@ function ready(){
     vid.classList.remove('is-open');
     vid.setAttribute('aria-hidden','true');
     document.body.classList.remove('is-locked');
-    frame.src='';                       /* stop playback */
+    frame.src='about:blank';            /* stops playback and loads nothing */
     if(lastFocus) lastFocus.focus();
   }
   vClose.addEventListener('click',closeVid);

@@ -350,6 +350,25 @@ def p_index():
 
 {times_strip()}
 
+<section class="film dark-zone"><div class="wrap">
+  <div class="film-head" data-reveal>
+    <p class="eyebrow" data-i18n="film.eyebrow"></p>
+    <h2 data-i18n="film.h"></h2>
+    <p data-i18n="film.p"></p>
+    <p class="film-by"><strong data-i18n="film.pastor"></strong><span data-i18n="film.role"></span></p>
+  </div>
+  <div class="film-stage" id="filmStage" data-video="v3GWHgBy_DM" data-reveal>
+    <img src="assets/img/invite-1280.webp"
+         srcset="assets/img/invite-560.webp 560w, assets/img/invite-860.webp 860w, assets/img/invite-1280.webp 1280w"
+         sizes="(max-width:700px) 92vw, 1160px" width="1280" height="720"
+         loading="lazy" decoding="async" alt="">
+    <button class="film-play" type="button" id="filmPlay" data-i18n-attr="aria-label:film.play">
+      <span class="film-play-ring">{svg("play","",30)}</span>
+    </button>
+    <span class="film-len" data-i18n="film.len"></span>
+  </div>
+</div></section>
+
 <section class="section"><div class="wrap">
   <div class="split">
     <div class="split-media" data-reveal>

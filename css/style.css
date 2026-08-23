@@ -963,3 +963,70 @@ html.is-loading,html.is-loading body{overflow:hidden}
 /* embedded in the phone frame: no loader, no demo-inside-the-demo */
 html.is-embed .loader,
 html.is-embed .demo-section{display:none!important}
+
+/* ==========================================================================
+   Invitation film - the pastor's welcome, played in place
+   ========================================================================== */
+.film{position:relative;overflow:hidden;isolation:isolate;padding-block:var(--s-8)}
+.film::before{
+  content:'';position:absolute;inset:0;z-index:-1;
+  background:radial-gradient(900px 420px at 70% 20%,rgba(30,79,163,.34),transparent 68%),var(--ink);
+}
+.film-head{max-width:640px;margin-bottom:var(--s-5)}
+.film-head h2{margin-top:var(--s-2)}
+.film-head p{color:var(--muted);margin-top:var(--s-3);max-width:52ch}
+
+.film-stage{
+  position:relative;border-radius:var(--radius-lg);overflow:hidden;
+  border:1px solid var(--line-strong);background:#000;
+  box-shadow:0 40px 90px -40px rgba(0,0,0,.85);
+  aspect-ratio:16/9;
+}
+.film-stage img{width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform 1s var(--ease),filter .5s ease}
+.film-stage::after{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg,rgba(5,10,22,.34) 0%,transparent 34%,rgba(5,10,22,.72) 100%);
+  transition:opacity .4s ease;
+}
+.film-stage.is-live::after{opacity:0}
+.film-stage iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+
+.film-play{
+  position:absolute;inset:0;width:100%;height:100%;cursor:pointer;
+  background:none;border:0;display:grid;place-items:center;padding:0;color:inherit;
+}
+.film-play-ring{
+  width:96px;height:96px;border-radius:50%;display:grid;place-items:center;
+  background:rgba(191,224,255,.14);border:1px solid rgba(191,224,255,.55);
+  backdrop-filter:blur(6px);color:#EAF4FF;
+  box-shadow:0 0 0 0 rgba(140,200,255,.42);
+  transition:transform .4s var(--ease),background .3s ease,box-shadow .4s ease;
+  animation:filmPulse 3.2s ease-out infinite;
+}
+@keyframes filmPulse{
+  0%{box-shadow:0 0 0 0 rgba(140,200,255,.34)}
+  70%{box-shadow:0 0 0 26px rgba(140,200,255,0)}
+  100%{box-shadow:0 0 0 0 rgba(140,200,255,0)}
+}
+.film-play:hover .film-play-ring{transform:scale(1.08);background:rgba(191,224,255,.24)}
+.film-play:hover ~ img{transform:scale(1.03)}
+.film-play-ring svg{width:30px;height:30px;margin-left:4px}
+@media(max-width:640px){.film-play-ring{width:74px;height:74px}.film-play-ring svg{width:24px;height:24px}}
+
+.film-len{
+  position:absolute;top:var(--s-3);right:var(--s-3);z-index:2;
+  font-size:var(--t-xs);letter-spacing:.14em;font-weight:700;color:#EAF4FF;
+  border:1px solid rgba(191,224,255,.4);border-radius:100px;padding:.28rem .7rem;
+  background:rgba(5,10,22,.5);backdrop-filter:blur(6px);font-variant-numeric:tabular-nums;
+  transition:opacity .35s ease;
+}
+.film-stage.is-live .film-len,
+.film-stage.is-live .film-play{opacity:0;pointer-events:none}
+
+.film-by{display:flex;flex-wrap:wrap;align-items:baseline;gap:.55rem;margin-top:var(--s-3)}
+.film-by strong{font-family:var(--display);font-size:1.16rem;font-weight:500;color:var(--text)}
+.film-by span{font-size:.85rem;color:var(--muted)}
+.film-by strong::after{content:'';display:inline-block;width:14px;height:1px;
+  background:var(--blue);margin-left:.6rem;vertical-align:middle;opacity:.7}
+

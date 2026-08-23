@@ -16,6 +16,7 @@ Christian church in Toronto. Static site, no build step required to deploy.
 | What We Believe | `beliefs.html` | All 17 articles of faith with scripture references |
 | Ministries | `ministries.html` | Six ministries plus Sunday School |
 | Camp | `camp.html` | Druzhba children's camp, program and packing list |
+| Sermons | `sermons.html` | Searchable archive of 548 recorded services |
 | Legacy | `memory.html` | What the church preserves, its archive, interactive learning |
 | Media | `media.html` | Live stream, YouTube, Facebook, gallery links |
 | Gallery | `gallery.html` | 20 photos with lightbox |
@@ -143,9 +144,19 @@ printed and put up in the hall.
 decoding them back with the macOS Vision barcode reader, including a decode of
 the QR as actually rendered on the page.
 
+## Invitation film
+
+The home page carries the church's own invitation film - the pastor speaking to
+camera, with the address on screen - directly under the service times.
+
+The poster is a local WebP cropped from the video's own frame, so **nothing is
+requested from YouTube until someone chooses to watch**. Selecting play swaps in
+a `youtube-nocookie` iframe in place. The video id is on the markup as
+`data-video`, so swapping the film is a one-line change in `tools/build.py`.
+
 ## Sermon archive
 
-`sermons.html` is the church's full sermon archive, searchable by title and
+`sermons.html` holds **548 services from 2014 to 2026, by 34 preachers**, searchable by title and
 preacher and filterable by year and preacher. Selecting one opens the recording
 in a modal; services with more than one message get numbered part buttons.
 
