@@ -220,7 +220,7 @@ function initLoader(){
     root.classList.remove('is-loading');
     el.classList.add('is-done');
   };
-  var ms=quick?760:3160;
+  var ms=quick?760:2880;
   var timer=setTimeout(clear,ms);
   /* if the tab is restored from bfcache mid-animation, do not strand the veil */
   window.addEventListener('pageshow',function(e){
@@ -462,7 +462,9 @@ function initDemo(){
   var frame=document.getElementById('demoFrame');
   if(!box&&!frame) return;
 
-  var url=location.origin+location.pathname.replace(/index\.html$/,'');
+  /* anchor the match to a path segment: without the slash this also ate
+     the tail of any file merely ending in 'index.html' */
+  var url=location.origin+location.pathname.replace(/(^|\/)index\.html$/,'$1');
 
   if(box&&window.makeQR){
     try{ box.innerHTML=window.makeQR(url,{dark:'#0D1626',light:'#FFFFFF',quiet:3}); }

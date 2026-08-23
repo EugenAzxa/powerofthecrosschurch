@@ -97,19 +97,7 @@ def loader():
       '  </svg>\n'
       '  <span class="loader-halo"></span>\n'
       '  <div class="loader-mark">\n'
-      '    <svg class="loader-draw" viewBox="0 0 240 116">\n'
-      '      <g class="hand hand-l">\n'
-      '        <path class="hp" d="M0 17.5 C7 15.6 14 14 20.5 13 C27 12 33 11.4 38.5 11.6 C44 11.8 48.6 12.5 52.4 13.5 C57 14.7 61 16.1 63.6 17.3 C65.6 18.2 65.8 20.2 63.8 21 C62 21.7 59 21.5 55.6 20.9 C52 20.2 48.4 19.6 46 19.6 C49.2 21 52.6 23 54.6 25 C56.3 26.7 55.7 28.7 53.2 29.1 C50 29.6 45.2 28.7 41.2 27.3 C43.6 29.1 45.6 31.3 46.5 33.3 C47.2 34.9 46.2 36.5 43.8 36.4 C40.7 36.3 36.4 34.9 32.8 33.1 C34.4 34.9 35.5 36.8 35.4 38.5 C35.3 40.4 33.5 41.5 31 41 C27.6 40.3 23.4 37.8 19.8 35.3 C16 32.7 11 30.3 6.8 29 C4.2 28.2 2 27.8 0 27.6" pathLength="1"/>\n'
-      '        <path class="det" d="M38.5 11.6 C39.2 14.1 39.8 16.5 40.2 19.1"/>\n'
-      '        <path class="det" d="M46 19.6 C44.6 21.8 43 24.2 41.2 27.3"/>\n'
-      '        <path class="det" d="M41.2 27.3 C39 29.1 36 31.3 32.8 33.1"/>\n'
-      '      </g>\n'
-      '      <g class="hand hand-r">\n'
-      '        <path class="hp" d="M0 17.5 C7 15.6 14 14 20.5 13 C27 12 33 11.4 38.5 11.6 C44 11.8 48.6 12.5 52.4 13.5 C57 14.7 61 16.1 63.6 17.3 C65.6 18.2 65.8 20.2 63.8 21 C62 21.7 59 21.5 55.6 20.9 C52 20.2 48.4 19.6 46 19.6 C49.2 21 52.6 23 54.6 25 C56.3 26.7 55.7 28.7 53.2 29.1 C50 29.6 45.2 28.7 41.2 27.3 C43.6 29.1 45.6 31.3 46.5 33.3 C47.2 34.9 46.2 36.5 43.8 36.4 C40.7 36.3 36.4 34.9 32.8 33.1 C34.4 34.9 35.5 36.8 35.4 38.5 C35.3 40.4 33.5 41.5 31 41 C27.6 40.3 23.4 37.8 19.8 35.3 C16 32.7 11 30.3 6.8 29 C4.2 28.2 2 27.8 0 27.6" pathLength="1"/>\n'
-      '        <path class="det" d="M38.5 11.6 C39.2 14.1 39.8 16.5 40.2 19.1"/>\n'
-      '        <path class="det" d="M46 19.6 C44.6 21.8 43 24.2 41.2 27.3"/>\n'
-      '        <path class="det" d="M41.2 27.3 C39 29.1 36 31.3 32.8 33.1"/>\n'
-      '      </g>\n'
+      '    <svg class="loader-draw" viewBox="88 12 64 92">\n'
       '      <path class="xfill" d="M112 20 h16 v26 h20 v16 h-20 v36 h-16 v-36 h-20 v-16 h20 z"/>\n'
       '      <path class="xline" d="M112 20 h16 v26 h20 v16 h-20 v36 h-16 v-36 h-20 v-16 h20 z" pathLength="1"/>\n'
       '    </svg>\n'
@@ -127,7 +115,7 @@ def head(title_key, desc_key, page):
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Церковь «Сила Креста», Торонто</title>
 <meta name="description" content="Русскоязычная христианская церковь в Торонто. Воскресное служение в 11:00, 255 Wildcat Rd.">
-<meta name="theme-color" content="#05080F">
+<meta name="theme-color" content="#0B1834">
 <link rel="canonical" href="{SITE}{'' if page=='index.html' else page}">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Power of the Cross Church">
@@ -145,7 +133,7 @@ def head(title_key, desc_key, page):
 <style>
 /* critical: guarantee the veil covers the page even if style.css is still
    in flight, so the loader markup can never flash unstyled */
-.loader{{position:fixed;inset:0;z-index:9999;background:#05080F;display:grid;place-items:center}}
+.loader{{position:fixed;inset:0;z-index:9999;background:#0B1834;display:grid;place-items:center}}
 .loader-mark{{position:relative}}
 </style>
 <script>
@@ -399,20 +387,6 @@ def p_index():
   </div>
 </div></section>
 
-<section class="section"><div class="wrap">
-  <div class="split is-reverse">
-    <div class="split-media" data-reveal>
-      <img src="assets/img/c-camp-900.webp" width="900" height="600" loading="lazy" decoding="async" alt="">
-    </div>
-    <div class="split-body" data-reveal>
-      <p class="eyebrow" data-i18n="home.camp.eyebrow"></p>
-      <h2 data-i18n="home.camp.h"></h2>
-      <p class="lead" data-i18n="home.camp.p"></p>
-      <a class="link-arrow" href="camp.html"><span data-i18n="home.camp.link"></span>{svg("arrow","",16)}</a>
-    </div>
-  </div>
-</div></section>
-
 ''' + (f"""<section class="section"><div class="wrap">
   <div class="split is-reverse">
     <div class="split-media" data-reveal>
@@ -440,32 +414,6 @@ def p_index():
   </div>
 </div></section>
 
-<section class="section"><div class="wrap">
-  <div class="section-head is-center" data-reveal>
-    <p class="eyebrow" data-i18n="home.gal.eyebrow"></p>
-    <h2 data-i18n="home.gal.h"></h2>
-  </div>
-  <div class="gal" data-reveal>{gal_items(GALLERY[:6])}</div>
-  <div style="margin-top:2rem;text-align:center" data-reveal>
-    <a class="link-arrow" href="gallery.html"><span data-i18n="home.gal.all"></span>{svg("arrow","",16)}</a>
-  </div>
-</div></section>
-
-<section class="section-sm"><div class="wrap">
-  <div class="split">
-    <div class="split-body" data-reveal>
-      <p class="eyebrow" data-i18n="home.media.eyebrow"></p>
-      <h2 data-i18n="home.media.h"></h2>
-      <p class="lead" data-i18n="home.media.p"></p>
-      <a class="btn btn-blue" href="{YT}" target="_blank" rel="noopener" style="margin-top:1.5rem">
-        {svg("yt","",18)}<span data-i18n="home.media.cta"></span></a>
-    </div>
-    <div class="split-media" data-reveal>
-      <img src="assets/img/g-praise-1100.webp" width="1100" height="825" loading="lazy" decoding="async" alt="">
-    </div>
-  </div>
-</div></section>
-
 <section class="section demo-section"><div class="wrap">
   <div class="section-head" data-reveal>
     <p class="eyebrow" data-i18n="demo.eyebrow"></p>
@@ -488,6 +436,17 @@ def p_index():
       </div>
       <p class="pane-note">{svg("check","",15)}<span data-i18n="demo.hint"></span></p>
     </div>
+  </div>
+</div></section>
+
+<section class="section"><div class="wrap">
+  <div class="section-head is-center" data-reveal>
+    <p class="eyebrow" data-i18n="home.gal.eyebrow"></p>
+    <h2 data-i18n="home.gal.h"></h2>
+  </div>
+  <div class="gal" data-reveal>{gal_items(GALLERY[:6])}</div>
+  <div style="margin-top:2rem;text-align:center" data-reveal>
+    <a class="link-arrow" href="gallery.html"><span data-i18n="home.gal.all"></span>{svg("arrow","",16)}</a>
   </div>
 </div></section>
 

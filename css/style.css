@@ -652,7 +652,7 @@ body.is-locked{overflow:hidden}
 .loader{
   position:fixed;inset:0;z-index:9999;display:grid;place-items:center;
   pointer-events:none;
-  animation:loaderGone .01s linear 3.08s forwards;
+  animation:loaderGone .01s linear 2.8s forwards;
 }
 .loader-veil{position:absolute;inset:0;width:100%;height:100%}
 .loader-veil rect.veil{fill:var(--ink)}
@@ -661,7 +661,7 @@ body.is-locked{overflow:hidden}
 .lm-cross{
   transform-box:view-box;transform-origin:60px 60px;
   transform:scale(0);
-  animation:crossOpen 1.22s cubic-bezier(.62,.01,.3,1) 1.8s forwards;
+  animation:crossOpen 1.2s cubic-bezier(.62,.01,.3,1) 1.55s forwards;
 }
 @keyframes crossOpen{
   0%{transform:scale(0)}
@@ -674,31 +674,13 @@ body.is-locked{overflow:hidden}
 /* the mark that draws itself on top of the veil */
 .loader-mark{
   position:relative;display:grid;justify-items:center;gap:1.5rem;
-  animation:markOut .34s ease 1.74s forwards;
+  animation:markOut .34s ease 1.5s forwards;
 }
 @keyframes markOut{to{opacity:0;transform:scale(1.06)}}
 
-.loader-draw{width:clamp(320px,50vw,620px);height:auto;overflow:visible}
+.loader-draw{width:clamp(112px,15vw,188px);height:auto;overflow:visible}
 
-/* two hands reach in from either side, drawing themselves outward-in */
-.loader-draw .hand-l{transform:translate(22px,38px)}
-.loader-draw .hand-r{transform:translate(218px,38px) scale(-1,1)}
-.loader-draw .hp{
-  fill:none;stroke:#5AA9FF;stroke-width:1.1;opacity:.78;
-  stroke-linecap:round;stroke-linejoin:round;
-  stroke-dasharray:1;stroke-dashoffset:1;
-  filter:drop-shadow(0 0 5px rgba(90,169,255,.85));
-  animation:drawHand .86s cubic-bezier(.55,.05,.3,1) .12s forwards;
-}
-@keyframes drawHand{to{stroke-dashoffset:0}}
-
-.loader-draw .det{
-  fill:none;stroke:var(--blue);stroke-width:.75;stroke-linecap:round;
-  opacity:0;animation:detIn .34s ease .84s forwards;
-}
-@keyframes detIn{to{opacity:.62}}
-
-/* the cross draws in the gap the fingertips leave */
+/* the cross draws itself */
 .loader-draw .xline{
   fill:none;stroke:#BFE0FF;stroke-width:2.6;
   stroke-linejoin:round;stroke-linecap:round;
@@ -706,7 +688,7 @@ body.is-locked{overflow:hidden}
   filter:drop-shadow(0 0 7px rgba(191,224,255,1))
          drop-shadow(0 0 22px rgba(90,169,255,.9))
          drop-shadow(0 0 52px rgba(60,140,255,.6));
-  animation:drawCross .64s cubic-bezier(.62,.02,.28,1) .82s forwards;
+  animation:drawCross .95s cubic-bezier(.62,.02,.28,1) .18s forwards;
 }
 @keyframes drawCross{to{stroke-dashoffset:0}}
 
@@ -715,7 +697,7 @@ body.is-locked{overflow:hidden}
   filter:drop-shadow(0 0 16px rgba(191,224,255,.95))
          drop-shadow(0 0 46px rgba(90,169,255,.9))
          drop-shadow(0 0 96px rgba(60,140,255,.55));
-  animation:bloom .46s ease 1.34s forwards;
+  animation:bloom .5s ease 1.02s forwards;
 }
 @keyframes bloom{
   0%{opacity:0}
@@ -728,7 +710,7 @@ body.is-locked{overflow:hidden}
   position:absolute;top:50%;left:50%;width:min(46vw,420px);aspect-ratio:1;
   translate:-50% -50%;border-radius:50%;pointer-events:none;
   background:radial-gradient(circle,rgba(90,169,255,.42),transparent 62%);
-  opacity:0;animation:halo 1.15s ease 1.3s forwards;
+  opacity:0;animation:halo 1.15s ease 1.0s forwards;
 }
 @keyframes halo{0%{opacity:0;scale:.55}60%{opacity:1;scale:1}100%{opacity:0;scale:1.5}}
 
@@ -736,7 +718,7 @@ body.is-locked{overflow:hidden}
   font-family:var(--display);font-size:clamp(1.05rem,.9rem + .7vw,1.5rem);
   letter-spacing:.34em;text-transform:uppercase;color:var(--text);
   opacity:0;transform:translateY(9px);
-  animation:wordIn .74s cubic-bezier(.16,1,.3,1) .72s forwards;
+  animation:wordIn .74s cubic-bezier(.16,1,.3,1) .62s forwards;
   padding-left:.34em;
 }
 @keyframes wordIn{to{opacity:.94;transform:none}}
