@@ -957,6 +957,8 @@ html.is-loading,html.is-loading body{overflow:hidden}
 }
 .demo-body h2{margin-bottom:var(--s-3)}
 .demo-body .qr-card{margin-top:var(--s-4)}
+.demo-body .btn{display:flex;width:fit-content;margin-top:var(--s-4)}
+@media(max-width:860px){.demo-body .btn{margin-inline:auto}}
 .demo-body .pane-note{margin-top:var(--s-3);max-width:46ch}
 @media(max-width:860px){.demo-body .pane-note{margin-inline:auto;text-align:left}}
 

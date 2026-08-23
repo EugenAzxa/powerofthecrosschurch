@@ -449,8 +449,8 @@ def p_index():
 
 <section class="section demo-section"><div class="wrap">
   <div class="section-head" data-reveal>
-    <p class="eyebrow" data-i18n="demo.eyebrow"></p>
-    <h2 data-i18n="demo.h"></h2>
+    <p class="eyebrow" data-i18n="demo.app.eyebrow"></p>
+    <h2 data-i18n="demo.app.h"></h2>
   </div>
   <div class="demo-grid">
     <div data-reveal>
@@ -462,11 +462,13 @@ def p_index():
       <p class="phone-note" data-i18n="demo.live"></p>
     </div>
     <div class="demo-body" data-reveal>
-      <p class="lead" data-i18n="demo.p"></p>
+      <p class="lead" data-i18n="demo.app.p"></p>
       <div class="qr-card">
         <div id="qrBox"></div>
         <span class="qr-scan" data-i18n="demo.scan"></span>
       </div>
+      <a class="btn btn-primary" href="app.html" style="margin-top:1.2rem">
+        {svg("play","",18)}<span data-i18n="demo.app.open"></span></a>
       <p class="pane-note">{svg("check","",15)}<span data-i18n="demo.hint"></span></p>
     </div>
   </div>

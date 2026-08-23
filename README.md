@@ -22,6 +22,7 @@ Christian church in Toronto. Static site, no build step required to deploy.
 | Gallery | `gallery.html` | 20 photos with lightbox |
 | Visit | `visit.html` | Address, phone, schedule, map, first-visit guide |
 | Give | `give.html` | INTERAC e-Transfer instructions |
+| App demo | `app.html` | Phone app: schedule, sermons, check-in, giving |
 
 All page text comes from the church's own content on pocc.ca. Photographs are the
 church's own, pulled from the previous site's gallery and re-encoded as WebP.
@@ -123,19 +124,39 @@ Other notes:
 - Motion respects `prefers-reduced-motion`.
 - Tokens live at the top of `css/style.css`.
 
+## App demo
+
+`app.html` is a working phone app, not a picture of one. Five tabs, built to be
+opened on a real device:
+
+- **Главная** - greeting by time of day, the next service with a live countdown
+  (with correct Russian plurals), check in for Sunday, quick tiles, verse
+- **Слушать** - the sermon archive, searchable, playing in an in-app player
+- **Программа** - the weekly schedule and what is coming up
+- **Дать** - method, amounts, and an honest note that payment is not connected
+- **Ещё** - directions, phone, links back into the site, language
+
+It uses real data wherever real data exists: the service times, the 548-sermon
+archive, the address. The two things that would need a back end are honest about
+it - **check-in stores the coming Sunday in `localStorage` only**, and the giving
+screen says on screen that it is a demonstration. Nothing pretends to reach a
+server that is not there.
+
+Files: `app.html`, `css/app.css`, `js/app.js`. It shares `js/i18n.js` with the
+site, so both languages work and the choice carries across.
+
 ## Mobile demo and QR code
 
-The home page ends with a live preview of the site running in a phone frame,
+The home page carries a live preview of **the app** running in a phone frame,
 beside a code you can scan to open it on a real device.
 
-The preview is a real `<iframe>` of the site itself, not a picture, loaded with
-`?embed=1`. That flag is read before first paint and puts `is-embed` on the root
+The preview is a real `<iframe>` of `app.html`, not a picture. That flag is read before first paint and puts `is-embed` on the root
 element, which hides the loader and the demo section itself so there is never a
 demo inside the demo. It only loads once scrolled near, and reloads in whichever
 language the visitor is reading.
 
-The code is generated at runtime by `js/qr.js` from `location.href`, so it always
-points at wherever the site is actually served from - localhost, GitHub Pages or a
+The code is generated at runtime by `js/qr.js` and points at `app.html` at
+whatever address the site is served from - localhost, GitHub Pages or a
 custom domain - with nothing to regenerate when the address changes. It can be
 printed and put up in the hall.
 

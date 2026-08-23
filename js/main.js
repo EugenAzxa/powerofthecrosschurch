@@ -464,7 +464,9 @@ function initDemo(){
 
   /* anchor the match to a path segment: without the slash this also ate
      the tail of any file merely ending in 'index.html' */
-  var url=location.origin+location.pathname.replace(/(^|\/)index\.html$/,'$1');
+  var base=location.origin+location.pathname.replace(/(^|\/)index\.html$/,'$1');
+  /* the code opens the app, which is what this section is showing */
+  var url=base+'app.html';
 
   if(box&&window.makeQR){
     try{ box.innerHTML=window.makeQR(url,{dark:'#0D1626',light:'#FFFFFF',quiet:3}); }
@@ -480,8 +482,7 @@ function initDemo(){
   /* load the preview only when it comes into view, and mark it embedded so
      it does not show its own loader or a demo inside the demo */
   if(frame){
-    var src=url+(url.indexOf('?')<0?'?':'&')+'embed=1&lang='+
-            (document.documentElement.lang==='en'?'en':'ru');
+    var src=url+'?lang='+(document.documentElement.lang==='en'?'en':'ru');
     var load=function(){ if(!frame.src) frame.src=src; };
     if('IntersectionObserver' in window){
       var io=new IntersectionObserver(function(es){
@@ -493,8 +494,7 @@ function initDemo(){
     /* keep the preview in whatever language the visitor is reading */
     document.addEventListener('langchange',function(){
       if(!frame.src) return;
-      frame.src=url+(url.indexOf('?')<0?'?':'&')+'embed=1&lang='+
-                (document.documentElement.lang==='en'?'en':'ru');
+      frame.src=url+'?lang='+(document.documentElement.lang==='en'?'en':'ru');
     });
   }
 }
