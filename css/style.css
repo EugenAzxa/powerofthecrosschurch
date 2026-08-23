@@ -1030,3 +1030,27 @@ html.is-embed .demo-section{display:none!important}
 .film-by strong::after{content:'';display:inline-block;width:14px;height:1px;
   background:var(--blue);margin-left:.6rem;vertical-align:middle;opacity:.7}
 
+
+/* ==========================================================================
+   Nations - the flags that hang in the hall
+   ========================================================================== */
+.nations{display:flex;flex-wrap:wrap;gap:var(--s-2)}
+.nation{
+  display:flex;align-items:center;gap:.62rem;
+  padding:.5rem .9rem .5rem .55rem;
+  background:var(--surface);border:1px solid var(--line);border-radius:100px;
+  box-shadow:var(--shadow);
+  transition:transform .35s var(--ease),border-color .3s ease,box-shadow .3s ease;
+}
+.nation:hover{transform:translateY(-3px);border-color:var(--line-strong);box-shadow:var(--shadow-lift)}
+.nation img{
+  width:30px;height:20px;object-fit:cover;border-radius:3px;flex:none;
+  box-shadow:0 0 0 1px rgba(18,44,84,.14);
+}
+.nation span{font-size:.92rem;font-weight:500;white-space:nowrap}
+@media(max-width:560px){
+  .nation{padding:.42rem .72rem .42rem .45rem;gap:.5rem}
+  .nation img{width:26px;height:17px}
+  .nation span{font-size:.85rem}
+}
+.nations-note{margin-top:var(--s-4);font-size:.86rem;color:var(--dim)}

@@ -144,6 +144,21 @@ printed and put up in the hall.
 decoding them back with the macOS Vision barcode reader, including a decode of
 the QR as actually rendered on the page.
 
+## Nations
+
+The hall on Wildcat Road has flags hanging from the ceiling, one for each
+country the congregation came from. The home page carries them as a row of
+chips between the welcome and the scripture band.
+
+The flag artwork is real SVG in `assets/flags/`, taken from flagcdn (national
+flags are not copyrightable). It is deliberately not drawn by hand and
+deliberately not emoji: several of these - Kyrgyzstan, Kazakhstan, South Korea,
+DR Congo - have detail that a hand-drawn version would get wrong.
+
+The list lives in `NAT` in `tools/build.py`, paired with `nat.*` keys in
+`js/i18n.js`. To add a country: drop its two-letter SVG in `assets/flags/`, add
+the pair to `NAT`, and add the name to both dictionaries.
+
 ## Invitation film
 
 The home page carries the church's own invitation film - the pastor speaking to
