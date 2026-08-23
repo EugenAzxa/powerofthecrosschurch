@@ -1,6 +1,10 @@
 # Memory wall portraits
 
-Drop six images here and they appear on the wall automatically:
+The six portraits in place came from the St Archangel Gabriel project
+(`~/Desktop/3d-ortdox-church/assets/portraits/`), re-cropped to 3:4 and matched
+to the names by gender. The originals stay in that project; these are copies.
+
+Replace any of them by overwriting the file - the names are fixed:
 
     p1.webp   Мария Ковальчук
     p2.webp   Пётр Савчук
