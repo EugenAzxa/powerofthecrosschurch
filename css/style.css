@@ -678,13 +678,13 @@ body.is-locked{overflow:hidden}
 }
 @keyframes markOut{to{opacity:0;transform:scale(1.06)}}
 
-.loader-draw{width:clamp(300px,47vw,580px);height:auto;overflow:visible}
+.loader-draw{width:clamp(320px,50vw,620px);height:auto;overflow:visible}
 
 /* two hands reach in from either side, drawing themselves outward-in */
-.loader-draw .hand-l{transform:translate(40px,36px)}
-.loader-draw .hand-r{transform:translate(200px,36px) scale(-1,1)}
+.loader-draw .hand-l{transform:translate(22px,38px)}
+.loader-draw .hand-r{transform:translate(218px,38px) scale(-1,1)}
 .loader-draw .hp{
-  fill:none;stroke:var(--blue);stroke-width:1.15;
+  fill:none;stroke:#5AA9FF;stroke-width:1.1;opacity:.78;
   stroke-linecap:round;stroke-linejoin:round;
   stroke-dasharray:1;stroke-dashoffset:1;
   filter:drop-shadow(0 0 5px rgba(90,169,255,.85));
@@ -700,17 +700,21 @@ body.is-locked{overflow:hidden}
 
 /* the cross draws in the gap the fingertips leave */
 .loader-draw .xline{
-  fill:none;stroke:var(--blue-br);stroke-width:2;
+  fill:none;stroke:#BFE0FF;stroke-width:2.6;
   stroke-linejoin:round;stroke-linecap:round;
   stroke-dasharray:1;stroke-dashoffset:1;
-  filter:drop-shadow(0 0 6px rgba(140,200,255,.95)) drop-shadow(0 0 18px rgba(90,169,255,.5));
+  filter:drop-shadow(0 0 7px rgba(191,224,255,1))
+         drop-shadow(0 0 22px rgba(90,169,255,.9))
+         drop-shadow(0 0 52px rgba(60,140,255,.6));
   animation:drawCross .64s cubic-bezier(.62,.02,.28,1) .82s forwards;
 }
 @keyframes drawCross{to{stroke-dashoffset:0}}
 
 .loader-draw .xfill{
-  fill:var(--blue-br);opacity:0;
-  filter:drop-shadow(0 0 26px rgba(90,169,255,.85));
+  fill:#CFE7FF;opacity:0;
+  filter:drop-shadow(0 0 16px rgba(191,224,255,.95))
+         drop-shadow(0 0 46px rgba(90,169,255,.9))
+         drop-shadow(0 0 96px rgba(60,140,255,.55));
   animation:bloom .46s ease 1.34s forwards;
 }
 @keyframes bloom{

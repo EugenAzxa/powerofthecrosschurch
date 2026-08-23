@@ -419,7 +419,21 @@ function initCloth(){
     try{ cloth=new Cloth(band,{wind:1.15,speed:0.5,amplitude:0.085,brush:0.7,light:0.62,sheen:0.2}); }
     catch(e){ return; }            /* no WebGL: leave the plain markup alone */
     cloth.paint(draw);
+
+    /* Prove the fabric renders before hiding the real text. If WebGL is
+       present but produces nothing, the band would otherwise go blank. */
+    try{ cloth.renderOnce(); }
+    catch(e){ cloth.destroy(); return; }
+    var cv=band.querySelector('.cloth-canvas');
+    if(!cv||!cv.width||!cv.height){ cloth.destroy(); return; }
+
     band.classList.add('has-cloth');
+
+    /* if the GPU context is ever lost, put the markup straight back */
+    cloth.onLost=function(){
+      band.classList.remove('has-cloth');
+      cloth.destroy();
+    };
 
     /* only animate while the band is actually on screen */
     if('IntersectionObserver' in window){

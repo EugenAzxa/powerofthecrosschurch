@@ -97,12 +97,14 @@ function Cloth(host,opts){
   var cv=document.createElement('canvas');
   cv.className='cloth-canvas';
   cv.setAttribute('aria-hidden','true');
-  host.appendChild(cv);
-  this.cv=cv;
 
+  /* get a context before touching the DOM, so a browser without WebGL is
+     never left with an empty canvas sitting in the page */
   var gl=cv.getContext('webgl',{alpha:true,premultipliedAlpha:true,antialias:true})
       || cv.getContext('experimental-webgl',{alpha:true,premultipliedAlpha:true});
   if(!gl) throw new Error('no webgl');
+  host.appendChild(cv);
+  this.cv=cv;
   this.gl=gl;
 
   var vs=compile(gl,gl.VERTEX_SHADER,VERT), fs=compile(gl,gl.FRAGMENT_SHADER,FRAG);
@@ -156,6 +158,12 @@ function Cloth(host,opts){
 
   this.onResize=function(){ self.resize(); };
   window.addEventListener('resize',this.onResize);
+
+  cv.addEventListener('webglcontextlost',function(e){
+    e.preventDefault();
+    self.stop();
+    if(typeof self.onLost==='function') self.onLost();
+  });
 }
 
 Cloth.prototype.paint=function(draw){
@@ -215,8 +223,19 @@ Cloth.prototype.frame=function(now){
   gl.clear(gl.COLOR_BUFFER_BIT);
   gl.drawArrays(gl.TRIANGLES,0,this.count);
 
+  if(this.frameOnly) return;
   var self=this;
   this.raf=requestAnimationFrame(function(t){ self.frame(t); });
+};
+
+/* draw exactly one frame, so a caller can confirm the fabric actually
+   rendered before it hides the fallback markup */
+Cloth.prototype.renderOnce=function(){
+  this.running=true;
+  this.frameOnly=true;
+  this.frame(performance.now());
+  this.frameOnly=false;
+  this.running=false;
 };
 
 Cloth.prototype.start=function(){
