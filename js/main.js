@@ -193,6 +193,67 @@ function initLightbox(){
   });
 }
 
+/* ---------------- loader + cross wipe ----------------
+   First view of a session plays the full sequence: the cross draws itself,
+   blooms, then opens as a mask that reveals the page. Later views, and
+   navigation between pages, use a short wipe in the same visual language.
+   Everything degrades safely - the CSS animation ends in a cleared state on
+   its own, and a timeout removes the veil if anything stalls.            */
+function initLoader(){
+  var el=document.getElementById('loader');
+  if(!el) return;
+  var root=document.documentElement;
+  var reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if(reduced){ el.classList.add('is-skip'); return; }
+
+  var seen;
+  try{ seen=sessionStorage.getItem('pocc-seen'); }catch(e){ seen=null; }
+  var quick=!!seen;
+  if(quick) el.classList.add('is-quick');
+  try{ sessionStorage.setItem('pocc-seen','1'); }catch(e){}
+
+  root.classList.add('is-loading');
+  var clear=function(){
+    root.classList.remove('is-loading');
+    el.classList.add('is-done');
+  };
+  var ms=quick?760:2980;
+  var timer=setTimeout(clear,ms);
+  /* if the tab is restored from bfcache mid-animation, do not strand the veil */
+  window.addEventListener('pageshow',function(e){
+    if(e.persisted){ clearTimeout(timer); clear(); }
+  });
+}
+
+/* Navigating inside the site closes the cross over the page, then the next
+   page opens it again - so the two loads read as one continuous wipe. */
+function initWipe(){
+  var el=document.getElementById('loader');
+  if(!el) return;
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  document.addEventListener('click',function(e){
+    if(e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey) return;
+    var a=e.target.closest&&e.target.closest('a');
+    if(!a) return;
+    var href=a.getAttribute('href')||'';
+    if(!href||href.charAt(0)==='#') return;
+    if(a.target&&a.target!=='_self') return;
+    if(a.hasAttribute('download')) return;
+    if(/^(https?:)?\/\//i.test(href)||/^(mailto|tel):/i.test(href)) return;
+
+    var here=location.pathname.split('/').pop()||'index.html';
+    if(href.split('#')[0].split('/').pop()===here) return;
+
+    e.preventDefault();
+    el.classList.remove('is-done','is-quick');
+    el.classList.add('is-exit');
+    document.documentElement.classList.add('is-loading');
+    setTimeout(function(){ location.href=href; },300);
+  });
+}
+
 /* ---------------- year ---------------- */
 function initYear(){
   document.querySelectorAll('[data-year]').forEach(function(el){
@@ -202,6 +263,8 @@ function initYear(){
 
 /* ---------------- boot ---------------- */
 function boot(){
+  initLoader();
+  initWipe();
   applyLang(lang);
   initHeader();
   initLangButtons();

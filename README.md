@@ -68,6 +68,26 @@ edits will be overwritten.
 Images are served as WebP at two widths (`-560` / `-1100` for gallery,
 `-600` / `-900` for cards, `-760` / `-1100` / `-1600` for the hero).
 
+## Loading screen
+
+On the first view of a session a luminous cross draws itself over a black veil,
+blooms, and then opens as a mask - the page is revealed *through* the cross shape
+as it expands past the edges of the screen. Later views in the same session, and
+navigation between pages, use a short wipe in the same language: the cross closes
+over the page you are leaving and opens again on the page you land on.
+
+It is built from an SVG mask (`.lm-cross` punched out of a full-screen rect) driven
+by CSS keyframes, so there is no animation library. Three things keep it safe:
+
+- The CSS animation ends in a cleared state with `fill-mode: forwards`, so the veil
+  lifts itself even if JavaScript never runs.
+- A critical rule is inlined in `<head>` so the veil covers the page even if
+  `style.css` is still in flight and can never flash unstyled.
+- `prefers-reduced-motion: reduce` skips the loader entirely.
+
+Timings live at the bottom of `css/style.css`. The sequence is roughly: draw
+0.18-1.35s, bloom 1.26s, mask opens 1.62-2.86s.
+
 ## Design
 
 - Deep midnight base (`#05080F`) with the sanctuary's blue neon cross as the accent

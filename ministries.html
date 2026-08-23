@@ -20,6 +20,12 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="css/style.css">
+<style>
+/* critical: guarantee the veil covers the page even if style.css is still
+   in flight, so the loader markup can never flash unstyled */
+.loader{position:fixed;inset:0;z-index:9999;background:#05080F;display:grid;place-items:center}
+.loader-mark{position:relative}
+</style>
 <script>
 /* set language before first paint to avoid a flash of the wrong copy */
 (function(){try{var q=new URLSearchParams(location.search).get('lang');
@@ -28,6 +34,23 @@ document.documentElement.lang=(s==='en'?'en':'ru');}catch(e){}})();
 </script>
 </head>
 <body data-title-key="nav.ministries" data-desc-key="min.lead">
+<div class="loader" id="loader" aria-hidden="true">
+  <svg class="loader-veil" viewBox="0 0 120 120" preserveAspectRatio="xMidYMid slice">
+    <defs><mask id="loaderMask">
+      <rect width="120" height="120" fill="#fff"/>
+      <path class="lm-cross" d="M56 36 h8 v14 h12 v8 h-12 v26 h-8 v-26 h-12 v-8 h12 z" fill="#000"/>
+    </mask></defs>
+    <rect class="veil" width="120" height="120" mask="url(#loaderMask)"/>
+  </svg>
+  <span class="loader-halo"></span>
+  <div class="loader-mark">
+    <svg class="loader-draw" viewBox="0 0 120 120">
+      <path class="fill" d="M56 36 h8 v14 h12 v8 h-12 v26 h-8 v-26 h-12 v-8 h12 z"/>
+      <path class="stroke" d="M56 36 h8 v14 h12 v8 h-12 v26 h-8 v-26 h-12 v-8 h12 z" pathLength="1"/>
+    </svg>
+    <p class="loader-word" data-i18n="brand.name">Сила Креста</p>
+  </div>
+</div>
 <a class="skip" href="#main" data-i18n="a11y.skip">Перейти к содержанию</a>
 <header class="header">
   <div class="header-inner">

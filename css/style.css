@@ -570,3 +570,113 @@ html[lang="en"] [data-lang-only="en"]{display:revert}
 .skip:focus{left:0}
 
 body.is-locked{overflow:hidden}
+
+/* ==========================================================================
+   Loader - a luminous cross draws itself, then opens as a mask that
+   reveals the page through it.
+   The animation is pure CSS with fill-mode:forwards, so the veil clears
+   itself even if JavaScript never runs.
+   ========================================================================== */
+.loader{
+  position:fixed;inset:0;z-index:9999;display:grid;place-items:center;
+  pointer-events:none;
+  animation:loaderGone .01s linear 2.9s forwards;
+}
+.loader-veil{position:absolute;inset:0;width:100%;height:100%}
+.loader-veil rect.veil{fill:var(--ink)}
+
+/* the hole: a cross that scales up until it clears the viewport */
+.lm-cross{
+  transform-box:view-box;transform-origin:60px 60px;
+  transform:scale(0);
+  animation:crossOpen 1.24s cubic-bezier(.62,.01,.3,1) 1.62s forwards;
+}
+@keyframes crossOpen{
+  0%{transform:scale(0)}
+  14%{transform:scale(.55)}
+  32%{transform:scale(1.15)}
+  52%{transform:scale(2.4)}
+  100%{transform:scale(28)}
+}
+
+/* the mark that draws itself on top of the veil */
+.loader-mark{
+  position:relative;display:grid;justify-items:center;gap:1.5rem;
+  animation:markOut .36s ease 1.56s forwards;
+}
+@keyframes markOut{to{opacity:0;transform:scale(1.06)}}
+
+.loader-draw{width:clamp(74px,11vw,116px);height:auto;overflow:visible}
+.loader-draw .stroke{
+  fill:none;stroke:var(--blue-br);stroke-width:2.2;
+  stroke-linejoin:round;stroke-linecap:round;
+  stroke-dasharray:1;stroke-dashoffset:1;
+  filter:drop-shadow(0 0 6px rgba(90,169,255,.95)) drop-shadow(0 0 18px rgba(90,169,255,.55));
+  animation:drawCross 1.25s cubic-bezier(.62,.02,.28,1) .18s forwards;
+}
+@keyframes drawCross{to{stroke-dashoffset:0}}
+
+.loader-draw .fill{
+  fill:var(--blue-br);opacity:0;
+  filter:drop-shadow(0 0 26px rgba(90,169,255,.85));
+  animation:bloom .48s ease 1.26s forwards;
+}
+@keyframes bloom{
+  0%{opacity:0}
+  55%{opacity:1}
+  100%{opacity:.92}
+}
+
+/* the glow that swells as the cross completes */
+.loader-halo{
+  position:absolute;top:50%;left:50%;width:min(46vw,420px);aspect-ratio:1;
+  translate:-50% -50%;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle,rgba(90,169,255,.42),transparent 62%);
+  opacity:0;animation:halo 1.1s ease 1.1s forwards;
+}
+@keyframes halo{0%{opacity:0;scale:.55}60%{opacity:1;scale:1}100%{opacity:0;scale:1.5}}
+
+.loader-word{
+  font-family:var(--display);font-size:clamp(1.05rem,.9rem + .7vw,1.5rem);
+  letter-spacing:.34em;text-transform:uppercase;color:var(--text);
+  opacity:0;transform:translateY(9px);
+  animation:wordIn .8s cubic-bezier(.16,1,.3,1) .62s forwards;
+  padding-left:.34em;
+}
+@keyframes wordIn{to{opacity:.94;transform:none}}
+
+@keyframes loaderGone{to{visibility:hidden;pointer-events:none}}
+.loader.is-done{display:none}
+
+/* repeat visits in the same session, and internal navigation, get a short
+   wipe instead of the full sequence */
+.loader.is-quick .lm-cross{animation-delay:.03s;animation-duration:.52s}
+.loader.is-quick .loader-mark,
+.loader.is-quick .loader-halo{display:none}
+.loader.is-quick{animation-delay:.6s}
+
+/* no loader at all when motion is reduced, or when JS has flagged a skip */
+.loader.is-skip{display:none}
+@media(prefers-reduced-motion:reduce){
+  .loader{display:none}
+}
+
+/* hold the page still underneath while the veil is up */
+html.is-loading,html.is-loading body{overflow:hidden}
+
+/* exit wipe - the cross closes back over the page before navigating,
+   and the next page's quick loader opens it again */
+.loader.is-exit{display:grid;visibility:visible;animation:none}
+.loader.is-exit .loader-mark,.loader.is-exit .loader-halo{display:none}
+.loader.is-exit .lm-cross{
+  transform:scale(28);
+  animation:crossClose .34s cubic-bezier(.4,.02,.3,1) forwards;
+}
+/* mirrors crossOpen so the cross stays legible on the way out too */
+@keyframes crossClose{
+  0%{transform:scale(28)}
+  46%{transform:scale(2.4)}
+  66%{transform:scale(1.15)}
+  84%{transform:scale(.55)}
+  100%{transform:scale(0)}
+}

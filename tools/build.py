@@ -67,6 +67,32 @@ def brand(tag="a", href="index.html"):
             '<span class="brand-sub" data-i18n="brand.sub">Торонто</span>'
             '</span></%s>'%(tag,href,BRAND_MARK,tag))
 
+CROSS_PATH = "M56 36 h8 v14 h12 v8 h-12 v26 h-8 v-26 h-12 v-8 h12 z"
+
+def loader():
+    """Veil shown over the page while the cross draws and then opens.
+
+    The mask rect is painted in the page background colour with the cross
+    punched out of it, so scaling the cross up wipes the veil away."""
+    return ('<div class="loader" id="loader" aria-hidden="true">\n'
+      '  <svg class="loader-veil" viewBox="0 0 120 120" preserveAspectRatio="xMidYMid slice">\n'
+      '    <defs><mask id="loaderMask">\n'
+      '      <rect width="120" height="120" fill="#fff"/>\n'
+      '      <path class="lm-cross" d="%s" fill="#000"/>\n'
+      '    </mask></defs>\n'
+      '    <rect class="veil" width="120" height="120" mask="url(#loaderMask)"/>\n'
+      '  </svg>\n'
+      '  <span class="loader-halo"></span>\n'
+      '  <div class="loader-mark">\n'
+      '    <svg class="loader-draw" viewBox="0 0 120 120">\n'
+      '      <path class="fill" d="%s"/>\n'
+      '      <path class="stroke" d="%s" pathLength="1"/>\n'
+      '    </svg>\n'
+      '    <p class="loader-word" data-i18n="brand.name">Сила Креста</p>\n'
+      '  </div>\n'
+      '</div>\n') % (CROSS_PATH, CROSS_PATH, CROSS_PATH)
+
+
 def head(title_key, desc_key, page):
     return f'''<!doctype html>
 <html lang="ru">
@@ -90,6 +116,12 @@ def head(title_key, desc_key, page):
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="css/style.css">
+<style>
+/* critical: guarantee the veil covers the page even if style.css is still
+   in flight, so the loader markup can never flash unstyled */
+.loader{{position:fixed;inset:0;z-index:9999;background:#05080F;display:grid;place-items:center}}
+.loader-mark{{position:relative}}
+</style>
 <script>
 /* set language before first paint to avoid a flash of the wrong copy */
 (function(){{try{{var q=new URLSearchParams(location.search).get('lang');
@@ -98,7 +130,7 @@ document.documentElement.lang=(s==='en'?'en':'ru');}}catch(e){{}}}})();
 </script>
 </head>
 <body data-title-key="{title_key}" data-desc-key="{desc_key}">
-<a class="skip" href="#main" data-i18n="a11y.skip">Перейти к содержанию</a>
+{loader()}<a class="skip" href="#main" data-i18n="a11y.skip">Перейти к содержанию</a>
 '''
 
 def header(page):
