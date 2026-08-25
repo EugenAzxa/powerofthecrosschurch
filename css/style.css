@@ -235,7 +235,10 @@ body.has-dark-hero .header:not(.is-stuck){
 .brand{display:flex;align-items:center;gap:.7rem;flex:none;margin-right:auto}
 .brand-mark{width:34px;height:34px;flex:none;filter:drop-shadow(0 0 10px var(--mark-glow));transition:filter .4s ease}
 .brand-text{display:flex;flex-direction:column;line-height:1.1}
-.brand-name{font-family:var(--display);font-size:1.16rem;font-weight:600;letter-spacing:.005em}
+.brand-name{font-family:var(--display);font-size:1.18rem;font-weight:600;
+  /* Cormorant sets tight in Cyrillic at this size and the letters touch,
+     so the wordmark gets a little air */
+  letter-spacing:.032em;word-spacing:.06em}
 .brand-sub{font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;color:var(--dim);font-weight:600}
 
 .nav{display:flex;align-items:center;gap:.15rem}
