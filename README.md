@@ -5,6 +5,16 @@ Christian church in Toronto. Static site, no build step required to deploy.
 
 **Live:** https://eugenazxa.github.io/powerofthecrosschurch/
 
+Pages is served from the `gh-pages` branch. Publish with:
+
+```bash
+git push origin main && git push origin main:gh-pages --force
+```
+
+If `git push` hangs, port 22 is blocked on this network. The remote is set to
+GitHub's port-443 SSH host, which gets through:
+`ssh://git@ssh.github.com:443/EugenAzxa/powerofthecrosschurch.git`
+
 ---
 
 ## What is here
@@ -266,6 +276,19 @@ Without portraits they are shown as **typographic monograms**. Inventing
 photographs of invented deceased people would be a step too far, and monograms
 are what Saylavy already uses where a face should not be depicted. Swap in real
 portraits by adding an `<img>` inside `.mem-portrait`.
+
+Selecting a card **opens the page**: portrait, name, years, the life, the candle
+count, and a form to **ask the church to pray** for that person and their family.
+The prayer request is free and the panel says so.
+
+The **add tile opens a form** to propose a new page - name, years, a few lines,
+and who is submitting it. Submitted pages appear on the wall as your own draft,
+marked as such, and can be removed.
+
+All of it is client side: candles, drafts and prayer requests live in
+`localStorage` and go nowhere else, which the copy states. Set `SUBMIT_EMAIL` at
+the top of `js/wall.js` and both forms will additionally hand the request to the
+visitor's own mail app.
 
 Data lives in `PEOPLE` in `tools/build.py` paired with `wall.p*` keys in
 `js/i18n.js`; behaviour is `js/wall.js`.
