@@ -327,6 +327,11 @@ read from the live DOM so it always matches the current language and styles - an
 that canvas is used as the texture. Same look, works in every browser, no
 dependency.
 
+The text canvas is rendered **above** the display resolution and the texture uses
+**anisotropic filtering**. The mesh stretches and compresses the texture, so
+without spare detail and angle-aware sampling the type shows its pixels wherever
+the fabric is pulled.
+
 Displacement, normals, lighting and the cursor ripple are computed in the vertex
 and fragment shaders. The banner is pinned along its top edge. Options are passed
 where the cloth is constructed in `initCloth()`: `wind`, `speed`, `amplitude`,

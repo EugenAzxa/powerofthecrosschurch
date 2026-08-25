@@ -440,7 +440,7 @@ function initCloth(){
     var draw=painter(band);
     if(!draw) return;
     var cloth;
-    try{ cloth=new Cloth(band,{wind:1.15,speed:0.5,amplitude:0.085,brush:0.7,light:0.62,sheen:0.2}); }
+    try{ cloth=new Cloth(band,{wind:0.9,speed:0.4,amplitude:0.055,brush:0.55,light:0.5,sheen:0.14}); }
     catch(e){ return; }            /* no WebGL: leave the plain markup alone */
     cloth.paint(draw);
 

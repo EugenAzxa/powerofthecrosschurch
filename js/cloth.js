@@ -91,7 +91,7 @@ function compile(gl,type,src){
 function Cloth(host,opts){
   var self=this;
   this.host=host;
-  this.o=Object.assign({wind:1.0,speed:0.5,amplitude:0.055,brush:1.0,
+  this.o=Object.assign({wind:1.0,speed:0.42,amplitude:0.055,brush:1.0,
                         brushSize:0.28,light:0.55,sheen:0.16},opts||{});
 
   var cv=document.createElement('canvas');
@@ -142,6 +142,16 @@ function Cloth(host,opts){
   gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
   gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL,true);
   gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,false);
+  /* the mesh warps the texture, so samples are taken at an angle; without
+     anisotropic filtering the glyph edges break up into visible pixels */
+  var aniso=gl.getExtension('EXT_texture_filter_anisotropic')
+        || gl.getExtension('WEBKIT_EXT_texture_filter_anisotropic')
+        || gl.getExtension('MOZ_EXT_texture_filter_anisotropic');
+  if(aniso){
+    var max=gl.getParameter(aniso.MAX_TEXTURE_MAX_ANISOTROPY_EXT);
+    gl.texParameterf(gl.TEXTURE_2D,aniso.TEXTURE_MAX_ANISOTROPY_EXT,Math.min(8,max));
+  }
+  this.maxTex=gl.getParameter(gl.MAX_TEXTURE_SIZE)||2048;
 
   gl.enable(gl.BLEND);
   gl.blendFunc(gl.ONE,gl.ONE_MINUS_SRC_ALPHA);
@@ -167,13 +177,21 @@ function Cloth(host,opts){
 }
 
 Cloth.prototype.paint=function(draw){
-  /* draw(ctx, w, h) fills the 2D canvas that becomes the fabric */
+  /* draw(ctx, w, h) fills the 2D canvas that becomes the fabric.
+     It is rendered above the display resolution: the mesh stretches and
+     compresses the texture, and without spare detail the type shows its
+     pixels wherever the fabric is pulled. */
   var dpr=Math.min(window.devicePixelRatio||1,2);
   var r=this.host.getBoundingClientRect();
-  var w=Math.max(2,Math.round(r.width*dpr)), h=Math.max(2,Math.round(r.height*dpr));
+  var ss=2;
+  var cap=this.maxTex||2048;
+  while(ss>1 && (r.width*dpr*ss>cap || r.height*dpr*ss>cap)) ss-=0.5;
+  var scale=dpr*ss;
+  var w=Math.max(2,Math.round(r.width*scale)), h=Math.max(2,Math.round(r.height*scale));
   var c=document.createElement('canvas'); c.width=w; c.height=h;
   var ctx=c.getContext('2d');
-  ctx.scale(dpr,dpr);
+  ctx.textRendering='geometricPrecision';
+  ctx.scale(scale,scale);
   draw(ctx,r.width,r.height);
   var gl=this.gl;
   gl.bindTexture(gl.TEXTURE_2D,this.tex);
