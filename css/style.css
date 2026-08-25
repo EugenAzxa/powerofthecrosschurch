@@ -1376,3 +1376,17 @@ html.is-embed .demo-section{display:none!important}
   font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
   background:var(--gold);color:#0A0703;border-radius:100px;padding:.14rem .5rem;
 }
+
+/* ---------- Saylavy strip on the home page ---------- */
+.syb{
+  display:grid;grid-template-columns:1fr auto;gap:var(--s-5);align-items:center;
+  padding:var(--s-5);border-radius:var(--radius-lg);
+  border:1px solid rgba(232,192,125,.42);
+  background:radial-gradient(560px 220px at 12% 0%,rgba(232,192,125,.14),transparent 68%),var(--surface);
+  box-shadow:var(--shadow);
+}
+@media(max-width:800px){.syb{grid-template-columns:1fr;gap:var(--s-4)}}
+.syb h2{font-size:clamp(1.3rem,1.05rem + 1vw,1.85rem);margin-top:var(--s-2)}
+.syb p{color:var(--muted);font-size:.95rem;margin-top:.5rem;max-width:58ch}
+.syb-links{display:flex;flex-wrap:wrap;gap:var(--s-2)}
+@media(max-width:800px){.syb-links{width:100%}.syb-links .btn{flex:1 1 auto}}

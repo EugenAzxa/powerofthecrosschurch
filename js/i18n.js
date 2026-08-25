@@ -458,6 +458,10 @@ ru:{
 "mc.add":"Добавить страницу",
 "mc.yours":"Ваш черновик",
 "mc.remove":"Удалить черновик",
+/* saylavy strip on the home page */
+"syb.h":"Память общины хранится вместе с Saylavy",
+"syb.p":"Страницы памяти о тех, кого церковь помнит, и интерактивное обучение вере. Содержание готовит и утверждает сама церковь.",
+"syb.link":"Смотреть стену памяти",
 /* cta band */
 "cta.h":"Мы будем рады видеть вас в это воскресенье",
 "cta.p":"Если вы ещё не нашли церковь, которая стала бы для вас родным домом, приглашаем присоединиться к нам.",
@@ -911,6 +915,10 @@ en:{
 "mc.add":"Add a page",
 "mc.yours":"Your draft",
 "mc.remove":"Remove draft",
+/* saylavy strip on the home page */
+"syb.h":"The congregation's memory is kept with Saylavy",
+"syb.p":"Memory pages for those the church remembers, and interactive learning of the faith. The church prepares and approves the content itself.",
+"syb.link":"See the wall of memory",
 "cta.h":"We would love to see you this Sunday",
 "cta.p":"If you have not yet found a church that feels like home, we invite you to join us.",
 "cta.b1":"Find us","cta.b2":"Watch online",

@@ -510,6 +510,23 @@ def p_index():
   </div>
 </div></section>
 
+<section class="section-sm"><div class="wrap">
+  <div class="syb" data-reveal>
+    <div>
+      <span class="sy-kept">{svg("shield","",16)}
+        <span data-i18n="sy.kept"></span><b>Saylavy</b></span>
+      <h2 data-i18n="syb.h"></h2>
+      <p data-i18n="syb.p"></p>
+    </div>
+    <div class="syb-links">
+      <a class="btn btn-primary" href="memory.html">
+        {svg("heart","",18)}<span data-i18n="syb.link"></span></a>
+      <a class="btn btn-ghost" href="https://saylavy.world" target="_blank" rel="noopener">
+        <span data-i18n="sy.cta"></span>{svg("ext","",18)}</a>
+    </div>
+  </div>
+</div></section>
+
 {cta_band()}
 {lightbox()}
 '''+footer()
