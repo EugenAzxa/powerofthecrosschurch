@@ -1297,3 +1297,82 @@ html.is-embed .demo-section{display:none!important}
 }
 .mem-portrait:has(.mem-photo) .mem-mono{display:none}
 .mem-candle{z-index:2}
+
+/* ==========================================================================
+   Memory profile: open a page, ask for prayer, create a page
+   ========================================================================== */
+.mem-open{
+  position:absolute;inset:0;width:100%;height:100%;cursor:pointer;
+  background:none;border:0;padding:0;z-index:1;
+}
+.mem-open:focus-visible{outline:2px solid var(--blue);outline-offset:3px;border-radius:140px 140px 14px 14px}
+.mem-portrait:hover .mem-photo{transform:scale(1.03)}
+.mem-photo{transition:transform .7s var(--ease)}
+
+/* sheet used by both the profile and the create form */
+.sheet{
+  position:fixed;inset:0;z-index:210;display:grid;place-items:center;padding:var(--s-4);
+  background:rgba(6,12,26,.62);backdrop-filter:blur(10px);
+  opacity:0;visibility:hidden;transition:opacity .3s ease,visibility .3s;
+}
+.sheet.is-open{opacity:1;visibility:visible}
+.sheet-box{
+  width:min(680px,100%);max-height:88vh;overflow-y:auto;
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);
+  box-shadow:0 40px 90px -40px rgba(11,24,52,.7);
+  transform:translateY(14px);transition:transform .35s var(--ease);
+}
+.sheet.is-open .sheet-box{transform:none}
+.sheet-head{
+  display:flex;gap:var(--s-3);align-items:flex-start;justify-content:space-between;
+  padding:var(--s-4) var(--s-4) 0;
+}
+.sheet-close{
+  width:40px;height:40px;flex:none;border-radius:50%;display:grid;place-items:center;cursor:pointer;
+  border:1px solid var(--line-strong);background:var(--surface-2);color:var(--text);
+  transition:background .25s ease,transform .25s var(--ease);
+}
+.sheet-close:hover{background:var(--blue);color:var(--on-blue);transform:scale(1.06)}
+.sheet-close svg{width:17px;height:17px}
+.sheet-body{padding:var(--s-4);display:grid;gap:var(--s-4)}
+
+.prof-top{display:grid;grid-template-columns:150px 1fr;gap:var(--s-4);align-items:start}
+@media(max-width:560px){.prof-top{grid-template-columns:1fr;justify-items:center;text-align:center}}
+.prof-portrait{
+  width:150px;aspect-ratio:3/4;border-radius:110px 110px 12px 12px;overflow:hidden;
+  background:linear-gradient(170deg,var(--surface-2),var(--surface) 62%);
+  border:1px solid var(--line-strong);display:grid;place-items:center;
+}
+.prof-portrait img{width:100%;height:100%;object-fit:cover}
+.prof-portrait .mem-mono{font-family:var(--display);font-size:3rem;color:var(--blue);opacity:.5}
+.prof-name{font-family:var(--display);font-size:clamp(1.5rem,1.2rem + 1.2vw,2.05rem);line-height:1.2}
+.prof-years{color:var(--gold-ink);font-weight:700;font-size:.9rem;margin-top:.2rem;font-variant-numeric:tabular-nums}
+.prof-desc{color:var(--muted);margin-top:var(--s-3)}
+.prof-stats{display:flex;gap:var(--s-3);flex-wrap:wrap;margin-top:var(--s-3);align-items:center}
+.prof-stat{font-size:.84rem;color:var(--dim)}
+.prof-stat b{color:var(--text);font-variant-numeric:tabular-nums}
+.prof-actions{display:flex;flex-wrap:wrap;gap:var(--s-2);margin-top:var(--s-3)}
+
+.pray-block{border-top:1px solid var(--line);padding-top:var(--s-4);display:grid;gap:var(--s-3)}
+.pray-block h4{font-family:var(--display);font-size:1.24rem;font-weight:500;
+  display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
+.pray-free{
+  font-size:.68rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--blue);border:1px solid rgba(18,86,184,.3);border-radius:100px;
+  padding:.14rem .5rem;background:var(--blue-wash);
+}
+.pray-block > p{color:var(--muted);font-size:.92rem}
+.ok-note{
+  display:none;gap:var(--s-2);align-items:flex-start;padding:var(--s-3);
+  border-radius:12px;background:var(--blue-wash);border:1px solid rgba(18,86,184,.28);
+  font-size:.92rem;
+}
+.ok-note.is-on{display:grid;grid-template-columns:auto 1fr}
+.ok-note svg{width:17px;height:17px;color:var(--blue);margin-top:.16rem}
+
+.mem.is-draft .mem-portrait{border-style:dashed;border-color:var(--gold-deep)}
+.draft-tag{
+  position:absolute;top:.55rem;left:50%;translate:-50% 0;z-index:2;
+  font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  background:var(--gold);color:#0A0703;border-radius:100px;padding:.14rem .5rem;
+}

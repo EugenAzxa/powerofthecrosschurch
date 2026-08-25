@@ -394,20 +394,6 @@ def p_index():
   <div class="stats" style="margin-top:4.5rem" data-reveal-stagger>{stats}</div>
 </div></section>
 
-<section class="section-sm"><div class="wrap">
-  <div class="split is-top">
-    <div class="split-body" data-reveal>
-      <p class="eyebrow" data-i18n="nat.eyebrow"></p>
-      <h2 data-i18n="nat.h"></h2>
-      <p class="lead" data-i18n="nat.p"></p>
-    </div>
-    <div class="split-body" data-reveal>
-      <div class="nations"><span class="nation"><img src="assets/flags/ua.svg" width="30" height="20" loading="lazy" decoding="async" alt=""><span data-i18n="nat.ua"></span></span><span class="nation"><img src="assets/flags/by.svg" width="30" height="20" loading="lazy" decoding="async" alt=""><span data-i18n="nat.by"></span></span><span class="nation"><img src="assets/flags/ru.svg" width="30" height="20" loading="lazy" decoding="async" alt=""><span data-i18n="nat.ru"></span></span><span class="nation"><img src="assets/flags/md.svg" width="30" height="20" loading="lazy" decoding="async" alt=""><span data-i18n="nat.md"></span></span><span class="nation"><img src="assets/flags/pl.svg" width="30" height="20" loading="lazy" decoding="async" alt=""><span data-i18n="nat.pl"></span></span><span class="nation"><img src="assets/flags/il.svg" width="30" height="20" loading="lazy" decoding="async" alt=""><span data-i18n="nat.il"></span></span><span class="nation"><img src="assets/flags/am.svg" width="30" height="20" loading="lazy" decoding="async" alt=""><span data-i18n="nat.am"></span></span><span class="nation"><img src="assets/flags/kz.svg" width="30" height="20" loading="lazy" decoding="async" alt=""><span data-i18n="nat.kz"></span></span><span class="nation"><img src="assets/flags/kg.svg" width="30" height="20" loading="lazy" decoding="async" alt=""><span data-i18n="nat.kg"></span></span><span class="nation"><img src="assets/flags/kr.svg" width="30" height="20" loading="lazy" decoding="async" alt=""><span data-i18n="nat.kr"></span></span><span class="nation"><img src="assets/flags/cd.svg" width="30" height="20" loading="lazy" decoding="async" alt=""><span data-i18n="nat.cd"></span></span><span class="nation"><img src="assets/flags/us.svg" width="30" height="20" loading="lazy" decoding="async" alt=""><span data-i18n="nat.us"></span></span><span class="nation"><img src="assets/flags/ca.svg" width="30" height="20" loading="lazy" decoding="async" alt=""><span data-i18n="nat.ca"></span></span></div>
-      <p class="nations-note" data-i18n="nat.note"></p>
-    </div>
-  </div>
-</div></section>
-
 <section class="verse">
   <div class="wrap-narrow verse-src">
     <svg class="verse-cross" viewBox="0 0 32 32" aria-hidden="true" style="color:var(--blue-br)">
@@ -962,8 +948,8 @@ def p_memory():
     </div>
   </div>
 
-  <div class="wall-grid" id="wallGrid" data-reveal><article class="mem" data-tag="founders"><div class="mem-portrait"><span class="mem-mono">М</span><img class="mem-photo" src="assets/memory/p1.webp" alt="" loading="lazy" decoding="async" onerror="this.remove()"><button class="mem-candle" type="button" data-candle="1" data-i18n-attr="aria-label:wall.candle">{svg("candle","",12)}<span class="mem-count"></span></button></div><span class="mem-name" data-i18n="wall.p1.n"></span><span class="mem-years" data-i18n="wall.p1.y"></span><span class="mem-desc" data-i18n="wall.p1.d"></span></article><article class="mem" data-tag="founders"><div class="mem-portrait"><span class="mem-mono">П</span><img class="mem-photo" src="assets/memory/p2.webp" alt="" loading="lazy" decoding="async" onerror="this.remove()"><button class="mem-candle" type="button" data-candle="2" data-i18n-attr="aria-label:wall.candle">{svg("candle","",12)}<span class="mem-count"></span></button></div><span class="mem-name" data-i18n="wall.p2.n"></span><span class="mem-years" data-i18n="wall.p2.y"></span><span class="mem-desc" data-i18n="wall.p2.d"></span></article><article class="mem" data-tag="recent"><div class="mem-portrait"><span class="mem-mono">А</span><img class="mem-photo" src="assets/memory/p3.webp" alt="" loading="lazy" decoding="async" onerror="this.remove()"><button class="mem-candle" type="button" data-candle="3" data-i18n-attr="aria-label:wall.candle">{svg("candle","",12)}<span class="mem-count"></span></button></div><span class="mem-name" data-i18n="wall.p3.n"></span><span class="mem-years" data-i18n="wall.p3.y"></span><span class="mem-desc" data-i18n="wall.p3.d"></span></article><article class="mem" data-tag=""><div class="mem-portrait"><span class="mem-mono">И</span><img class="mem-photo" src="assets/memory/p4.webp" alt="" loading="lazy" decoding="async" onerror="this.remove()"><button class="mem-candle" type="button" data-candle="4" data-i18n-attr="aria-label:wall.candle">{svg("candle","",12)}<span class="mem-count"></span></button></div><span class="mem-name" data-i18n="wall.p4.n"></span><span class="mem-years" data-i18n="wall.p4.y"></span><span class="mem-desc" data-i18n="wall.p4.d"></span></article><article class="mem" data-tag="recent"><div class="mem-portrait"><span class="mem-mono">О</span><img class="mem-photo" src="assets/memory/p5.webp" alt="" loading="lazy" decoding="async" onerror="this.remove()"><button class="mem-candle" type="button" data-candle="5" data-i18n-attr="aria-label:wall.candle">{svg("candle","",12)}<span class="mem-count"></span></button></div><span class="mem-name" data-i18n="wall.p5.n"></span><span class="mem-years" data-i18n="wall.p5.y"></span><span class="mem-desc" data-i18n="wall.p5.d"></span></article><article class="mem" data-tag="founders"><div class="mem-portrait"><span class="mem-mono">Н</span><img class="mem-photo" src="assets/memory/p6.webp" alt="" loading="lazy" decoding="async" onerror="this.remove()"><button class="mem-candle" type="button" data-candle="6" data-i18n-attr="aria-label:wall.candle">{svg("candle","",12)}<span class="mem-count"></span></button></div><span class="mem-name" data-i18n="wall.p6.n"></span><span class="mem-years" data-i18n="wall.p6.y"></span><span class="mem-desc" data-i18n="wall.p6.d"></span></article><div class="mem"><div class="mem-add">{svg("plus","",26)}
-      <b data-i18n="wall.add.h"></b><span data-i18n="wall.add.p"></span></div></div>
+  <div class="wall-grid" id="wallGrid" data-reveal><article class="mem" data-tag="founders"><div class="mem-portrait"><button class="mem-open" type="button" data-open="1" data-i18n-attr="aria-label:mp.open"></button><span class="mem-mono">М</span><img class="mem-photo" src="assets/memory/p1.webp" alt="" loading="lazy" decoding="async" onerror="this.remove()"><button class="mem-candle" type="button" data-candle="1" data-i18n-attr="aria-label:wall.candle">{svg("candle","",12)}<span class="mem-count"></span></button></div><span class="mem-name" data-i18n="wall.p1.n"></span><span class="mem-years" data-i18n="wall.p1.y"></span><span class="mem-desc" data-i18n="wall.p1.d"></span></article><article class="mem" data-tag="founders"><div class="mem-portrait"><button class="mem-open" type="button" data-open="2" data-i18n-attr="aria-label:mp.open"></button><span class="mem-mono">П</span><img class="mem-photo" src="assets/memory/p2.webp" alt="" loading="lazy" decoding="async" onerror="this.remove()"><button class="mem-candle" type="button" data-candle="2" data-i18n-attr="aria-label:wall.candle">{svg("candle","",12)}<span class="mem-count"></span></button></div><span class="mem-name" data-i18n="wall.p2.n"></span><span class="mem-years" data-i18n="wall.p2.y"></span><span class="mem-desc" data-i18n="wall.p2.d"></span></article><article class="mem" data-tag="recent"><div class="mem-portrait"><button class="mem-open" type="button" data-open="3" data-i18n-attr="aria-label:mp.open"></button><span class="mem-mono">А</span><img class="mem-photo" src="assets/memory/p3.webp" alt="" loading="lazy" decoding="async" onerror="this.remove()"><button class="mem-candle" type="button" data-candle="3" data-i18n-attr="aria-label:wall.candle">{svg("candle","",12)}<span class="mem-count"></span></button></div><span class="mem-name" data-i18n="wall.p3.n"></span><span class="mem-years" data-i18n="wall.p3.y"></span><span class="mem-desc" data-i18n="wall.p3.d"></span></article><article class="mem" data-tag=""><div class="mem-portrait"><button class="mem-open" type="button" data-open="4" data-i18n-attr="aria-label:mp.open"></button><span class="mem-mono">И</span><img class="mem-photo" src="assets/memory/p4.webp" alt="" loading="lazy" decoding="async" onerror="this.remove()"><button class="mem-candle" type="button" data-candle="4" data-i18n-attr="aria-label:wall.candle">{svg("candle","",12)}<span class="mem-count"></span></button></div><span class="mem-name" data-i18n="wall.p4.n"></span><span class="mem-years" data-i18n="wall.p4.y"></span><span class="mem-desc" data-i18n="wall.p4.d"></span></article><article class="mem" data-tag="recent"><div class="mem-portrait"><button class="mem-open" type="button" data-open="5" data-i18n-attr="aria-label:mp.open"></button><span class="mem-mono">О</span><img class="mem-photo" src="assets/memory/p5.webp" alt="" loading="lazy" decoding="async" onerror="this.remove()"><button class="mem-candle" type="button" data-candle="5" data-i18n-attr="aria-label:wall.candle">{svg("candle","",12)}<span class="mem-count"></span></button></div><span class="mem-name" data-i18n="wall.p5.n"></span><span class="mem-years" data-i18n="wall.p5.y"></span><span class="mem-desc" data-i18n="wall.p5.d"></span></article><article class="mem" data-tag="founders"><div class="mem-portrait"><button class="mem-open" type="button" data-open="6" data-i18n-attr="aria-label:mp.open"></button><span class="mem-mono">Н</span><img class="mem-photo" src="assets/memory/p6.webp" alt="" loading="lazy" decoding="async" onerror="this.remove()"><button class="mem-candle" type="button" data-candle="6" data-i18n-attr="aria-label:wall.candle">{svg("candle","",12)}<span class="mem-count"></span></button></div><span class="mem-name" data-i18n="wall.p6.n"></span><span class="mem-years" data-i18n="wall.p6.y"></span><span class="mem-desc" data-i18n="wall.p6.d"></span></article><div class="mem"><button class="mem-add" type="button" id="wallAdd">{svg("plus","",26)}
+      <b data-i18n="wall.add.h"></b><span data-i18n="wall.add.p"></span></button></div>
   </div>
   <p class="wall-empty" id="wallEmpty" hidden data-i18n="wall.none"></p>
 
@@ -971,6 +957,101 @@ def p_memory():
     <a class="btn btn-primary" href="https://saylavy.world" target="_blank" rel="noopener">
       <span data-i18n="sy.cta"></span>{svg("ext","",18)}</a>
     <p class="sy-note">{svg("shield","",15)}<span data-i18n="sy.demo"></span></p>
+  </div>
+
+  <div class="sheet" id="profSheet" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="sheet-box">
+      <div class="sheet-head">
+        <span></span>
+        <button class="sheet-close" type="button" data-close data-i18n-attr="aria-label:mp.close">{svg("close","",17)}</button>
+      </div>
+      <div class="sheet-body">
+        <div class="prof-top">
+          <div class="prof-portrait" id="profPortrait"></div>
+          <div>
+            <h3 class="prof-name" id="profName"></h3>
+            <p class="prof-years" id="profYears"></p>
+            <p class="prof-desc" id="profDesc"></p>
+            <div class="prof-stats">
+              <span class="prof-stat"><span data-i18n="mp.lit"></span>: <b id="profCandles">0</b></span>
+            </div>
+            <div class="prof-actions">
+              <button class="btn btn-ghost btn-sm" type="button" id="profCandle">
+                {svg("candle","",16)}<span data-i18n="mp.candle"></span></button>
+            </div>
+          </div>
+        </div>
+
+        <form class="pray-block" id="prayForm" novalidate>
+          <h4><span data-i18n="mp.pray.h"></span><span class="pray-free" data-i18n="mp.free"></span></h4>
+          <p data-i18n="mp.pray.p"></p>
+          <div class="two">
+            <div class="field" id="fPrayWho">
+              <label for="prayWho" data-i18n="mp.pray.who"></label>
+              <input id="prayWho" type="text" autocomplete="name" data-i18n-attr="placeholder:mp.pray.who.ph">
+              <span class="field-err" data-i18n="mp.pray.req"></span>
+            </div>
+            <div class="field">
+              <label for="prayContact" data-i18n="mp.pray.contact"></label>
+              <input id="prayContact" type="text" data-i18n-attr="placeholder:mp.pray.contact.ph">
+            </div>
+          </div>
+          <div class="field">
+            <label for="prayWords" data-i18n="mp.pray.words"></label>
+            <textarea id="prayWords" data-i18n-attr="placeholder:mp.pray.words.ph"></textarea>
+          </div>
+          <button class="btn btn-primary" type="submit">
+            {svg("hands","",17)}<span data-i18n="mp.pray.send"></span></button>
+          <p class="ok-note" id="prayOk">{svg("check","",17)}<span data-i18n="mp.pray.done"></span></p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="sheet" id="createSheet" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="sheet-box">
+      <div class="sheet-head">
+        <div>
+          <h3 style="font-family:var(--display);font-size:1.5rem;font-weight:500" data-i18n="mc.h"></h3>
+          <p class="muted" style="font-size:.92rem;margin-top:.3rem" data-i18n="mc.p"></p>
+        </div>
+        <button class="sheet-close" type="button" data-close data-i18n-attr="aria-label:mp.close">{svg("close","",17)}</button>
+      </div>
+      <form class="sheet-body" id="createForm" novalidate>
+        <div class="field" id="fMcName">
+          <label for="mcName" data-i18n="mc.name"></label>
+          <input id="mcName" type="text" data-i18n-attr="placeholder:mc.name.ph">
+          <span class="field-err" data-i18n="mc.req.name"></span>
+        </div>
+        <div class="field">
+          <label for="mcYears" data-i18n="mc.years"></label>
+          <input id="mcYears" type="text" data-i18n-attr="placeholder:mc.years.ph">
+        </div>
+        <div class="field">
+          <label for="mcAbout" data-i18n="mc.about"></label>
+          <textarea id="mcAbout" data-i18n-attr="placeholder:mc.about.ph"></textarea>
+        </div>
+        <div class="two">
+          <div class="field" id="fMcBy">
+            <label for="mcBy" data-i18n="mc.by"></label>
+            <input id="mcBy" type="text" autocomplete="name" data-i18n-attr="placeholder:mc.by.ph">
+            <span class="field-err" data-i18n="mc.req.by"></span>
+          </div>
+          <div class="field">
+            <label for="mcContact" data-i18n="mc.contact"></label>
+            <input id="mcContact" type="text" data-i18n-attr="placeholder:mc.contact.ph">
+          </div>
+        </div>
+        <p class="pane-note">{svg("check","",15)}<span data-i18n="mc.photo.p"></span></p>
+        <div class="form-actions">
+          <button class="btn btn-primary" type="submit">{svg("check","",17)}<span data-i18n="mc.send"></span></button>
+          <button class="btn btn-ghost" type="button" data-close data-i18n="mc.cancel"></button>
+        </div>
+        <p class="ok-note" id="createOk">{svg("check","",17)}
+          <span><b data-i18n="mc.done.h"></b><br><span data-i18n="mc.done.p"></span></span></p>
+        <p class="pane-note">{svg("shield","",15)}<span data-i18n="mc.demo"></span></p>
+      </form>
+    </div>
   </div>
 </div></section>
 '''+cta_band()+footer(['wall.js'])
