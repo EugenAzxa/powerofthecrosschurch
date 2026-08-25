@@ -8,12 +8,28 @@ no runtime build step - the generated files are what GitHub Pages serves.
 Usage:  python3 tools/build.py
 """
 import os, re, textwrap
+import os as _os
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Canonical address of the site. Used for <link rel=canonical>, the Open Graph
 # tags and sitemap.xml. The church already owns pocc.ca; when the new site moves
 # onto it, change this one line, rerun the build, and add a CNAME file.
+# ---------------------------------------------------------------- cache
+# Browsers were serving stale CSS and JS after a deploy, which showed up as
+# untranslated keys and unstyled panels. Every local css/js URL carries a hash
+# of the file's own contents, so a changed file is always a new URL and an
+# unchanged one still caches.
+import hashlib as _hashlib
+def _ver(rel):
+    try:
+        with open(_os.path.join(ROOT, rel), "rb") as fh:
+            return _hashlib.sha1(fh.read()).hexdigest()[:8]
+    except OSError:
+        return "0"
+def asset(rel):
+    return rel + "?v=" + _ver(rel)
+
 SITE  = "https://eugenazxa.github.io/powerofthecrosschurch/"
 PHONE = "416-858-9317"
 PHONE_HREF = "+14168589317"
@@ -132,7 +148,7 @@ def head(title_key, desc_key, page):
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="{asset('css/style.css')}">
 <style>
 /* critical: guarantee the veil covers the page even if style.css is still
    in flight, so the loader markup can never flash unstyled */
@@ -241,15 +257,15 @@ def footer(extra_js=()):
     </div>
   </div>
 </footer>
-<script src="js/config.js"></script>
-<script src="js/cloth.js"></script>
-<script src="js/qr.js"></script>
-<script src="js/i18n.js"></script>
-<script src="js/main.js"></script>
+<script src="{asset('js/config.js')}"></script>
+<script src="{asset('js/cloth.js')}"></script>
+<script src="{asset('js/qr.js')}"></script>
+<script src="{asset('js/i18n.js')}"></script>
+<script src="{asset('js/main.js')}"></script>
 __EXTRA__
 </body>
 </html>
-'''.replace("__EXTRA__", "".join('<script src="js/%s"></script>\n' % j for j in extra_js).rstrip("\n"))
+'''.replace("__EXTRA__", "".join('<script src="%s"></script>\n' % asset('js/'+j) for j in extra_js).rstrip("\n"))
 
 def lightbox():
     return f'''<div class="lb" aria-hidden="true" role="dialog" aria-modal="true">
@@ -1200,6 +1216,17 @@ PAGES = {
  "ministries.html":p_ministries, "camp.html":p_camp, "media.html":p_media,
  "gallery.html":p_gallery, "memory.html":p_memory, "visit.html":p_visit, "call.html":p_call, "give.html":p_give,
 }
+def stamp_static(name):
+    """app.html is hand written, so refresh its asset versions in place."""
+    path=_os.path.join(ROOT,name)
+    if not _os.path.exists(path): return
+    html=open(path,encoding="utf-8").read()
+    out=re.sub(r'((?:href|src)=")((?:css|js)/[A-Za-z0-9_.-]+)(?:\?v=[a-f0-9]+)?(")',
+               lambda m: m.group(1)+asset(m.group(2))+m.group(3), html)
+    if out!=html:
+        open(path,"w",encoding="utf-8").write(out)
+        print("  %-18s asset versions refreshed"%name)
+
 if __name__=="__main__":
     if SERMONS_READY: PAGES["sermons.html"]=p_sermons
     for name,fn in PAGES.items():
@@ -1207,4 +1234,5 @@ if __name__=="__main__":
         with open(os.path.join(ROOT,name),"w",encoding="utf-8") as f:
             f.write(html)
         print("  %-18s %6.1f KB"%(name,len(html.encode())/1024))
+    stamp_static("app.html")
     print("built %d pages"%len(PAGES))

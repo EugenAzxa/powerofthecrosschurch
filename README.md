@@ -337,6 +337,30 @@ reduce` and the original markup is simply left visible and untouched - the sourc
 verse always stays in the DOM for screen readers. Animation only runs while the
 band is on screen.
 
+## Cache busting
+
+Every local `css/` and `js/` URL carries `?v=` plus a hash of that file's own
+contents, stamped by `tools/build.py`. A changed file is a new URL, an unchanged
+one still caches. This exists because stale CSS and JS after a deploy showed up
+as untranslated keys and unstyled panels, which reads as the site being broken.
+
+`app.html` is hand written rather than generated, so the build rewrites its asset
+versions in place (`stamp_static`). Run `python3 tools/build.py` after editing any
+CSS or JS, or the pages will keep pointing at the previous hash.
+
+## Deploying
+
+Pages is served from the `gh-pages` branch:
+
+```bash
+python3 tools/build.py
+git add -A && git commit -m "..."
+git push origin main && git push origin main:gh-pages --force
+```
+
+There is also a `vercel.json` (clean URLs, immutable caching for `/assets`,
+security headers) if the site moves to Vercel.
+
 ## Local preview
 
 ```bash
