@@ -253,9 +253,9 @@ cleared on close so audio stops.
 
 ## Saylavy segment
 
-The Legacy page carries a segment for [Saylavy](https://saylavy.world): what it
+The Legacy page carries a segment for [Saylavy](https://saylavy.com): what it
 does for a parish (memory pages, interactive learning, the parish's own address,
-and the pastor approving every word), and a link to saylavy.world.
+and the pastor approving every word), and a link to saylavy.com.
 
 It ends with a **wall of memory** showing what a memory page looks like: six
 profiles with a name, years, a line about a life, and a candle anyone can light.
@@ -298,7 +298,7 @@ Data lives in `PEOPLE` in `tools/build.py` paired with `wall.p*` keys in
 `memory.html` carries the "faith preserved in memory" idea: what the congregation
 keeps (sermons, testimonies, its record since 2012, and knowledge of the faith),
 the archive itself, and an interactive learning page prepared with
-[Saylavy](https://saylavy.world) - Bible stories and verses spoken aloud, reachable
+[Saylavy](https://saylavy.com) - Bible stories and verses spoken aloud, reachable
 from a QR code in the hall, with every word approved by the church's pastor.
 
 Note the framing: this describes what the church offers its own people. It is

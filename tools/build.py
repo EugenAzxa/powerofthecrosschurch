@@ -521,7 +521,7 @@ def p_index():
     <div class="syb-links">
       <a class="btn btn-primary" href="memory.html">
         {svg("heart","",18)}<span data-i18n="syb.link"></span></a>
-      <a class="btn btn-ghost" href="https://saylavy.world" target="_blank" rel="noopener">
+      <a class="btn btn-ghost" href="https://saylavy.com" target="_blank" rel="noopener">
         <span data-i18n="sy.cta"></span>{svg("ext","",18)}</a>
     </div>
   </div>
@@ -987,7 +987,7 @@ def p_memory():
   <p class="wall-empty" id="wallEmpty" hidden data-i18n="wall.none"></p>
 
   <div class="sy-foot" data-reveal>
-    <a class="btn btn-primary" href="https://saylavy.world" target="_blank" rel="noopener">
+    <a class="btn btn-primary" href="https://saylavy.com" target="_blank" rel="noopener">
       <span data-i18n="sy.cta"></span>{svg("ext","",18)}</a>
     <p class="sy-note">{svg("shield","",15)}<span data-i18n="sy.demo"></span></p>
   </div>
