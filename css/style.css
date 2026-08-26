@@ -1255,7 +1255,7 @@ html.is-embed .demo-section{display:none!important}
   font-family:var(--display);font-size:clamp(2.6rem,7vw,3.6rem);font-weight:500;
   color:var(--blue);opacity:.5;letter-spacing:.02em;user-select:none;
 }
-.mem-candle{
+.mem-pray{
   position:absolute;left:50%;bottom:.7rem;translate:-50% 0;
   display:inline-flex;align-items:center;gap:.35rem;cursor:pointer;
   padding:.24rem .62rem;border-radius:100px;font-size:.76rem;font-weight:700;
@@ -1263,9 +1263,9 @@ html.is-embed .demo-section{display:none!important}
   font-variant-numeric:tabular-nums;backdrop-filter:blur(6px);
   transition:background .25s ease,transform .25s var(--ease);
 }
-.mem-candle:hover{background:rgba(232,192,125,.28);transform:translate(-50%,-2px)}
-.mem-candle.is-lit{background:var(--gold);border-color:var(--gold);color:#0A0703}
-.mem-candle svg{width:12px;height:12px}
+.mem-pray:hover{background:rgba(232,192,125,.28);transform:translate(-50%,-2px)}
+.mem-pray.is-lit{background:var(--gold);border-color:var(--gold);color:#0A0703}
+.mem-pray svg{width:12px;height:12px}
 .mem-name{font-family:var(--display);font-size:1.14rem;line-height:1.25}
 .mem-years{font-size:.8rem;color:var(--gold-ink);font-weight:700;font-variant-numeric:tabular-nums}
 .mem-desc{font-size:.84rem;color:var(--muted);line-height:1.45}
@@ -1288,8 +1288,8 @@ html.is-embed .demo-section{display:none!important}
   filter:grayscale(.24) contrast(1.02);
 }
 .mem-portrait:has(.mem-photo) .mem-mono{display:none}
-.mem-photo + .mem-candle,
-.mem-portrait .mem-photo ~ .mem-candle{z-index:2}
+.mem-photo + .mem-pray,
+.mem-portrait .mem-photo ~ .mem-pray{z-index:2}
 
 /* An optional portrait sits over the monogram. If the file is missing the
    <img> removes itself and the monogram shows through, so the wall never
@@ -1299,7 +1299,7 @@ html.is-embed .demo-section{display:none!important}
   filter:grayscale(.22) contrast(1.02);
 }
 .mem-portrait:has(.mem-photo) .mem-mono{display:none}
-.mem-candle{z-index:2}
+.mem-pray{z-index:2}
 
 /* ==========================================================================
    Memory profile: open a page, ask for prayer, create a page

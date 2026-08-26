@@ -258,12 +258,12 @@ does for a parish (memory pages, interactive learning, the parish's own address,
 and the pastor approving every word), and a link to saylavy.com.
 
 It ends with a **wall of memory** showing what a memory page looks like: six
-profiles with a name, years, a line about a life, and a candle anyone can light.
+profiles with a name, years, a line about a life, and a prayer anyone can offer.
 Filters, search, and an "add a page" tile.
 
 **The six people are fictional**, and a banner above them says so before anyone
 reads a single name - the same pattern Saylavy uses on its own demonstrations.
-Candle counts live in `localStorage` and nowhere else.
+Prayer counts live in `localStorage` and nowhere else.
 
 Each card has an **optional portrait slot**: drop `p1.webp`-`p6.webp` into
 `assets/memory/` and they appear. A missing file removes its own `<img>`, so the
@@ -277,7 +277,7 @@ photographs of invented deceased people would be a step too far, and monograms
 are what Saylavy already uses where a face should not be depicted. Swap in real
 portraits by adding an `<img>` inside `.mem-portrait`.
 
-Selecting a card **opens the page**: portrait, name, years, the life, the candle
+Selecting a card **opens the page**: portrait, name, years, the life, the prayer
 count, and a form to **ask the church to pray** for that person and their family.
 The prayer request is free and the panel says so.
 

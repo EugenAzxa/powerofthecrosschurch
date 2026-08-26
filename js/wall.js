@@ -1,10 +1,10 @@
 /* ==========================================================================
    Memory wall.
 
-   Three things people can do: light a candle, open a page, and ask the church
-   to pray. Plus a form to propose a new page.
+   Three things people can do: pray for someone, open their page, and ask the
+   church to pray. Plus a form to propose a new page.
 
-   Everything is client side. Candles, drafts and prayer requests live in
+   Everything is client side. Prayer counts, drafts and requests live in
    localStorage and go nowhere else, which the copy says on screen. When the
    church has somewhere to receive these, point SUBMIT_EMAIL at it and the
    forms will hand the request to the visitor's own mail app instead.
@@ -13,7 +13,7 @@
 'use strict';
 
 var SUBMIT_EMAIL='';                 /* set when the church publishes an address */
-var CK='pocc-candles', LK='pocc-candles-lit', DK='pocc-drafts';
+var CK='pocc-prayers', LK='pocc-prayers-mine', DK='pocc-drafts';
 var SEED=[214,168,301,97,142,58];
 
 function t(k){
@@ -64,9 +64,9 @@ function ready(){
 
   function paintCounts(){
     cards().forEach(function(card){
-      var btn=card.querySelector('.mem-candle');
+      var btn=card.querySelector('.mem-pray');
       if(!btn) return;
-      var i=+btn.getAttribute('data-candle')-1;
+      var i=+btn.getAttribute('data-pray')-1;
       var n=counts[i]!==undefined?counts[i]:0;
       var c=btn.querySelector('.mem-count');
       if(c) c.textContent=n;
@@ -74,7 +74,7 @@ function ready(){
     });
   }
 
-  function toggleCandle(i){
+  function togglePrayer(i){
     if(lit[i]){ counts[i]=Math.max(0,(counts[i]||1)-1); delete lit[i]; }
     else      { counts[i]=(counts[i]||0)+1; lit[i]=1; }
     save(CK,counts); save(LK,lit);
@@ -83,8 +83,8 @@ function ready(){
   }
 
   grid.addEventListener('click',function(e){
-    var c=e.target.closest&&e.target.closest('.mem-candle');
-    if(c){ toggleCandle(+c.getAttribute('data-candle')-1); return; }
+    var c=e.target.closest&&e.target.closest('.mem-pray');
+    if(c){ togglePrayer(+c.getAttribute('data-pray')-1); return; }
     var o=e.target.closest&&e.target.closest('.mem-open');
     if(o){ openProfile(o.closest('.mem')); return; }
   });
@@ -153,16 +153,16 @@ function ready(){
     pt.innerHTML = p.photo
       ? '<img src="'+p.photo+'" alt="">'
       : '<span class="mem-mono">'+(p.mono||'?')+'</span>';
-    var cd=document.getElementById('profCandles');
+    var cd=document.getElementById('profPrayCount');
     cd.textContent = p.idx===null ? 0 : (counts[p.idx]||0);
     var ok=document.getElementById('prayOk'); if(ok) ok.classList.remove('is-on');
     var f=document.getElementById('prayForm'); if(f) f.reset();
     prof.open();
   }
-  var profCandle=document.getElementById('profCandle');
-  if(profCandle) profCandle.addEventListener('click',function(){
+  var profPray=document.getElementById('profPray');
+  if(profPray) profPray.addEventListener('click',function(){
     if(!current||current.idx===null) return;
-    document.getElementById('profCandles').textContent=toggleCandle(current.idx);
+    document.getElementById('profPrayCount').textContent=togglePrayer(current.idx);
   });
 
   /* ---------------- prayer request ---------------- */
