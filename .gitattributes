@@ -1,0 +1,6 @@
+# LF everywhere, so tools/build.py hashes the same bytes on every OS
+* text=auto eol=lf
+*.webp binary
+*.png binary
+*.jpg binary
+*.mp4 binary

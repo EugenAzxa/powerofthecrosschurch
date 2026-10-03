@@ -193,21 +193,6 @@ printed and put up in the hall.
 decoding them back with the macOS Vision barcode reader, including a decode of
 the QR as actually rendered on the page.
 
-## Nations
-
-The hall on Wildcat Road has flags hanging from the ceiling, one for each
-country the congregation came from. The home page carries them as a row of
-chips between the welcome and the scripture band.
-
-The flag artwork is real SVG in `assets/flags/`, taken from flagcdn (national
-flags are not copyrightable). It is deliberately not drawn by hand and
-deliberately not emoji: several of these - Kyrgyzstan, Kazakhstan, South Korea,
-DR Congo - have detail that a hand-drawn version would get wrong.
-
-The list lives in `NAT` in `tools/build.py`, paired with `nat.*` keys in
-`js/i18n.js`. To add a country: drop its two-letter SVG in `assets/flags/`, add
-the pair to `NAT`, and add the name to both dictionaries.
-
 ## Invitation film
 
 The home page carries the church's own invitation film - the pastor speaking to
@@ -285,7 +270,7 @@ The **add tile opens a form** to propose a new page - name, years, a few lines,
 and who is submitting it. Submitted pages appear on the wall as your own draft,
 marked as such, and can be removed.
 
-All of it is client side: candles, drafts and prayer requests live in
+All of it is client side: prayer counts, drafts and prayer requests live in
 `localStorage` and go nowhere else, which the copy states. Set `SUBMIT_EMAIL` at
 the top of `js/wall.js` and both forms will additionally hand the request to the
 visitor's own mail app.
@@ -394,11 +379,6 @@ wherever it is served from.
 **Note that this is a cutover, not an addition.** Pointing pocc.ca at GitHub
 Pages replaces the live site the congregation currently uses, so it wants the
 church's agreement and a moment when someone can check the result.
-
-## Deployment
-
-GitHub Pages serves the `main` branch from the repository root. Pushing to `main`
-publishes the site; there is no build step on the server.
 
 ## Church details
 

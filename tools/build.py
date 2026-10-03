@@ -1240,14 +1240,14 @@ def stamp_static(name):
     out=re.sub(r'((?:href|src)=")((?:css|js)/[A-Za-z0-9_.-]+)(?:\?v=[a-f0-9]+)?(")',
                lambda m: m.group(1)+asset(m.group(2))+m.group(3), html)
     if out!=html:
-        open(path,"w",encoding="utf-8").write(out)
+        open(path,"w",encoding="utf-8",newline="\n").write(out)
         print("  %-18s asset versions refreshed"%name)
 
 if __name__=="__main__":
     if SERMONS_READY: PAGES["sermons.html"]=p_sermons
     for name,fn in PAGES.items():
         html=fn()
-        with open(os.path.join(ROOT,name),"w",encoding="utf-8") as f:
+        with open(os.path.join(ROOT,name),"w",encoding="utf-8",newline="\n") as f:
             f.write(html)
         print("  %-18s %6.1f KB"%(name,len(html.encode())/1024))
     stamp_static("app.html")
