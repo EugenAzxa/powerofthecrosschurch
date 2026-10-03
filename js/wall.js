@@ -117,6 +117,9 @@ function ready(){
   function sheet(id){
     var el=document.getElementById(id);
     if(!el) return null;
+    /* the wall's section isolates its stacking context, which would leave
+       the fixed header painted over an open sheet - lift it out to <body> */
+    document.body.appendChild(el);
     var last=null;
     function open(){
       last=document.activeElement;
