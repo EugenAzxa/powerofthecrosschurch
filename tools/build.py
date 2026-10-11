@@ -42,6 +42,7 @@ FB    = "https://www.facebook.com/powerofthecrossofficial"
 # --------------------------------------------------------------------- icons
 I = {
 "cross":'<path d="M13 2h6v9h9v6h-9v13h-6V17H4v-6h9V2z" fill="currentColor"/>',
+"crossl":'<path d="M10 2.5h4v6h6v4h-6v9h-4v-9H4v-4h6z" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linejoin="round"/>',
 "arrow":'<path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>',
 "chev" :'<path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>',
 "chevl":'<path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>',
@@ -302,6 +303,31 @@ def times_strip():
   </div></section>
 '''
 
+# Four of the seventeen articles, so a first-time visitor knows what the church
+# believes before anything else. Titles and references reuse the b{n} keys.
+CREED = [(1,"book"),(3,"crossl"),(7,"heart"),(17,"globe")]
+def creed():
+    cards=""
+    for n,ic in CREED:
+        cards+=f'''<article class="icard creed-card">
+        <span class="icard-icon">{svg(ic,"",22)}</span>
+        <h3 data-i18n="b{n}.t"></h3>
+        <p data-i18n="creed.c{n}"></p>
+        <span class="creed-ref" data-i18n="b{n}.r"></span>
+      </article>'''
+    return f'''<section class="section creed"><div class="wrap">
+  <div class="section-head" data-reveal>
+    <p class="eyebrow" data-i18n="creed.eyebrow"></p>
+    <h2 data-i18n="creed.h"></h2>
+    <p class="lead" data-i18n="creed.p"></p>
+  </div>
+  <div class="grid grid-4" data-reveal-stagger>{cards}</div>
+  <div style="margin-top:2rem" data-reveal>
+    <a class="link-arrow" href="beliefs.html"><span data-i18n="creed.link"></span>{svg("arrow","",16)}</a>
+  </div>
+</div></section>
+'''
+
 GALLERY = [
  ("g-worship","gal.g1"),("g-baptism","gal.g4"),("g-nativity","gal.g2"),
  ("g-camp-lake","gal.g11"),("g-praise","gal.g6"),("g-outreach","gal.g15"),
@@ -356,6 +382,7 @@ def p_index():
       <path d="M13 2h6v9h9v6h-9v13h-6V17H4v-6h9V2z" fill="url(#hc)"/></svg>
     <p class="eyebrow" data-i18n="hero.kicker"></p>
     <h1 class="display"><span data-i18n="hero.t1">Сила</span><em data-i18n="hero.t2">Креста</em></h1>
+    <p class="hero-creed" data-i18n="hero.creed">Проповедуем Евангелие Иисуса Христа - Слово Божье</p>
     <p class="hero-verse"><span data-i18n="hero.verse"></span>
       <cite data-i18n="hero.verse.ref"></cite></p>
     <div class="hero-cta">
@@ -367,6 +394,8 @@ def p_index():
 </section>
 
 {times_strip()}
+
+{creed()}
 
 <section class="film dark-zone"><div class="wrap">
   <div class="film-head" data-reveal>
