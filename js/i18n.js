@@ -23,6 +23,11 @@ ru:{
 "hero.kicker":"Христианская церковь в Торонто",
 "hero.t1":"Сила","hero.t2":"Креста",
 "hero.verse":"«И познаете истину, и истина сделает вас свободными»",
+"hw.h":"Стена памяти",
+"hw.p":"Страницы о тех, кого церковь помнит: годы жизни, несколько слов о человеке и молитва за его семью.",
+"hw.open":"Открыть стену памяти",
+"hw.note":"Это пример оформления: имена, даты и истории вымышлены.",
+"hw.kept":"Страницы памяти ведутся вместе с",
 "hero.verse.ref":"Иоанна 8:32",
 "nav.video":"Видео",
 "vid.crumb":"Видео",
@@ -59,10 +64,10 @@ ru:{
 "blog.more":"Другие статьи",
 "blog.all":"Все статьи",
 "home.blog.eyebrow":"Блог",
-"home.blog.h":"Статьи о вере и жизни церкви",
+"home.blog.h":"Статьи",
 "hero.creed":"Проповедуем Евангелие Иисуса Христа - Слово Божье",
 "creed.eyebrow":"Во что мы верим",
-"creed.h":"Вера, основанная на Слове Божьем",
+"creed.h":"Во что мы верим",
 "creed.p":"В центре всего, что мы делаем, - Иисус Христос, Его смерть на Кресте и воскресение. Всё, во что мы верим и чему учим, основано на Библии.",
 "creed.c1":"Библия и только Библия есть истинно Слово Божие.",
 "creed.c3":"Сын Бога. На земле Он был истинным Богом и настоящим человеком и жил без греха.",
@@ -92,7 +97,7 @@ ru:{
 
 /* home: ministries preview */
 "home.min.eyebrow":"Служения",
-"home.min.h":"Место для каждого",
+"home.min.h":"Служения",
 "home.min.p":"В течение недели в церкви работают несколько служений. Приходите тем составом, какой у вас есть - один, с другом или всей семьёй.",
 "home.min.all":"Все служения",
 
@@ -110,7 +115,7 @@ ru:{
 
 /* home: gallery preview */
 "home.gal.eyebrow":"Из жизни церкви",
-"home.gal.h":"Наши общие моменты",
+"home.gal.h":"Фотографии",
 "home.gal.all":"Вся галерея",
 
 /* about page */
@@ -350,8 +355,8 @@ ru:{
 "serm.stat2":"служителей",
 "serm.stat3":"лет записей",
 "home.serm.eyebrow":"Проповеди",
-"home.serm.h":"Слово, к которому можно вернуться",
-"home.serm.p":"Записи воскресных служений за многие годы, собранные по годам и по служителям.",
+"home.serm.h":"Проповеди",
+"home.serm.p":"548 записей воскресных служений с 2014 года. Поиск по названию, году и проповеднику.",
 "home.serm.link":"Открыть архив проповедей",
 /* mobile demo */
 "demo.eyebrow":"На телефоне",
@@ -398,7 +403,7 @@ ru:{
 "app.more.call":"Позвонить","app.more.route":"Проложить маршрут",
 "app.demo.badge":"Демонстрация",
 "demo.app.eyebrow":"Приложение церкви",
-"demo.app.h":"Церковь в кармане",
+"demo.app.h":"Приложение церкви",
 "demo.app.p":"Расписание, проповеди, отметка о посещении и пожертвование - в одном месте. Наведите камеру на код, и приложение откроется на вашем телефоне. Устанавливать ничего не нужно.",
 "demo.app.open":"Открыть приложение",
 /* call with the pastor */
@@ -431,7 +436,7 @@ ru:{
 "call.req.name":"Укажите, пожалуйста, имя.",
 "call.req.phone":"Укажите номер телефона, чтобы пастор мог перезвонить.",
 "home.call.eyebrow":"Разговор с пастором",
-"home.call.h":"Иногда нужно просто поговорить",
+"home.call.h":"Поговорить с пастором",
 "home.call.p":"Пастор выделяет время для личных разговоров по телефону. Разговор бесплатный.",
 "home.call.link":"Договориться о разговоре",
 "app.tab.call":"Разговор",
@@ -508,8 +513,8 @@ ru:{
 "syb.p":"Страницы памяти о тех, кого церковь помнит, и интерактивное обучение вере. Содержание готовит и утверждает сама церковь.",
 "syb.link":"Смотреть стену памяти",
 /* cta band */
-"cta.h":"Мы будем рады видеть вас в это воскресенье",
-"cta.p":"Если вы ещё не нашли церковь, которая стала бы для вас родным домом, приглашаем присоединиться к нам.",
+"cta.h":"Воскресное служение в 11:00",
+"cta.p":"255 Wildcat Rd, Toronto. Приходите как есть - у входа вас встретят и подскажут, куда пройти.",
 "cta.b1":"Как нас найти","cta.b2":"Смотреть онлайн",
 
 /* footer */
@@ -540,6 +545,11 @@ en:{
 "hero.kicker":"A Christian church in Toronto",
 "hero.t1":"Power of","hero.t2":"the Cross",
 "hero.verse":"“And you will know the truth, and the truth will set you free”",
+"hw.h":"Memory wall",
+"hw.p":"Pages for those the church remembers: their years, a few words about their life, and prayer for their family.",
+"hw.open":"Open the memory wall",
+"hw.note":"A design example: the names, dates and stories are invented.",
+"hw.kept":"Memory pages are kept with",
 "hero.verse.ref":"John 8:32",
 "nav.video":"Video",
 "vid.crumb":"Video",
@@ -576,10 +586,10 @@ en:{
 "blog.more":"More articles",
 "blog.all":"All articles",
 "home.blog.eyebrow":"Blog",
-"home.blog.h":"Articles on faith and church life",
+"home.blog.h":"Articles",
 "hero.creed":"We preach the Gospel of Jesus Christ - the Word of God",
 "creed.eyebrow":"What we believe",
-"creed.h":"A faith built on the Word of God",
+"creed.h":"What we believe",
 "creed.p":"At the centre of everything we do is Jesus Christ, His death on the Cross and His resurrection. All we believe and teach rests on the Bible.",
 "creed.c1":"The Bible, and the Bible alone, is truly the Word of God.",
 "creed.c3":"The Son of God. On earth He was fully God and fully man, and lived without sin.",
@@ -605,7 +615,7 @@ en:{
 "home.stat3.n":"2 languages","home.stat3.l":"Russian and English",
 
 "home.min.eyebrow":"Ministries",
-"home.min.h":"There is a place for you here",
+"home.min.h":"Ministries",
 "home.min.p":"Several ministries run through the week. Come however you are - on your own, with a friend, or with the whole family.",
 "home.min.all":"All ministries",
 
@@ -620,7 +630,7 @@ en:{
 "home.camp.link":"About the camp",
 
 "home.gal.eyebrow":"Life together",
-"home.gal.h":"Moments we have shared",
+"home.gal.h":"Photos",
 "home.gal.all":"Full gallery",
 
 "about.crumb":"About",
@@ -852,8 +862,8 @@ en:{
 "serm.stat2":"preachers",
 "serm.stat3":"years of recordings",
 "home.serm.eyebrow":"Sermons",
-"home.serm.h":"Teaching you can return to",
-"home.serm.p":"Recordings of Sunday services going back years, gathered by year and by preacher.",
+"home.serm.h":"Sermons",
+"home.serm.p":"548 recorded Sunday services since 2014. Search by title, year and preacher.",
 "home.serm.link":"Open the sermon archive",
 /* mobile demo */
 "demo.eyebrow":"On your phone",
@@ -900,7 +910,7 @@ en:{
 "app.more.call":"Call us","app.more.route":"Get directions",
 "app.demo.badge":"Demo",
 "demo.app.eyebrow":"Church app",
-"demo.app.h":"The church in your pocket",
+"demo.app.h":"The church app",
 "demo.app.p":"Schedule, sermons, checking in and giving, in one place. Point your camera at the code and the app opens on your phone. There is nothing to install.",
 "demo.app.open":"Open the app",
 /* call with the pastor */
@@ -933,7 +943,7 @@ en:{
 "call.req.name":"Please give your name.",
 "call.req.phone":"Please give a phone number so the pastor can call you back.",
 "home.call.eyebrow":"Talk with the pastor",
-"home.call.h":"Sometimes you just need to talk",
+"home.call.h":"Talk with the pastor",
 "home.call.p":"The pastor sets aside time for personal conversations by phone. The call is free.",
 "home.call.link":"Arrange a conversation",
 "app.tab.call":"Talk",
@@ -1009,8 +1019,8 @@ en:{
 "syb.h":"The congregation's memory is kept with Saylavy",
 "syb.p":"Memory pages for those the church remembers, and interactive learning of the faith. The church prepares and approves the content itself.",
 "syb.link":"See the wall of memory",
-"cta.h":"We would love to see you this Sunday",
-"cta.p":"If you have not yet found a church that feels like home, we invite you to join us.",
+"cta.h":"Sunday worship at 11:00 AM",
+"cta.p":"255 Wildcat Rd, Toronto. Come as you are - someone will meet you at the door and show you where to go.",
 "cta.b1":"Find us","cta.b2":"Watch online",
 
 "foot.about":"A Russian-speaking Christian church in Toronto. Sunday worship at 11:00 AM.",

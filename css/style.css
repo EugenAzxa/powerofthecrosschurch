@@ -157,7 +157,6 @@ p{text-wrap:pretty}
   letter-spacing:.19em;text-transform:uppercase;color:var(--blue);
   display:flex;align-items:center;gap:.7rem;margin-bottom:var(--s-3);
 }
-.eyebrow::before{content:'';width:26px;height:1px;background:var(--blue);opacity:.7;flex:none}
 .eyebrow.is-center{justify-content:center}
 
 .section-head{max-width:760px;margin-bottom:var(--s-6)}
@@ -343,15 +342,12 @@ body.has-dark-hero .header:not(.is-stuck){
 @keyframes breathe{0%,100%{opacity:.62;transform:scale(1)}50%{opacity:1;transform:scale(1.09)}}
 
 .hero-inner{position:relative;padding-block:calc(var(--header-h) + var(--s-7)) var(--s-7);width:100%}
-.hero-cross{width:44px;height:44px;margin-bottom:var(--s-3);filter:drop-shadow(0 0 22px rgba(90,169,255,.85))}
+.hero-cross{width:40px;height:40px;margin-bottom:var(--s-3)}
 .hero h1{
   font-size:var(--t-hero);font-weight:400;line-height:.88;letter-spacing:-.028em;
   max-width:15ch;text-shadow:0 4px 60px rgba(0,0,0,.55);
 }
-.hero h1 em{font-style:normal;display:block;
-  background:linear-gradient(96deg,#BFE0FF,#5AA9FF 62%);
-  -webkit-background-clip:text;background-clip:text;color:transparent;
-  filter:drop-shadow(0 0 42px rgba(90,169,255,.42))}
+.hero h1 em{font-style:normal;display:block;color:#9FCBFF}
 .hero-creed{
   margin-top:var(--s-4);font-family:var(--display);font-weight:500;line-height:1.2;
   font-size:clamp(1.35rem,1.05rem + 1.3vw,2.1rem);color:var(--text);max-width:26ch;
@@ -418,10 +414,10 @@ body.has-dark-hero .header:not(.is-stuck){
   transition:transform var(--dur) var(--ease),border-color .35s ease,box-shadow .35s ease;
 }
 .card{box-shadow:var(--shadow)}
-.card:hover{transform:translateY(-5px);border-color:var(--line-strong);box-shadow:var(--shadow-lift)}
+.card:has(a):hover{transform:translateY(-3px);border-color:var(--line-strong);box-shadow:var(--shadow-lift)}
 .card-media{position:relative;aspect-ratio:3/2;overflow:hidden;background:var(--surface-2)}
 .card-media img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease)}
-.card:hover .card-media img{transform:scale(1.055)}
+.card:has(a):hover .card-media img{transform:scale(1.04)}
 .card-media::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,var(--media-scrim))}
 .card-body{padding:var(--s-4);display:flex;flex-direction:column;gap:.7rem;flex:1}
 .card-body h3{margin-bottom:.1rem}
@@ -435,10 +431,9 @@ body.has-dark-hero .header:not(.is-stuck){
   transition:transform var(--dur) var(--ease),border-color .35s ease,background .35s ease;
 }
 .icard{box-shadow:var(--shadow)}
-.icard:hover{transform:translateY(-4px);border-color:var(--line-strong);box-shadow:var(--shadow-lift)}
 .icard-icon{
   width:46px;height:46px;border-radius:12px;display:grid;place-items:center;flex:none;
-  background:linear-gradient(145deg,rgba(90,169,255,.18),rgba(90,169,255,.05));
+  background:var(--blue-wash);
   border:1px solid rgba(90,169,255,.24);color:var(--blue-br);
 }
 .icard-icon svg{width:22px;height:22px}
@@ -802,7 +797,7 @@ html.is-loading,html.is-loading body{overflow:hidden}
 }
 .pane-icon{
   width:46px;height:46px;border-radius:12px;display:grid;place-items:center;
-  background:linear-gradient(145deg,rgba(90,169,255,.18),rgba(90,169,255,.05));
+  background:var(--blue-wash);
   border:1px solid rgba(90,169,255,.24);color:var(--blue-br);
 }
 .pane.is-lead .pane-icon{
@@ -1464,3 +1459,40 @@ html[lang="en"] [data-only="ru"],html:not([lang="en"]) [data-only="en"]{display:
 @media(max-width:560px){.album-grid{grid-template-columns:1fr 1fr;gap:var(--s-2)}
   .album-card h3{font-size:1rem}.album-card .card-body{padding:var(--s-2) var(--s-2) var(--s-3)}}
 .serm-item[hidden]{display:none}
+
+/* ==========================================================================
+   Home: what we believe, sermons + pastor, memory wall
+   ========================================================================== */
+.creed-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 var(--s-6);
+  border-top:1px solid var(--line)}
+.creed-item{padding:var(--s-4) 0;border-bottom:1px solid var(--line);display:grid;gap:.45rem;align-content:start}
+.creed-item h3{font-size:1.4rem}
+.creed-item p{color:var(--muted);max-width:52ch}
+@media(max-width:760px){.creed-list{grid-template-columns:1fr}}
+
+.pair{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:var(--s-4)}
+.pair-item{display:grid;grid-template-rows:auto 1fr;border-radius:var(--radius-lg);overflow:hidden;
+  background:var(--surface);border:1px solid var(--line);color:inherit;
+  transition:border-color .3s ease,box-shadow .3s ease}
+.pair-item:hover{border-color:var(--line-strong);box-shadow:var(--shadow-lift)}
+.pair-item img{width:100%;aspect-ratio:16/9;object-fit:cover}
+.pair-body{display:grid;gap:.6rem;align-content:start;padding:var(--s-4)}
+.pair-body h2{font-size:var(--t-h3)}
+.pair-p{color:var(--muted)}
+.pair-body .link-arrow{margin-top:.3rem}
+
+.hw-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:var(--s-4);margin-bottom:var(--s-5)}
+.hw-head .lead{margin-top:var(--s-3);max-width:56ch}
+.hw-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:var(--s-3)}
+.hw-person{display:grid;gap:.25rem;color:inherit;text-align:center}
+.hw-photo{display:block;aspect-ratio:3/4;border-radius:999px 999px var(--radius) var(--radius);overflow:hidden;
+  background:var(--surface-2);border:1px solid var(--line);margin-bottom:.5rem}
+.hw-photo img{width:100%;height:100%;object-fit:cover;filter:saturate(.85);transition:filter .4s ease,transform .6s var(--ease)}
+.hw-person:hover .hw-photo img{filter:none;transform:scale(1.03)}
+.hw-name{font-family:var(--display);font-size:1.12rem;font-weight:500;line-height:1.2}
+.hw-years{font-size:.85rem;color:var(--gold-ink);font-weight:600;letter-spacing:.04em}
+.hw-note{display:flex;gap:.5rem;align-items:flex-start;margin-top:var(--s-5);font-size:.88rem;color:var(--muted)}
+.hw-note svg{flex:none;margin-top:.15rem;color:var(--blue)}
+.hw-note a{color:var(--blue);border-bottom:1px solid var(--line-strong)}
+@media(max-width:980px){.hw-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:480px){.hw-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s-3) var(--s-2)}}

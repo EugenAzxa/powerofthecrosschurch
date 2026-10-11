@@ -249,6 +249,11 @@ It ends with a **wall of memory** showing what a memory page looks like: six
 profiles with a name, years, a line about a life, and a prayer anyone can offer.
 Filters, search, and an "add a page" tile.
 
+The home page shows the same six portraits under **Стена памяти**; each one
+links to `memory.html#p<n>`, which opens that person's page on arrival. The
+home section carries its own line saying the names are invented, because a
+visitor may never reach the banner on the Legacy page.
+
 **The six people are fictional**, and a banner above them says so before anyone
 reads a single name - the same pattern Saylavy uses on its own demonstrations.
 Prayer counts live in `localStorage` and nowhere else.

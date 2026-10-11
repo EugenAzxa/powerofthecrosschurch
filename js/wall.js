@@ -265,6 +265,11 @@ function ready(){
   renderDrafts();
   paintCounts();
   apply();
+
+  /* memory.html#p3 - arriving from a portrait on the home page */
+  var m=location.hash.match(/^#p(\d+)$/);
+  var b=m&&grid.querySelector('[data-open="'+m[1]+'"]');
+  if(b) openProfile(b.closest('.mem'));
 }
 
 if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',ready);

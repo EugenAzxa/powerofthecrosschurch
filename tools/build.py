@@ -236,7 +236,7 @@ def cta_band():
       <p data-i18n="cta.p"></p>
       <div class="cta-btns">
         <a class="btn btn-primary" href="visit.html">{svg("pin","",18)}<span data-i18n="cta.b1">Как нас найти</span></a>
-        <a class="btn btn-ghost" href="{YTLIVE}" target="_blank" rel="noopener">{svg("play","",18)}<span data-i18n="cta.b2">Смотреть онлайн</span></a>
+        <a class="btn btn-ghost" href="tel:{PHONE_HREF}">{svg("phone","",18)}<span>{PHONE}</span></a>
       </div>
     </div>
   </div>
@@ -312,7 +312,6 @@ def page_hero(crumb_key, eyebrow_key, h_key, lead_key):
     <span data-i18n="{crumb_key}"></span>
   </nav>
   <div data-reveal>
-    <p class="eyebrow" data-i18n="{eyebrow_key}"></p>
     <h1 data-i18n="{h_key}"></h1>
     <p class="lead" data-i18n="{lead_key}"></p>
   </div>
@@ -334,26 +333,53 @@ def times_strip():
 
 # Four of the seventeen articles, so a first-time visitor knows what the church
 # believes before anything else. Titles and references reuse the b{n} keys.
-CREED = [(1,"book"),(3,"crossl"),(7,"heart"),(17,"globe")]
+CREED = [1, 3, 7, 17]
 def creed():
-    cards=""
-    for n,ic in CREED:
-        cards+=f'''<article class="icard creed-card">
-        <span class="icard-icon">{svg(ic,"",22)}</span>
+    items="".join(f'''<div class="creed-item">
         <h3 data-i18n="b{n}.t"></h3>
         <p data-i18n="creed.c{n}"></p>
         <span class="creed-ref" data-i18n="b{n}.r"></span>
-      </article>'''
+      </div>''' for n in CREED)
     return f'''<section class="section creed"><div class="wrap">
   <div class="section-head" data-reveal>
-    <p class="eyebrow" data-i18n="creed.eyebrow"></p>
     <h2 data-i18n="creed.h"></h2>
     <p class="lead" data-i18n="creed.p"></p>
   </div>
-  <div class="grid grid-4" data-reveal-stagger>{cards}</div>
+  <div class="creed-list" data-reveal>{items}</div>
   <div style="margin-top:2rem" data-reveal>
     <a class="link-arrow" href="beliefs.html"><span data-i18n="creed.link"></span>{svg("arrow","",16)}</a>
   </div>
+</div></section>
+'''
+
+def pair_row():
+    """Sermons and the pastor, side by side, each one link with a real photo."""
+    items=[]
+    if SERMONS_READY: items.append(("sermons.html","g-service-1100","home.serm"))
+    items.append(("call.html","invite-860","home.call"))
+    out="".join(f'''<a class="pair-item" href="{h}">
+      <img src="assets/img/{img}.webp" loading="lazy" decoding="async" alt="">
+      <span class="pair-body"><h2 data-i18n="{k}.h"></h2><span class="pair-p" data-i18n="{k}.p"></span>
+        <span class="link-arrow"><span data-i18n="{k}.link"></span>{svg("arrow","",16)}</span></span>
+    </a>''' for h,img,k in items)
+    return f'''<section class="section-sm"><div class="wrap"><div class="pair" data-reveal>{out}</div></div></section>
+'''
+
+def home_wall():
+    """The memory wall on the home page: the portraits, each opening its page."""
+    people="".join(f'''<a class="hw-person" href="memory.html#p{n}">
+      <span class="hw-photo"><img src="assets/memory/p{n}.webp" width="300" height="400" loading="lazy" decoding="async" alt=""></span>
+      <span class="hw-name" data-i18n="wall.p{n}.n"></span>
+      <span class="hw-years" data-i18n="wall.p{n}.y"></span>
+    </a>''' for n in range(1,7))
+    return f'''<section class="section home-wall"><div class="wrap">
+  <div class="hw-head" data-reveal>
+    <div><h2 data-i18n="hw.h"></h2><p class="lead" data-i18n="hw.p"></p></div>
+    <a class="btn btn-ghost" href="memory.html#wallGrid">{svg("heart","",18)}<span data-i18n="hw.open"></span></a>
+  </div>
+  <div class="hw-grid" data-reveal-stagger>{people}</div>
+  <p class="hw-note" data-reveal>{svg("shield","",15)}<span><span data-i18n="hw.note"></span>
+    <span data-i18n="hw.kept"></span> <a href="https://saylavy.com" target="_blank" rel="noopener">Saylavy</a>.</span></p>
 </div></section>
 '''
 
@@ -419,7 +445,6 @@ def p_index():
       <a class="btn btn-ghost" href="{YTLIVE}" target="_blank" rel="noopener">{svg("play","",18)}<span data-i18n="hero.cta2">Смотреть служение</span></a>
     </div>
   </div></div>
-  <div class="scroll-hint" aria-hidden="true"><span></span><small data-i18n="hero.scroll"></small></div>
 </section>
 
 {times_strip()}
@@ -428,7 +453,6 @@ def p_index():
 
 <section class="film dark-zone"><div class="wrap">
   <div class="film-head" data-reveal>
-    <p class="eyebrow" data-i18n="film.eyebrow"></p>
     <h2 data-i18n="film.h"></h2>
     <p data-i18n="film.p"></p>
     <p class="film-by"><strong data-i18n="film.pastor"></strong><span data-i18n="film.role"></span></p>
@@ -457,14 +481,12 @@ def p_index():
       <img src="assets/img/g-worship-1100.webp" width="1100" height="825" loading="lazy" decoding="async" alt="">
     </div>
     <div class="split-body" data-reveal>
-      <p class="eyebrow" data-i18n="home.welcome.eyebrow"></p>
       <h2 data-i18n="home.welcome.h"></h2>
       <p class="lead" data-i18n="home.welcome.p1"></p>
       <p class="muted" style="margin-top:1rem" data-i18n="home.welcome.p2"></p>
       <a class="link-arrow" href="about.html"><span data-i18n="home.welcome.link"></span>{svg("arrow","",16)}</a>
     </div>
   </div>
-  <div class="stats" style="margin-top:4.5rem" data-reveal-stagger>{stats}</div>
 </div></section>
 
 <section class="verse">
@@ -478,7 +500,6 @@ def p_index():
 
 <section class="section"><div class="wrap">
   <div class="section-head" data-reveal>
-    <p class="eyebrow" data-i18n="home.min.eyebrow"></p>
     <h2 data-i18n="home.min.h"></h2>
     <p class="lead" data-i18n="home.min.p"></p>
   </div>
@@ -488,50 +509,8 @@ def p_index():
   </div>
 </div></section>
 
-''' + (f"""<section class="section"><div class="wrap">
-  <div class="split is-reverse">
-    <div class="split-media" data-reveal>
-      <img src="assets/img/g-service-1100.webp" width="1100" height="825" loading="lazy" decoding="async" alt="">
-    </div>
-    <div class="split-body" data-reveal>
-      <p class="eyebrow" data-i18n="home.serm.eyebrow"></p>
-      <h2 data-i18n="home.serm.h"></h2>
-      <p class="lead" data-i18n="home.serm.p"></p>
-      <a class="link-arrow" href="sermons.html"><span data-i18n="home.serm.link"></span>{svg("arrow","",16)}</a>
-    </div>
-  </div>
-</div></section>
-""" if SERMONS_READY else '') + f'''<section class="section-sm"><div class="wrap">
-  <div class="split">
-    <div class="split-body" data-reveal>
-      <p class="eyebrow" data-i18n="home.mem.eyebrow"></p>
-      <h2 data-i18n="home.mem.h"></h2>
-      <p class="lead" data-i18n="home.mem.p"></p>
-      <a class="link-arrow" href="memory.html"><span data-i18n="home.mem.link"></span>{svg("arrow","",16)}</a>
-    </div>
-    <div class="split-media" data-reveal>
-      <img src="assets/img/g-baptism-day-1100.webp" width="1100" height="825" loading="lazy" decoding="async" alt="">
-    </div>
-  </div>
-</div></section>
-
-<section class="section-sm"><div class="wrap">
-  <div class="split is-reverse">
-    <div class="split-media" data-reveal>
-      <img src="assets/img/c-prayer-900.webp" width="900" height="600" loading="lazy" decoding="async" alt="">
-    </div>
-    <div class="split-body" data-reveal>
-      <p class="eyebrow" data-i18n="home.call.eyebrow"></p>
-      <h2 data-i18n="home.call.h"></h2>
-      <p class="lead" data-i18n="home.call.p"></p>
-      <a class="link-arrow" href="call.html"><span data-i18n="home.call.link"></span>{svg("arrow","",16)}</a>
-    </div>
-  </div>
-</div></section>
-
-<section class="section demo-section"><div class="wrap">
+''' + pair_row() + home_wall() + f'''<section class="section demo-section"><div class="wrap">
   <div class="section-head" data-reveal>
-    <p class="eyebrow" data-i18n="demo.app.eyebrow"></p>
     <h2 data-i18n="demo.app.h"></h2>
   </div>
   <div class="demo-grid">
@@ -558,7 +537,6 @@ def p_index():
 
 <section class="section"><div class="wrap">
   <div class="section-head is-center" data-reveal>
-    <p class="eyebrow" data-i18n="home.gal.eyebrow"></p>
     <h2 data-i18n="home.gal.h"></h2>
   </div>
   <div class="gal" data-reveal>{gal_items(GALLERY[:6])}</div>
@@ -569,22 +547,6 @@ def p_index():
 
 {blog_teaser()}
 
-<section class="section-sm"><div class="wrap">
-  <div class="syb" data-reveal>
-    <div>
-      <span class="sy-kept">{svg("shield","",16)}
-        <span data-i18n="sy.kept"></span><b>Saylavy</b></span>
-      <h2 data-i18n="syb.h"></h2>
-      <p data-i18n="syb.p"></p>
-    </div>
-    <div class="syb-links">
-      <a class="btn btn-primary" href="memory.html">
-        {svg("heart","",18)}<span data-i18n="syb.link"></span></a>
-      <a class="btn btn-ghost" href="https://saylavy.com" target="_blank" rel="noopener">
-        <span data-i18n="sy.cta"></span>{svg("ext","",18)}</a>
-    </div>
-  </div>
-</div></section>
 
 {cta_band()}
 {lightbox()}
@@ -693,7 +655,6 @@ def p_ministries():
       <img src="assets/img/g-children-1100.webp" width="1100" height="825" loading="lazy" decoding="async" alt="">
     </div>
     <div class="split-body" data-reveal>
-      <p class="eyebrow" data-i18n="min.school.eyebrow"></p>
       <h2 data-i18n="min.school.h"></h2>
       <p class="lead" data-i18n="min.school.p1"></p>
       <p class="muted" style="margin-top:1rem" data-i18n="min.school.p2"></p>
@@ -708,7 +669,6 @@ def p_ministries():
       <img src="assets/img/c-camp-900.webp" width="900" height="600" loading="lazy" decoding="async" alt="">
     </div>
     <div class="split-body" data-reveal>
-      <p class="eyebrow" data-i18n="home.camp.eyebrow"></p>
       <h2 data-i18n="home.camp.h"></h2>
       <p class="lead" data-i18n="home.camp.p"></p>
       <a class="link-arrow" href="camp.html"><span data-i18n="home.camp.link"></span>{svg("arrow","",16)}</a>
@@ -945,7 +905,6 @@ def p_give():
 
 <section class="section"><div class="wrap">
   <div class="section-head" data-reveal>
-    <p class="eyebrow" data-i18n="give.eyebrow"></p>
     <h2 data-i18n="give.use.h"></h2>
     <p class="lead" data-i18n="give.use.p"></p>
   </div>
@@ -991,7 +950,6 @@ def p_memory():
       <img src="assets/img/g-baptism-1100.webp" width="1100" height="825" loading="lazy" decoding="async" alt="">
     </div>
     <div class="split-body" data-reveal>
-      <p class="eyebrow" data-i18n="mem.arch.eyebrow"></p>
       <h2 data-i18n="mem.arch.h"></h2>
       <p class="lead" data-i18n="mem.arch.p1"></p>
       <p class="muted" style="margin-top:1rem" data-i18n="mem.arch.p2"></p>
@@ -1015,7 +973,6 @@ def p_memory():
       <img src="assets/img/g-children-1100.webp" width="1100" height="825" loading="lazy" decoding="async" alt="">
     </div>
     <div class="split-body" data-reveal>
-      <p class="eyebrow" data-i18n="mem.learn.eyebrow"></p>
       <h2 data-i18n="mem.learn.h"></h2>
       <p class="lead" data-i18n="mem.learn.p1"></p>
       <p class="muted" style="margin-top:1rem" data-i18n="mem.learn.p2"></p>
@@ -1028,7 +985,6 @@ def p_memory():
   <span class="sy-kept">{svg("shield","",16)}
     <span data-i18n="sy.kept"></span><b>Saylavy</b></span>
   <div class="sy-head" data-reveal>
-    <p class="eyebrow" data-i18n="sy.eyebrow"></p>
     <h2 data-i18n="sy.h"></h2>
     <p class="lead" data-i18n="sy.p"></p>
   </div>
@@ -1409,7 +1365,6 @@ def blog_teaser():
     if not POSTS: return ""
     return f'''<section class="section"><div class="wrap">
   <div class="section-head" data-reveal>
-    <p class="eyebrow" data-i18n="home.blog.eyebrow"></p>
     <h2 data-i18n="home.blog.h"></h2>
   </div>
   <div class="grid grid-3" data-reveal-stagger>{"".join(post_card(p) for p in POSTS[:3])}</div>
@@ -1557,7 +1512,6 @@ def album_archive():
     total=sum(len(a["photos"]) for a in ALBUMS)
     return f'''<section class="section" id="archive"><div class="wrap">
   <div class="section-head" data-reveal>
-    <p class="eyebrow" data-i18n="gal.archive.eyebrow"></p>
     <h2 data-i18n="gal.archive.h"></h2>
     <p class="lead"><span data-i18n="gal.archive.p"></span> {len(ALBUMS)} <span data-i18n="gal.albumsN"></span> · {total} <span data-i18n="gal.photos"></span></p>
   </div>
