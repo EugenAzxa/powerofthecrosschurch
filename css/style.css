@@ -1496,3 +1496,13 @@ html[lang="en"] [data-only="ru"],html:not([lang="en"]) [data-only="en"]{display:
 .hw-note a{color:var(--blue);border-bottom:1px solid var(--line-strong)}
 @media(max-width:980px){.hw-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:480px){.hw-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s-3) var(--s-2)}}
+
+/* ==========================================================================
+   Bible - allbible.info reader, as on the old site
+   ========================================================================== */
+.bible-frame{border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;
+  background:#fff;box-shadow:var(--shadow)}
+.bible-frame iframe{display:block;width:100%;height:min(78vh,760px);min-height:520px;border:0}
+.bible-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:var(--s-3);margin-top:var(--s-3)}
+.bible-src{font-size:.88rem;color:var(--muted)}
+.bible-src a{color:var(--blue);border-bottom:1px solid var(--line-strong)}

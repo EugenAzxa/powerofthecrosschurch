@@ -462,7 +462,12 @@ Not migrated, because there was nothing left to bring:
 
 Left out on purpose: the "События" page (four announcements for events from
 2015-2016), the "Newsletters" sign-up form (it posted to the old site's own
-back end), and the empty "Библия" page.
+back end).
+
+- **The Bible** - the old "Библия" page embedded allbible.info's free Synodal
+  Bible reader (text and audio). `bible.html` embeds the same reader
+  (`BIBLE_SRC` in `tools/build.py`) with a link to open it full screen, since
+  its own arrows are small on a phone.
 
 Three wedding albums (2012, and "R&J" and "A&J" in 2014) show private family
 occasions. They were public on the old site and are carried over as they were;

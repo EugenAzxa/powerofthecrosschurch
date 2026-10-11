@@ -201,7 +201,7 @@ def header(page):
     links="".join('<a href="%s" data-i18n="%s">%s</a>'%(h,k,k) for h,k in NAV)
     drawer_links="".join(
         '<a href="%s"><span data-i18n="%s">%s</span>%s</a>'%(h,k,k,svg("chev","",17))
-        for h,k in NAV+[("beliefs.html","nav.beliefs"),("blog.html","nav.blog"),("camp.html","nav.camp"),("media.html","nav.media"),("video.html","nav.video"),("gallery.html","nav.gallery"),("give.html","nav.give")])
+        for h,k in NAV+[("beliefs.html","nav.beliefs"),("bible.html","nav.bible"),("blog.html","nav.blog"),("camp.html","nav.camp"),("media.html","nav.media"),("video.html","nav.video"),("gallery.html","nav.gallery"),("give.html","nav.give")])
     return f'''<header class="header">
   <div class="header-inner">
     {brand()}
@@ -245,7 +245,7 @@ def cta_band():
 
 def footer(extra_js=()):
     sect="".join('<a href="%s" data-i18n="%s">%s</a>'%(h,k,k) for h,k in
-        [("about.html","nav.about"),("beliefs.html","nav.beliefs"),("blog.html","nav.blog"),
+        [("about.html","nav.about"),("beliefs.html","nav.beliefs"),("bible.html","nav.bible"),("blog.html","nav.blog"),
          ("memory.html","nav.memory"),("gallery.html","nav.gallery"),("give.html","nav.give")])
     serv="".join('<a href="%s" data-i18n="%s">%s</a>'%(h,k,k) for h,k in
         [("ministries.html","nav.ministries"),("camp.html","nav.camp")]
@@ -1435,6 +1435,26 @@ def p_post(p):
 </div></section>
 ''' if more else "") + cta_band() + footer()
 
+# ===================================================================== BIBLE
+# The same reader the old site carried at pocc.ca/bible: allbible.info's free
+# Synodal Bible with audio, embedded as it was there.
+BIBLE_SRC = "https://allbible.info/iframebible/"
+def p_bible():
+    return head("nav.bible","bible.lead","bible.html")+header("bible.html")+\
+      page_hero("bible.crumb","","bible.h","bible.lead")+f'''
+<section class="section-sm"><div class="wrap">
+  <div class="bible-frame">
+    <iframe src="{BIBLE_SRC}" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+            data-i18n-attr="title:bible.title" title="Библия онлайн"></iframe>
+  </div>
+  <div class="bible-foot">
+    <a class="btn btn-ghost btn-sm" href="{BIBLE_SRC}" target="_blank" rel="noopener">{svg("ext","",16)}<span data-i18n="bible.full"></span></a>
+    <p class="bible-src"><span data-i18n="bible.src"></span>
+      <a href="https://allbible.info/" target="_blank" rel="noopener">allbible.info</a></p>
+  </div>
+</div></section>
+'''+cta_band()+footer()
+
 # ============================================================ VIDEO + ALBUMS
 # Both were migrated from pocc.ca: assets/data/videos.json (testimonies and
 # productions, YouTube ids checked live at migration) and assets/data/
@@ -1595,6 +1615,7 @@ def stamp_static(name):
 
 if __name__=="__main__":
     if SERMONS_READY: PAGES["sermons.html"]=p_sermons
+    PAGES["bible.html"]=p_bible
     if VIDEOS: PAGES["video.html"]=p_video
     for a in ALBUMS: PAGES["album-%s.html"%a["slug"]]=(lambda a=a: p_album(a))
     if POSTS:
