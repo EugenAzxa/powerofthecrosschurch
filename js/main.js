@@ -93,7 +93,7 @@ function initHeader(){
     a.addEventListener('click',function(){ toggle(false); });
   });
   window.addEventListener('keydown',function(e){ if(e.key==='Escape') toggle(false); });
-  var mq=window.matchMedia('(min-width:1081px)');
+  var mq=window.matchMedia('(min-width:1121px)');
   mq.addEventListener('change',function(e){ if(e.matches) toggle(false); });
 }
 

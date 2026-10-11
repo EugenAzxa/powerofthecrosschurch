@@ -275,7 +275,12 @@ body.has-dark-hero .header:not(.is-stuck){
 .burger[aria-expanded="true"] span:nth-child(2){opacity:0}
 .burger[aria-expanded="true"] span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
 
-@media(max-width:1080px){
+/* seven links: tighten them on narrower desktops so the bar stays one line */
+@media(max-width:1240px){
+  .nav a{padding:.55rem .55rem}
+  .nav a::after{left:.55rem;right:.55rem}
+}
+@media(max-width:1120px){
   .nav{display:none}
   .burger{display:grid}
 }

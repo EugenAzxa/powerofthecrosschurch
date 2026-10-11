@@ -79,13 +79,13 @@ import os as _os
 SERMONS_READY = _os.path.exists(_os.path.join(ROOT,"assets","data","sermons.json"))
 
 # ------------------------------------------------------------------ nav data
-# Gallery stays out of the top bar to keep it to six items; it is reachable
-# from Media, from Legacy, from the drawer and from the footer.
-# Six is what fits without wrapping. "Во что мы верим" is long and is already
-# linked prominently from About and the footer, so it comes out of the top bar.
+# Seven items, the Bible among them as on the old site. That is all the bar
+# holds on one line, and only above 1120px with the links tightened below
+# 1240px (see .nav in style.css) - add an eighth and it will wrap. Gallery and
+# "Во что мы верим" live in the drawer, the footer and the pages that link them.
 NAV = [("about.html","nav.about"),("ministries.html","nav.ministries")] \
     + ([("sermons.html","nav.sermons")] if SERMONS_READY else []) \
-    + [("memory.html","nav.memory"),("call.html","nav.call"),("visit.html","nav.visit")]
+    + [("bible.html","nav.bible"),("memory.html","nav.memory"),("call.html","nav.call"),("visit.html","nav.visit")]
 
 BRAND_MARK = ('<svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">'
  '<defs><linearGradient id="bm" x1="0" y1="0" x2="1" y2="1">'
@@ -201,7 +201,7 @@ def header(page):
     links="".join('<a href="%s" data-i18n="%s">%s</a>'%(h,k,k) for h,k in NAV)
     drawer_links="".join(
         '<a href="%s"><span data-i18n="%s">%s</span>%s</a>'%(h,k,k,svg("chev","",17))
-        for h,k in NAV+[("beliefs.html","nav.beliefs"),("bible.html","nav.bible"),("blog.html","nav.blog"),("camp.html","nav.camp"),("media.html","nav.media"),("video.html","nav.video"),("gallery.html","nav.gallery"),("give.html","nav.give")])
+        for h,k in NAV+[("beliefs.html","nav.beliefs"),("blog.html","nav.blog"),("camp.html","nav.camp"),("media.html","nav.media"),("video.html","nav.video"),("gallery.html","nav.gallery"),("give.html","nav.give")])
     return f'''<header class="header">
   <div class="header-inner">
     {brand()}
