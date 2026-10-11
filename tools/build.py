@@ -167,7 +167,7 @@ def head(title_key, desc_key, page, title=None, desc=None, image="hero-worship-1
 <meta property="og:locale" content="ru_RU">
 <meta property="og:title" content="{esc(title)}">
 <meta property="og:description" content="{esc(desc)}">
-<meta property="og:image" content="{SITE}assets/img/{image}.webp">
+<meta property="og:image" content="{SITE}{image if "/" in image else "assets/img/%s.webp"%image}">
 <meta property="og:url" content="{url}">
 <link rel="alternate" type="application/rss+xml" title="Блог церкви «Сила Креста»" href="{SITE}feed.xml">
 {ld}
@@ -201,7 +201,7 @@ def header(page):
     links="".join('<a href="%s" data-i18n="%s">%s</a>'%(h,k,k) for h,k in NAV)
     drawer_links="".join(
         '<a href="%s"><span data-i18n="%s">%s</span>%s</a>'%(h,k,k,svg("chev","",17))
-        for h,k in NAV+[("beliefs.html","nav.beliefs"),("blog.html","nav.blog"),("camp.html","nav.camp"),("media.html","nav.media"),("gallery.html","nav.gallery"),("give.html","nav.give")])
+        for h,k in NAV+[("beliefs.html","nav.beliefs"),("blog.html","nav.blog"),("camp.html","nav.camp"),("media.html","nav.media"),("video.html","nav.video"),("gallery.html","nav.gallery"),("give.html","nav.give")])
     return f'''<header class="header">
   <div class="header-inner">
     {brand()}
@@ -250,7 +250,7 @@ def footer(extra_js=()):
     serv="".join('<a href="%s" data-i18n="%s">%s</a>'%(h,k,k) for h,k in
         [("ministries.html","nav.ministries"),("camp.html","nav.camp")]
         + ([("sermons.html","nav.sermons")] if SERMONS_READY else [])
-        + [("media.html","nav.media")])
+        + [("media.html","nav.media"),("video.html","nav.video")])
     return f'''</main>
 <footer class="footer dark-zone">
   <div class="wrap">
@@ -735,6 +735,17 @@ def p_camp():
 </div></section>
 
 <section class="section-sm"><div class="wrap">
+  <div class="section-head" data-reveal><h2 data-i18n="camp.video.h"></h2></div>
+  <div class="film-stage" data-video="8y5o-oNMdDk" data-reveal>
+    <img src="assets/albums/2017-camp/008-1024.webp" width="1024" height="683" loading="lazy" decoding="async" alt="">
+    <button class="film-play" type="button" data-i18n-attr="aria-label:camp.video.play">
+      <span class="film-play-ring">{svg("play","",30)}</span>
+    </button>
+  </div>
+  <div class="grid album-grid" style="margin-top:2rem" data-reveal-stagger>{"".join(album_card(a) for a in ALBUMS if "camp" in a["slug"] and "work" not in a["slug"])}</div>
+</div></section>
+
+<section class="section-sm"><div class="wrap">
   <div class="split">
     <div class="split-media" data-reveal>
       <img src="assets/img/g-camp-lake-1100.webp" width="1100" height="825" loading="lazy" decoding="async" alt="">
@@ -779,7 +790,9 @@ def p_media():
     tiles=[("live","play",YTLIVE,"media.live.cta"),
            ("yt","yt",YT,"media.open"),
            ("fb","fb",FB,"media.open"),
-           ("gal","book","gallery.html","media.open")]
+           ("gal","book","gallery.html","media.open"),
+           ("vid","play","video.html","media.open"),
+           ("arch","users","gallery.html#archive","media.open")]
     out=""
     for k,ic,href,cta in tiles:
         ext=' target="_blank" rel="noopener"' if href.startswith("http") else ""
@@ -818,6 +831,7 @@ def p_gallery():
 <section class="section-sm"><div class="wrap">
   <div class="gal" data-reveal>{gal_items(GALLERY)}</div>
 </div></section>
+{album_archive()}
 {cta_band()}
 {lightbox()}
 '''+footer()
@@ -1466,6 +1480,123 @@ def p_post(p):
 </div></section>
 ''' if more else "") + cta_band() + footer()
 
+# ============================================================ VIDEO + ALBUMS
+# Both were migrated from pocc.ca: assets/data/videos.json (testimonies and
+# productions, YouTube ids checked live at migration) and assets/data/
+# albums.json with the photos in assets/albums/<slug>/NNN-{400,1024}.webp.
+def _data(name, key=None):
+    path=os.path.join(ROOT,"assets","data",name)
+    if not os.path.exists(path): return []
+    d=json.load(open(path,encoding="utf-8"))
+    return d[key] if key else d
+VIDEOS = _data("videos.json","videos")
+ALBUMS = sorted(_data("albums.json"), key=lambda a:(-(a["year"] or 0), a["slug"]))
+
+def _vdate(d):
+    if len(d)==10: return bi(_date(d,"ru"),_date(d,"en"))
+    return d
+def p_video():
+    rows=""
+    for v in VIDEOS:
+        rows+=f'''<button class="serm-item" type="button" data-c="{v["c"]}" data-v="{v["v"]}">
+      <span class="serm-play">{svg("play","",14)}</span>
+      <span><span class="serm-title">{esc(v["t"])}</span>
+        <span class="serm-meta"{' hidden' if v["t"]=="Свидетельства" else ''} data-i18n="vid.{'testimony' if v['c']=='testimony' else 'clips'}"></span></span>
+      <span class="serm-date">{_vdate(v["d"])}</span>
+    </button>'''
+    chips="".join(f'<button class="wall-chip" type="button" data-filter="{k}" aria-pressed="{"true" if k=="all" else "false"}" data-i18n="vid.{k}"></button>'
+                  for k in ("all","testimony","clips"))
+    ld=[{"@context":"https://schema.org","@type":"ItemList","itemListElement":[
+        {"@type":"ListItem","position":i+1,"item":{"@type":"VideoObject","name":v["t"],
+         "description":"%s - церковь «Сила Креста», Торонто"%v["t"],"uploadDate":v["d"],
+         "thumbnailUrl":"https://i.ytimg.com/vi/%s/hqdefault.jpg"%v["v"],
+         "embedUrl":"https://www.youtube.com/embed/%s"%v["v"]}}
+        for i,v in enumerate(x for x in VIDEOS if len(x["d"])==10 and not x["v"].startswith("dm:"))]}]
+    return head("nav.video","vid.lead","video.html",jsonld=ld)+header("video.html")+\
+      page_hero("vid.crumb","vid.eyebrow","vid.h","vid.lead")+f'''
+<section class="section-sm"><div class="wrap">
+  <div class="wall-chips" id="vidChips" style="margin-bottom:1.5rem" data-reveal>{chips}</div>
+  <p class="serm-count"><span data-i18n="vid.count"></span> <b id="vidCount">{len(VIDEOS)}</b></p>
+  <div class="serm-list" id="vidList">{rows}</div>
+</div></section>
+
+<div class="vid" id="vid" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="vid-inner">
+    <div class="vid-head">
+      <div><h3 id="vidTitle"></h3><p id="vidMeta"></p></div>
+      <button class="vid-close" id="vidClose" type="button"
+              data-i18n-attr="aria-label:vid.close">{svg("close","",19)}</button>
+    </div>
+    <div class="vid-frame"><iframe id="vidFrame" src="" title="" allowfullscreen
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture"></iframe></div>
+  </div>
+</div>
+'''+cta_band()+footer(['videos.js'])
+
+def album_title(a):
+    yr=(" %d"%a["year"]) if a["year"] else ""
+    return a["title"]["ru"]+yr, a["title"]["en"]+yr
+def album_card(a):
+    c=a["photos"][0]["f"]; ru,en=album_title(a)
+    return f'''<article class="card post-card album-card">
+        <div class="card-media"><img src="assets/albums/{a["slug"]}/{c}-400.webp"
+          width="400" height="300" loading="lazy" decoding="async" alt=""></div>
+        <div class="card-body">
+          <span class="card-meta">{len(a["photos"])} <span data-i18n="gal.photos"></span></span>
+          <h3><a href="album-{a["slug"]}.html">{bi(esc(ru),esc(en))}</a></h3>
+        </div></article>'''
+def album_archive():
+    if not ALBUMS: return ""
+    groups={}
+    for a in ALBUMS: groups.setdefault(a["year"] or 0,[]).append(a)
+    out=""
+    for y in sorted(groups,key=lambda y:-y if y else 1):
+        label=str(y) if y else '<span data-i18n="gal.various"></span>'
+        out+=f'''<h3 class="album-year">{label}</h3>
+  <div class="grid album-grid">{"".join(album_card(a) for a in groups[y])}</div>'''
+    total=sum(len(a["photos"]) for a in ALBUMS)
+    return f'''<section class="section" id="archive"><div class="wrap">
+  <div class="section-head" data-reveal>
+    <p class="eyebrow" data-i18n="gal.archive.eyebrow"></p>
+    <h2 data-i18n="gal.archive.h"></h2>
+    <p class="lead"><span data-i18n="gal.archive.p"></span> {len(ALBUMS)} <span data-i18n="gal.albumsN"></span> · {total} <span data-i18n="gal.photos"></span></p>
+  </div>
+  {out}
+</div></section>
+'''
+def p_album(a):
+    ru,en=album_title(a); n=len(a["photos"]); page="album-%s.html"%a["slug"]
+    items="".join(f'''<button class="gal-item" type="button" data-lb="assets/albums/{a["slug"]}/{p["f"]}-1024.webp"
+      data-lb-cap="{i+1} / {n}" data-i18n-attr="aria-label:a11y.gallery.open">
+      <img src="assets/albums/{a["slug"]}/{p["f"]}-400.webp" width="{min(400,p["w"])}" height="{round(p["h"]*min(400,p["w"])/p["w"])}"
+           loading="lazy" decoding="async" alt="{esc(ru)}, {i+1}"></button>''' for i,p in enumerate(a["photos"]))
+    attrs=' data-title-ru="%s" data-title-en="%s"'%(esc(ru+" - фото"),esc(en+" - photos"))
+    others=[x for x in ALBUMS if x is not a][:6]
+    return head("","",page,title=ru+" - фото"+TXT["ru"]["meta.suffix"],
+                desc="%s: %d фотографий из архива церкви «Сила Креста» в Торонто."%(ru,n),
+                image="assets/albums/%s/%s-1024.webp"%(a["slug"],a["photos"][0]["f"]),body_attrs=attrs)\
+      +header(page)+f'''
+<section class="page-hero"><div class="wrap">
+  <nav class="crumb" aria-label="Breadcrumb" data-reveal>
+    <a href="index.html" data-i18n="nav.home">Главная</a>{svg("chev","",12)}
+    <a href="gallery.html#archive" data-i18n="nav.gallery">Галерея</a>
+  </nav>
+  <div data-reveal>
+    <p class="eyebrow">{n} <span data-i18n="gal.photos"></span></p>
+    <h1>{bi(esc(ru),esc(en))}</h1>
+  </div>
+</div></section>
+<section class="section-sm"><div class="wrap">
+  <div class="gal album-gal">{items}</div>
+</div></section>
+<section class="section"><div class="wrap">
+  <div class="section-head" data-reveal><h2 data-i18n="gal.album.more"></h2></div>
+  <div class="grid album-grid">{"".join(album_card(x) for x in others)}</div>
+  <div style="margin-top:2rem"><a class="link-arrow" href="gallery.html#archive"><span data-i18n="gal.albums"></span>{svg("arrow","",16)}</a></div>
+</div></section>
+{lightbox()}
+'''+footer()
+
 def write_sitemap(pages):
     rows=[]
     for name in pages:
@@ -1510,6 +1641,8 @@ def stamp_static(name):
 
 if __name__=="__main__":
     if SERMONS_READY: PAGES["sermons.html"]=p_sermons
+    if VIDEOS: PAGES["video.html"]=p_video
+    for a in ALBUMS: PAGES["album-%s.html"%a["slug"]]=(lambda a=a: p_album(a))
     if POSTS:
         PAGES["blog.html"]=p_blog
         for p in POSTS: PAGES[p["page"]]=(lambda p=p: p_post(p))

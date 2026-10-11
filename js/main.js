@@ -532,21 +532,20 @@ function initDemo(){
    The poster is a local image, so nothing is requested from YouTube until
    someone actually chooses to watch. */
 function initFilm(){
-  var stage=document.getElementById('filmStage');
-  var play=document.getElementById('filmPlay');
-  if(!stage||!play) return;
-  var id=stage.getAttribute('data-video');
-  if(!id) return;
-
-  play.addEventListener('click',function(){
-    if(stage.classList.contains('is-live')) return;
-    var f=document.createElement('iframe');
-    f.src='https://www.youtube-nocookie.com/embed/'+id+'?rel=0&autoplay=1&playsinline=1';
-    f.title=document.querySelector('[data-i18n="film.h"]').textContent||'';
-    f.allow='accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture';
-    f.setAttribute('allowfullscreen','');
-    stage.appendChild(f);
-    stage.classList.add('is-live');
+  document.querySelectorAll('.film-stage[data-video]').forEach(function(stage){
+    var play=stage.querySelector('.film-play');
+    var id=stage.getAttribute('data-video');
+    if(!play||!id) return;
+    play.addEventListener('click',function(){
+      if(stage.classList.contains('is-live')) return;
+      var f=document.createElement('iframe');
+      f.src='https://www.youtube-nocookie.com/embed/'+id+'?rel=0&autoplay=1&playsinline=1';
+      f.title=play.getAttribute('aria-label')||'';
+      f.allow='accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture';
+      f.setAttribute('allowfullscreen','');
+      stage.appendChild(f);
+      stage.classList.add('is-live');
+    });
   });
 }
 

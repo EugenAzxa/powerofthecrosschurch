@@ -23,5 +23,5 @@ window.POCC_CONFIG = {
   /* ---- INTERAC e-Transfer ------------------------------------------------
      The address people send e-Transfers to. Leave empty and the page asks
      visitors to phone the church for it instead.                           */
-  etransferEmail: ""
+  etransferEmail: "pocc.accnt@gmail.com"   // as published on the old site, pocc.ca/donation
 };

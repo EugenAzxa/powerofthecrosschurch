@@ -29,7 +29,9 @@ GitHub's port-443 SSH host, which gets through:
 | Sermons | `sermons.html` | Searchable archive of 548 recorded services |
 | Legacy | `memory.html` | What the church preserves, its archive, interactive learning |
 | Media | `media.html` | Live stream, YouTube, Facebook, gallery links |
-| Gallery | `gallery.html` | 20 photos with lightbox |
+| Gallery | `gallery.html` | 20 chosen photos, then the photo archive by year |
+| Albums | `album-*.html` | 28 albums, 1470 photos, migrated from pocc.ca |
+| Video | `video.html` | 49 testimonies and 19 productions, migrated from pocc.ca |
 | Visit | `visit.html` | Address, phone, schedule, map, first-visit guide |
 | Give | `give.html` | INTERAC e-Transfer instructions |
 | Talk | `call.html` | Request a conversation with the pastor |
@@ -426,6 +428,41 @@ wherever it is served from.
 Pages replaces the live site the congregation currently uses, so it wants the
 church's agreement and a moment when someone can check the result.
 
+## Migrated from pocc.ca
+
+Everything with media on the old Joomla site was brought across on
+2026-10-11:
+
+- **Photos** - all 27 albums of the old photo gallery plus the camp gallery:
+  1470 photos, taken from the originals and re-encoded as WebP at 1024px (for
+  viewing) and 400px (for the grid) in `assets/albums/<album>/`. The list is
+  `assets/data/albums.json`; each album becomes `album-<slug>.html`, listed by
+  year at the bottom of the gallery page. Album names were translated from the
+  old English labels.
+- **Video** - the old "Свидетельства" and "Ролики" sections: 68 videos in
+  `assets/data/videos.json`, built into `video.html` as plain HTML so search
+  engines can read the list. Each YouTube id was checked as still live; one
+  production lives on Dailymotion (`dm:` prefix). Where an old page's address
+  and its title disagreed on a date, the title was trusted.
+- **The camp film** ("Kids Camp 2019") is on the camp page, and the camp photo
+  albums are linked under it.
+
+Not migrated, because there was nothing left to bring:
+
+- 5 videos that YouTube no longer serves, including both "Пророчества о
+  последнем времени" videos, so that section has no content.
+- Three early testimonies that were MP3s on copy.com, which shut down in 2016,
+  and an "Intro" clip stored as a Flash file on Google Drive.
+- The e-Transfer how-to video on the donation page (removed from YouTube).
+
+Left out on purpose: the "События" page (four announcements for events from
+2015-2016), the "Newsletters" sign-up form (it posted to the old site's own
+back end), and the empty "Библия" page.
+
+Three wedding albums (2012, and "R&J" and "A&J" in 2014) show private family
+occasions. They were public on the old site and are carried over as they were;
+remove a folder and its entry in `albums.json` if a family would rather not.
+
 ## Church details
 
 - 255 Wildcat Rd, Toronto, ON M3J 2S3
@@ -443,9 +480,12 @@ no build step:
 ```js
 window.POCC_CONFIG = {
   payLinks: { "25":"", "50":"", "100":"", "250":"", "other":"" },
-  etransferEmail: ""
+  etransferEmail: "pocc.accnt@gmail.com"
 };
 ```
+
+The e-Transfer address is the one published on the old site's donation page
+(it was hidden from spam bots there, which is why it first looked unreadable).
 
 - **Card giving** is provider-agnostic. Create one payment link per amount with
   whatever processor the church uses - Stripe Payment Links, PayPal, Donorbox,
@@ -460,10 +500,7 @@ window.POCC_CONFIG = {
 
 ## Open item
 
-Two values are still needed from the church, both set in `js/config.js`:
-
-1. **The INTERAC e-Transfer address.** On the old site it was obfuscated against
-   scrapers and could not be read. Until it is set, the Give page asks people to
-   phone for it.
-2. **Payment links**, if the church wants card giving. This needs an account with
-   a payment processor - the page is built and waiting for the URLs.
+One value is still needed from the church, set in `js/config.js`: **payment
+links**, if the church wants card giving. This needs an account with a payment
+processor - the page is built and waiting for the URLs. (The e-Transfer address
+is set; see Giving.)
