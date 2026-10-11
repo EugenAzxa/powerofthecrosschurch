@@ -7,8 +7,9 @@ no runtime build step - the generated files are what GitHub Pages serves.
 
 Usage:  python3 tools/build.py
 """
-import os, re, textwrap
+import os, re, json, textwrap
 import os as _os
+from html import escape as esc
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -125,23 +126,51 @@ def loader():
       '</div>\n') % (CROSS_PATH,)
 
 
-def head(title_key, desc_key, page):
+def _load_i18n():
+    """The two dictionaries from js/i18n.js, so titles and descriptions can be
+    written into the HTML itself. Search engines and link previews read the
+    static <head>; they should not depend on the script swapping it in."""
+    src=open(os.path.join(ROOT,"js","i18n.js"),encoding="utf-8").read()
+    out={}
+    for L,a,b in (("ru","ru:{","en:{"),("en","en:{",None)):
+        block=src[src.index(a):(src.index(b) if b else len(src))]
+        out[L]={k:json.loads('"%s"'%v) for k,v in
+                re.findall(r'"([^"\\]+)":"((?:[^"\\]|\\.)*)"',block)}
+    return out
+TXT=_load_i18n()
+def plain(s):
+    return re.sub(r"\s+"," ",re.sub(r"<[^>]+>"," ",s)).strip()
+
+def head(title_key, desc_key, page, title=None, desc=None, image="hero-worship-1100",
+         og_type="website", jsonld=None, body_attrs=""):
     body_cls = "has-dark-hero" if page=="index.html" else ""
+    if page=="index.html": body_attrs+=" data-title-full"
+    ru=TXT["ru"]
+    if title is None:
+        title=ru[title_key]+("" if page=="index.html" else ru["meta.suffix"])
+    if desc is None:
+        desc=plain(ru[desc_key])
+    url=SITE+("" if page=="index.html" else page)
+    ld=("\n".join('<script type="application/ld+json">%s</script>'%
+        json.dumps(j,ensure_ascii=False,separators=(",",":")) for j in jsonld) if jsonld else "")
     return f'''<!doctype html>
 <html lang="ru">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Церковь «Сила Креста», Торонто</title>
-<meta name="description" content="Русскоязычная христианская церковь в Торонто. Воскресное служение в 11:00, 255 Wildcat Rd.">
+<title>{esc(title)}</title>
+<meta name="description" content="{esc(desc)}">
 <meta name="theme-color" content="#0B1834">
-<link rel="canonical" href="{SITE}{'' if page=='index.html' else page}">
-<meta property="og:type" content="website">
+<link rel="canonical" href="{url}">
+<meta property="og:type" content="{og_type}">
 <meta property="og:site_name" content="Power of the Cross Church">
-<meta property="og:title" content="Церковь «Сила Креста», Торонто">
-<meta property="og:description" content="Русскоязычная христианская церковь в Торонто. Воскресное служение в 11:00.">
-<meta property="og:image" content="{SITE}assets/img/hero-worship-1100.webp">
-<meta property="og:url" content="{SITE}{'' if page=='index.html' else page}">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:title" content="{esc(title)}">
+<meta property="og:description" content="{esc(desc)}">
+<meta property="og:image" content="{SITE}assets/img/{image}.webp">
+<meta property="og:url" content="{url}">
+<link rel="alternate" type="application/rss+xml" title="Блог церкви «Сила Креста»" href="{SITE}feed.xml">
+{ld}
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
@@ -164,7 +193,7 @@ if(new URLSearchParams(location.search).has('embed'))
   document.documentElement.classList.add('is-embed');}}catch(e){{}}}})();
 </script>
 </head>
-<body class="{body_cls}" data-title-key="{title_key}" data-desc-key="{desc_key}">
+<body class="{body_cls}" data-title-key="{title_key}" data-desc-key="{desc_key}"{body_attrs}>
 {loader()}<a class="skip" href="#main" data-i18n="a11y.skip">Перейти к содержанию</a>
 '''
 
@@ -172,7 +201,7 @@ def header(page):
     links="".join('<a href="%s" data-i18n="%s">%s</a>'%(h,k,k) for h,k in NAV)
     drawer_links="".join(
         '<a href="%s"><span data-i18n="%s">%s</span>%s</a>'%(h,k,k,svg("chev","",17))
-        for h,k in NAV+[("beliefs.html","nav.beliefs"),("camp.html","nav.camp"),("media.html","nav.media"),("gallery.html","nav.gallery"),("give.html","nav.give")])
+        for h,k in NAV+[("beliefs.html","nav.beliefs"),("blog.html","nav.blog"),("camp.html","nav.camp"),("media.html","nav.media"),("gallery.html","nav.gallery"),("give.html","nav.give")])
     return f'''<header class="header">
   <div class="header-inner">
     {brand()}
@@ -216,7 +245,7 @@ def cta_band():
 
 def footer(extra_js=()):
     sect="".join('<a href="%s" data-i18n="%s">%s</a>'%(h,k,k) for h,k in
-        [("about.html","nav.about"),("beliefs.html","nav.beliefs"),
+        [("about.html","nav.about"),("beliefs.html","nav.beliefs"),("blog.html","nav.blog"),
          ("memory.html","nav.memory"),("gallery.html","nav.gallery"),("give.html","nav.give")])
     serv="".join('<a href="%s" data-i18n="%s">%s</a>'%(h,k,k) for h,k in
         [("ministries.html","nav.ministries"),("camp.html","nav.camp")]
@@ -368,7 +397,7 @@ def p_index():
     for n in (1,2,3):
         stats+=f'''<div class="stat"><div class="stat-n" data-i18n="home.stat{n}.n"></div>
         <div class="stat-l" data-i18n="home.stat{n}.l"></div></div>'''
-    return head("nav.home","foot.about","index.html")+header("index.html")+f'''
+    return head("meta.home.title","foot.about","index.html",jsonld=[church_ld()])+header("index.html")+f'''
 <section class="hero dark-zone">
   <div class="hero-media">
     <img src="assets/img/hero-worship-1600.webp"
@@ -537,6 +566,8 @@ def p_index():
     <a class="link-arrow" href="gallery.html"><span data-i18n="home.gal.all"></span>{svg("arrow","",16)}</a>
   </div>
 </div></section>
+
+{blog_teaser()}
 
 <section class="section-sm"><div class="wrap">
   <div class="syb" data-reveal>
@@ -1255,6 +1286,211 @@ def p_call():
 </div></section>
 '''+cta_band()+footer(['call.js'])
 
+# ====================================================================== BLOG
+# Each post is two Markdown files in content/blog: <slug>.ru.md and
+# <slug>.en.md. The Russian one carries title, description, date and image
+# (a base name from assets/img) in its front matter; the English one carries
+# title and description. A post becomes blog-<slug>.html at the root, so
+# every relative link keeps working. To publish one: add the two files and
+# rebuild - the blog page, the home teaser, sitemap.xml and feed.xml follow.
+#
+# The Russian text is what sits in the page for search engines; both languages
+# are in the markup and the RU/EN toggle shows one (see [data-only] in CSS).
+BLOG_DIR = os.path.join(ROOT,"content","blog")
+MONTHS = {"ru":["января","февраля","марта","апреля","мая","июня","июля",
+                "августа","сентября","октября","ноября","декабря"],
+          "en":["January","February","March","April","May","June","July",
+                "August","September","October","November","December"]}
+
+def _front(text):
+    m=re.match(r"---\n(.*?)\n---\n(.*)",text.replace("\r\n","\n"),re.S)
+    meta={}
+    for line in m.group(1).splitlines():
+        if ":" in line:
+            k,v=line.split(":",1); meta[k.strip()]=v.strip()
+    return meta, m.group(2)
+
+def _inline(s):
+    s=esc(s,quote=False)
+    s=re.sub(r"\*\*(.+?)\*\*",r"<strong>\1</strong>",s)
+    s=re.sub(r"(?<![*\w])\*(?!\s)(.+?)(?<!\s)\*(?!\w)",r"<em>\1</em>",s)
+    return re.sub(r"\[([^\]]+)\]\(([^)\s]+)\)",r'<a href="\2">\1</a>',s)
+
+def markdown(text):
+    """The small subset posts need: ## and ### headings, paragraphs, - lists,
+    and > quotes whose last line is the scripture reference."""
+    out,para,items,quote=[],[],[],[]
+    def flush():
+        if para: out.append("<p>%s</p>"%_inline(" ".join(para))); para.clear()
+        if items: out.append("<ul>%s</ul>"%"".join("<li>%s</li>"%_inline(i) for i in items)); items.clear()
+        if quote:
+            ref="<cite>%s</cite>"%_inline(quote.pop()) if len(quote)>1 else ""
+            out.append("<blockquote><p>%s</p>%s</blockquote>"%(_inline(" ".join(quote)),ref)); quote.clear()
+    for line in text.splitlines():
+        s=line.strip()
+        if not s: flush()
+        elif s.startswith("### "): flush(); out.append("<h3>%s</h3>"%_inline(s[4:]))
+        elif s.startswith("## "):  flush(); out.append("<h2>%s</h2>"%_inline(s[3:]))
+        elif s.startswith("> "):
+            if para or items: flush()
+            quote.append(s[2:])
+        elif s.startswith("- "):
+            if para or quote: flush()
+            items.append(s[2:])
+        else:
+            if items or quote: flush()
+            para.append(s)
+    flush()
+    return "\n".join(out)
+
+def _date(iso,L):
+    y,m,d=(int(x) for x in iso.split("-"))
+    return "%d %s %d"%(d,MONTHS["ru"][m-1],y) if L=="ru" else "%s %d, %d"%(MONTHS["en"][m-1],d,y)
+
+def _img(base):
+    """srcset from whichever widths of an image exist."""
+    ws=sorted(int(m.group(1)) for f in os.listdir(os.path.join(ROOT,"assets","img"))
+              for m in [re.fullmatch(re.escape(base)+r"-(\d+)\.webp",f)] if m)
+    return ("assets/img/%s-%d.webp"%(base,ws[-1]),
+            ", ".join("assets/img/%s-%d.webp %dw"%(base,w,w) for w in ws), ws[-1])
+
+def load_posts():
+    posts=[]
+    if not os.path.isdir(BLOG_DIR): return posts
+    for f in sorted(os.listdir(BLOG_DIR)):
+        if not f.endswith(".ru.md"): continue
+        slug=f[:-6]
+        ru,ru_md=_front(open(os.path.join(BLOG_DIR,f),encoding="utf-8").read())
+        en,en_md=_front(open(os.path.join(BLOG_DIR,slug+".en.md"),encoding="utf-8").read())
+        words=len(re.findall(r"\w+",ru_md))
+        posts.append(dict(slug=slug,page="blog-%s.html"%slug,date=ru["date"],image=ru["image"],
+            title={"ru":ru["title"],"en":en["title"]},
+            desc={"ru":ru["description"],"en":en["description"]},
+            body={"ru":markdown(ru_md),"en":markdown(en_md)},
+            minutes=max(1,round(words/180))))
+    return sorted(posts,key=lambda p:(p["date"],p["slug"]),reverse=True)
+POSTS = load_posts()
+
+def bi(ru,en,tag="span",cls=""):
+    c=' class="%s"'%cls if cls else ""
+    return ('<%s%s data-only="ru">%s</%s><%s%s data-only="en" lang="en">%s</%s>'
+            %(tag,c,ru,tag,tag,c,en,tag))
+
+def post_meta(p):
+    return '%s · %d <span data-i18n="blog.min"></span>'%(
+        bi(_date(p["date"],"ru"),_date(p["date"],"en")),p["minutes"])
+
+def post_card(p):
+    src,srcset,_=_img(p["image"])
+    return f'''<article class="card post-card">
+        <div class="card-media"><img src="{src}" srcset="{srcset}"
+          sizes="(max-width:700px) 92vw, 31vw" loading="lazy" decoding="async" alt=""></div>
+        <div class="card-body">
+          <time class="card-meta" datetime="{p["date"]}">{post_meta(p)}</time>
+          <h3><a href="{p["page"]}">{bi(esc(p["title"]["ru"]),esc(p["title"]["en"]))}</a></h3>
+          <p>{bi(esc(p["desc"]["ru"]),esc(p["desc"]["en"]))}</p>
+        </div></article>'''
+
+def blog_teaser():
+    if not POSTS: return ""
+    return f'''<section class="section"><div class="wrap">
+  <div class="section-head" data-reveal>
+    <p class="eyebrow" data-i18n="home.blog.eyebrow"></p>
+    <h2 data-i18n="home.blog.h"></h2>
+  </div>
+  <div class="grid grid-3" data-reveal-stagger>{"".join(post_card(p) for p in POSTS[:3])}</div>
+  <div style="margin-top:2rem" data-reveal>
+    <a class="link-arrow" href="blog.html"><span data-i18n="blog.all"></span>{svg("arrow","",16)}</a>
+  </div>
+</div></section>
+'''
+
+ORG = {"@type":"Organization","name":"Церковь «Сила Креста»","alternateName":"Power of the Cross Church"}
+def church_ld():
+    return {"@context":"https://schema.org","@type":"Church",
+        "name":"Церковь «Сила Креста»","alternateName":"Power of the Cross Church",
+        "description":plain(TXT["ru"]["foot.about"]),"url":SITE,
+        "image":SITE+"assets/img/hero-worship-1100.webp","telephone":"+1-"+PHONE,
+        "address":{"@type":"PostalAddress","streetAddress":"255 Wildcat Rd",
+            "addressLocality":"Toronto","addressRegion":"ON","postalCode":"M3J 2S3","addressCountry":"CA"},
+        "sameAs":[YT,FB]}
+
+def p_blog():
+    return head("nav.blog","blog.lead","blog.html")+header("blog.html")+\
+      page_hero("blog.crumb","blog.eyebrow","blog.h","blog.lead")+f'''
+<section class="section-sm"><div class="wrap">
+  <div class="grid grid-3" data-reveal-stagger>{"".join(post_card(p) for p in POSTS)}</div>
+</div></section>
+{cta_band()}
+'''+footer()
+
+def p_post(p):
+    src,srcset,_=_img(p["image"])
+    url=SITE+p["page"]
+    ld=[{"@context":"https://schema.org","@type":"BlogPosting",
+         "headline":p["title"]["ru"],"description":p["desc"]["ru"],
+         "datePublished":p["date"],"dateModified":p["date"],"inLanguage":"ru",
+         "image":SITE+src,"mainEntityOfPage":url,"url":url,
+         "author":dict(ORG,url=SITE),"publisher":dict(ORG,logo={"@type":"ImageObject",
+             "url":SITE+"assets/apple-touch-icon.png"})},
+        {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
+         {"@type":"ListItem","position":1,"name":"Главная","item":SITE},
+         {"@type":"ListItem","position":2,"name":"Блог","item":SITE+"blog.html"},
+         {"@type":"ListItem","position":3,"name":p["title"]["ru"],"item":url}]}]
+    attrs="".join(' data-%s-%s="%s"'%(k,L,esc(p[f][L])) for k,f in (("title","title"),("desc","desc"))
+                  for L in ("ru","en"))
+    more="".join(post_card(q) for q in POSTS if q is not p)
+    return head("","",p["page"],title=p["title"]["ru"]+TXT["ru"]["meta.suffix"],desc=p["desc"]["ru"],
+                image=src[len("assets/img/"):-len(".webp")],og_type="article",jsonld=ld,body_attrs=attrs)\
+      +header(p["page"])+f'''
+<section class="page-hero post-hero"><div class="wrap-narrow">
+  <nav class="crumb" aria-label="Breadcrumb" data-reveal>
+    <a href="index.html" data-i18n="nav.home">Главная</a>{svg("chev","",12)}
+    <a href="blog.html" data-i18n="blog.crumb">Блог</a>
+  </nav>
+  <div data-reveal>
+    <p class="eyebrow"><time datetime="{p["date"]}">{post_meta(p)}</time></p>
+    <h1>{bi(esc(p["title"]["ru"]),esc(p["title"]["en"]))}</h1>
+    <p class="lead">{bi(esc(p["desc"]["ru"]),esc(p["desc"]["en"]))}</p>
+  </div>
+</div></section>
+<section class="section-sm"><div class="wrap-narrow">
+  <figure class="post-cover"><img src="{src}" srcset="{srcset}" sizes="(max-width:820px) 92vw, 760px"
+    decoding="async" alt=""></figure>
+  <article class="post-body" data-only="ru" lang="ru">{p["body"]["ru"]}</article>
+  <article class="post-body" data-only="en" lang="en">{p["body"]["en"]}</article>
+</div></section>
+''' + (f'''<section class="section"><div class="wrap">
+  <div class="section-head" data-reveal><h2 data-i18n="blog.more"></h2></div>
+  <div class="grid grid-3" data-reveal-stagger>{more}</div>
+</div></section>
+''' if more else "") + cta_band() + footer()
+
+def write_sitemap(pages):
+    rows=[]
+    for name in pages:
+        if name=="app.html": continue
+        lastmod=next((p["date"] for p in POSTS if p["page"]==name),None)
+        rows.append('  <url><loc>%s%s</loc>%s</url>'%(SITE,"" if name=="index.html" else name,
+                    "<lastmod>%s</lastmod>"%lastmod if lastmod else ""))
+    with open(os.path.join(ROOT,"sitemap.xml"),"w",encoding="utf-8",newline="\n") as f:
+        f.write('<?xml version="1.0" encoding="UTF-8"?>\n'
+                '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n%s\n</urlset>\n'%"\n".join(rows))
+
+def write_feed():
+    from email.utils import format_datetime
+    from datetime import datetime, timezone
+    items="".join('''  <item><title>%s</title><link>%s%s</link><guid>%s%s</guid>
+    <pubDate>%s</pubDate><description>%s</description></item>\n'''%(
+        esc(p["title"]["ru"]),SITE,p["page"],SITE,p["page"],
+        format_datetime(datetime.fromisoformat(p["date"]).replace(tzinfo=timezone.utc)),
+        esc(p["desc"]["ru"])) for p in POSTS)
+    with open(os.path.join(ROOT,"feed.xml"),"w",encoding="utf-8",newline="\n") as f:
+        f.write('<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0"><channel>\n'
+                '  <title>Блог церкви «Сила Креста»</title><link>%sblog.html</link>\n'
+                '  <description>%s</description><language>ru</language>\n%s</channel></rss>\n'
+                %(SITE,esc(TXT["ru"]["blog.lead"]),items))
+
 # ====================================================================== MAIN
 PAGES = {
  "index.html":p_index, "about.html":p_about, "beliefs.html":p_beliefs,
@@ -1274,10 +1510,15 @@ def stamp_static(name):
 
 if __name__=="__main__":
     if SERMONS_READY: PAGES["sermons.html"]=p_sermons
+    if POSTS:
+        PAGES["blog.html"]=p_blog
+        for p in POSTS: PAGES[p["page"]]=(lambda p=p: p_post(p))
     for name,fn in PAGES.items():
         html=fn()
         with open(os.path.join(ROOT,name),"w",encoding="utf-8",newline="\n") as f:
             f.write(html)
         print("  %-18s %6.1f KB"%(name,len(html.encode())/1024))
     stamp_static("app.html")
+    write_sitemap(PAGES)
+    write_feed()
     print("built %d pages"%len(PAGES))

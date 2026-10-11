@@ -1413,3 +1413,38 @@ html.is-embed .demo-section{display:none!important}
 .syb p{color:var(--muted);font-size:.95rem;margin-top:.5rem;max-width:58ch}
 .syb-links{display:flex;flex-wrap:wrap;gap:var(--s-2)}
 @media(max-width:800px){.syb-links{width:100%}.syb-links .btn{flex:1 1 auto}}
+
+/* ==========================================================================
+   Blog - posts carry both languages; the toggle shows one
+   ========================================================================== */
+html[lang="en"] [data-only="ru"],html:not([lang="en"]) [data-only="en"]{display:none!important}
+
+.post-card h3 a{color:inherit}
+.post-card h3 a::after{content:'';position:absolute;inset:0;z-index:1}
+.post-card h3 a:focus-visible{outline:none}
+.post-card:has(a:focus-visible){outline:2px solid var(--blue);outline-offset:3px}
+
+.post-hero h1{max-width:22ch}
+.post-cover{margin:0 0 var(--s-6);border-radius:var(--radius-lg);overflow:hidden;
+  aspect-ratio:16/9;background:var(--surface-2);box-shadow:var(--shadow)}
+.post-cover img{width:100%;height:100%;object-fit:cover}
+
+.post-body{font-size:1.08rem;line-height:1.75;color:var(--text);max-width:68ch}
+.post-body > * + *{margin-top:1.1em}
+.post-body h2{font-size:clamp(1.55rem,1.25rem + 1.1vw,2.05rem);font-weight:600;line-height:1.2;margin-top:1.8em}
+.post-body h3{font-size:1.35rem;font-weight:600;margin-top:1.6em}
+.post-body ul{padding-left:1.3em}
+.post-body li + li{margin-top:.4em}
+.post-body li::marker{color:var(--blue)}
+.post-body a{color:var(--blue);border-bottom:1px solid var(--line-strong);transition:color .25s ease,border-color .25s ease}
+.post-body a:hover{color:var(--blue-br);border-color:var(--blue)}
+.post-body blockquote{margin:1.6em 0;padding:var(--s-4) var(--s-5);border-left:3px solid var(--blue);
+  background:var(--surface);border-radius:0 var(--radius) var(--radius) 0;box-shadow:var(--shadow)}
+.post-body blockquote p{font-family:var(--display);font-style:italic;font-size:1.3rem;line-height:1.45}
+.post-body blockquote cite{display:block;margin-top:.7rem;font-style:normal;font-size:var(--t-xs);
+  letter-spacing:.14em;text-transform:uppercase;color:var(--gold-ink);font-weight:700}
+@media(max-width:560px){
+  .post-body{font-size:1.02rem}
+  .post-body blockquote{padding:var(--s-3) var(--s-4)}
+  .post-body blockquote p{font-size:1.15rem}
+}

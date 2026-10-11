@@ -50,11 +50,16 @@ function applyLang(next){
   });
 
   /* document title + description */
-  var tk=document.body.getAttribute('data-title-key');
-  if(tk) document.title=t(tk)+t('meta.suffix');
-  var dk=document.body.getAttribute('data-desc-key');
+  /* blog posts carry their own title per language rather than a key */
+  var body=document.body;
+  var tk=body.getAttribute('data-title-key');
+  var tl=body.getAttribute('data-title-'+lang);
+  if(tl) document.title=tl+t('meta.suffix');
+  else if(tk) document.title=t(tk)+(body.hasAttribute('data-title-full')?'':t('meta.suffix'));
+  var dk=body.getAttribute('data-desc-key');
+  var dl=body.getAttribute('data-desc-'+lang);
   var md=document.querySelector('meta[name="description"]');
-  if(dk&&md) md.setAttribute('content',t(dk));
+  if(md&&(dl||dk)) md.setAttribute('content',dl||t(dk));
 
   document.querySelectorAll('.lang button').forEach(function(b){
     var on=b.getAttribute('data-lang')===lang;
